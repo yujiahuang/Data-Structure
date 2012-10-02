@@ -1,0 +1,39 @@
+1.
+(a) I am using Ubuntu on VMWare Workstation.
+
+(b) The Linux machine I am using is my own desktop PC, but I am using virtual machine and set the memory size to 1 GB and the hard disk space to 20GB.i
+
+"df" command lists up all the partitions on this machine. In my case, I saw
+
+Filesystem     1K-blocks    Used Available Use% Mounted on
+/dev/sda1       19609276 3924332  14688848  22% /
+udev              505112       4    505108   1% /dev
+tmpfs             204960     796    204164   1% /run
+none                5120       0      5120   0% /run/lock
+none              512400     156    512244   1% /run/shm
+
+"du" command lists up all directories under some directory and their volumn. Typing du command under my ~/Documents/Data_Structure directory, the result was:
+
+168	./HW1.2
+456	./HW1.1/hw1.1
+632	./HW1.1
+1712	./Content
+2516	.
+
+(c) I am using Ubuntu 12.04.1.
+
+(d) I am using bash. I found it out using "echo $SHELL" command. My home directory is /home/khdreamer, found by using "echo $HOME" comman.
+
+(e) The followings are the location of each program:
+g++:	/usr/bin/g++
+make:	/usr/bin/make
+gdb:	/usr/bin/gdb
+ddd:	/usr/bin/ddd
+
+The followings are the version of each program:
+g++:	4:4.6.3-1ubuntu5
+make:	3.81-8.1ubuntu1
+gdb:	7.4-2012.04-0ubuntu2
+ddd:	1:3.3.12-3
+
+(f) Just type in the name of the X client GUI program and the program window will show up. 
