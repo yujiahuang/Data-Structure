@@ -1,18 +1,23 @@
 /****************************************************************************
-  FileName     [ hw1.2.p2a.cpp ] 
+  FileName     [ hw1.2.p2b.cpp ]
   PackageName  [ HW1.2 ]
-  Synopsis     [ For problem 2(a) of HW1.2 in DSnP class ]
+  Synopsis     [ For problem 2(b) of HW1.2 in DSnP class ]
   Author       [ Chung-Yang (Ric) Huang ]
   Copyright    [ Copyleft(c) 2011-2012 DVLab, GIEE, NTU, Taiwan ]
 ****************************************************************************/
 #include <iostream>
+#include <fstream>
 #include <string>
+#include <cstdlib>
+#include <vector>
 
 using namespace std;
 
 /************************************************/
 /*    Static global variables and functions     */
 /************************************************/
+// NOTE-NOTE-NOTE-NOTE
+// ==> Copy these functions and classes from hw1.2.p2a.cpp
 //
 // Original: XOBCD AFGHU JKLMN IPQRS TEVWYZ
 // Mapped  : ABCDE FGHIJ KLMNO PQRST UVWXYZ
@@ -95,28 +100,91 @@ ostream& operator << (ostream& os, const xStr& s)
 }
 
 /***********************************/
+/*           class Book            */
+/***********************************/
+//
+class Book
+{
+friend class Cmp;
+public:
+   Book(const string& s); // TODO
+
+   // Compare by Crazy Doc's rules
+   bool operator < (const Book& b) const; // TODO
+
+   // Print out the original string "_str"
+   friend ostream& operator << (ostream& os, const Book& b); // TODO
+
+private:
+   string  _str;     // original string
+   xStr    _author;  // converted author name
+   xStr    _book;    // converted book name
+   int     _year;
+};
+
+Book::Book(const string& s) : _str(s)
+{
+   // TODO
+	 int comma=0, parenthesis=0;
+	 for(; s[comma]!=','; comma++);
+	 for(; s[parenthesis]!='('; parenthesis++);
+	 _author=xStr(s.substr(0, comma));
+	 _book=xStr(s.substr(comma+2, parenthesis-comma-3));
+	 _year=atoi(s.substr(parenthesis+1, 4).c_str());
+
+}
+
+bool Book::operator < (const Book& b) const
+{
+   // TODO
+	 bool smaller;
+	 if(!(_author == b._author)){
+	 
+	   smaller=(_author < b._author);
+	 
+	 }
+	 else if(_year != b._year){
+	 
+	   smaller=(_year < b._year);
+	 
+	 }
+	 else if(!(_book == b._book)){
+	 
+	   smaller=(_book < b._book);
+	 
+	 }
+
+	 return smaller;
+
+}
+
+ostream& operator << (ostream& os, const Book& b)
+{
+   // TODO
+	 os << b._str;
+
+   return os;
+}
+
+/***********************************/
 /*             main()              */
 /***********************************/
 int main()
 {
-   cout << "Type Ctrl-C to terminate the program..." << endl << endl;
+   ifstream ifile("hw1.2.p2b.in");
+   ofstream ofile("hw1.2.p2b.out");
 
-   string prevStr = "Test", thisStr;
-   xStr  prevXStr = xStr(prevStr), thisXStr;
-   cout << "First string  : " << prevStr << endl;
-   cout << "Crazy Doc's   : " << prevXStr << endl;
-   while (1) {
-      cout << "==============================" << endl;
-      cout << "Enter a string: ";
-      cin >> thisStr;
-      thisXStr = xStr(thisStr);
-      cout << "Crazy Doc's   : " << thisXStr << endl;
-      cout << ">> " << thisStr << " is " << ((thisXStr<prevXStr)? "": "not ")
-           << "smaller than " << prevStr << endl;
-      cout << ">> " << thisStr << " is " << ((thisXStr==prevXStr)? "": "not ")
-           << "equal to " << prevStr << endl;
-      prevStr = thisStr;
-      prevXStr = thisXStr;
+   char buf[101];
+   ifile.getline(buf, 100);
+   int n = atoi(buf);
+
+   vector<Book> books;
+   for(int i=0;i<n;i++){
+      ifile.getline(buf, 100);
+      books.push_back(Book(buf));
    }
-	 return 0;
+
+   sort(books.begin(), books.end());
+   for (int i=0; i<n; i++)
+      ofile << books[i] << endl;
 }
