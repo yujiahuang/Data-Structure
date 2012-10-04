@@ -2,12 +2,6 @@
 #include <vector>
 using namespace std;
 
-bool compare(int a, int b){
-
-	return (a<b);
-
-}
-
 void mySwap(int &a, int &b){
 
 	int tmp=a;
@@ -16,10 +10,38 @@ void mySwap(int &a, int &b){
 
 }
 
+class Compare{
+
+public:
+	virtual bool operator() (int a, int b) const = 0;
+
+};
+
+class Less : public Compare{
+
+	bool operator() (int a, int b) const{
+	
+		return (a<b);
+
+	}
+
+};
+
+class Greater : public Compare{
+
+	bool operator() (int a, int b) const{
+	
+		return (a>b);
+
+	}
+
+};
+
+
 //
 //DO NOT CHANGE FOLLOWING
 //
-void selectionSort(vector<int>& array){
+void selectionSort(vector<int>& array, const Compare & compare){
 
 	for (size_t i = 0, n = array.size(); i < n - 1; ++i) {
 	
@@ -59,9 +81,20 @@ int main(){
 	
 	}
 
-	selectionSort(numArr);
+	Less less;
+	selectionSort(numArr, less);
 
-	cout << "\nAfter sort:" << endl;
+	cout << "\nAscending sort:" << endl;
+	for(int i=0; i<num; i++){
+	
+		cout << numArr[i] << " ";
+	
+	}
+
+	Greater greater;
+	selectionSort(numArr, greater);
+
+	cout << "\nDescending sort:" << endl;
 	for(int i=0; i<num; i++){
 	
 		cout << numArr[i] << " ";
