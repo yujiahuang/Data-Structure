@@ -1,0 +1,3 @@
+g++ -c hw1.2.p1a.main.cpp
+g++ -c hw1.2.p1a.cpp
+g++ -o hw1.2.p1a hw1.2.p1a.main.o hw1.2.p1a.o

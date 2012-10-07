@@ -1,0 +1,21 @@
+How I debug using gdb:
+
+1. compile with -g flag for debugging
+
+	g++ -g -o hw1.2.p1.bug hw1.2.p1.bug.cpp hw1.2.p1a.cpp
+
+2. start gdb
+
+	gdb -q hw1.2.p1.bug
+
+3. type 'l' to show the syntax
+
+4. type 'b n" (n is some line number) to set breakpoints. I set two breakpoints at line 18 and 21, just before and after p1 and p2 assign values.
+
+5. type 'r' to execute the program. It stops at breakpoint 1 (line 18). Type 'c' to continue, and then it crahses, so the problem is probably because of the assign function.
+
+
+What is the bug:
+
+Function malloc() just allocates the memory for the object but does not call constructor, so the instance variables' memory is still undefined. 
+However, function assign() in hw1.2.p1a.cpp involves initiating instance variable _str, and that's the reason why the program crashes with segmentation fault.
