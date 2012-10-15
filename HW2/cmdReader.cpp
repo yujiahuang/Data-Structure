@@ -47,15 +47,15 @@ CmdParser::readCmdInt(istream& istr)
 			case HOME_KEY       : moveBufPtr(_readBuf); break;
 			case LINE_END_KEY   :
 			case END_KEY        : moveBufPtr(_readBufEnd); break;
-			case BACK_SPACE_KEY : /* TODO */ break;
+			case BACK_SPACE_KEY : deleteChar(); break;
 			case DELETE_KEY     : deleteChar(); break;
 			case NEWLINE_KEY    : addHistory();
 														cout << char(NEWLINE_KEY);
 														printPrompt(); break;
 			case ARROW_UP_KEY   : moveToHistory(_historyIdx - 1); break;
 			case ARROW_DOWN_KEY : moveToHistory(_historyIdx + 1); break;
-			case ARROW_RIGHT_KEY: /* TODO */ break;
-			case ARROW_LEFT_KEY : /* TODO */ break;
+			case ARROW_RIGHT_KEY: moveBufPtr(_readBufPtr + sizeof(char *)); break;
+			case ARROW_LEFT_KEY : moveBufPtr(_readBufPtr - sizeof(char *)); break;
 			case PG_UP_KEY      : moveToHistory(_historyIdx - PG_OFFSET); break;
 			case PG_DOWN_KEY    : moveToHistory(_historyIdx + PG_OFFSET); break;
 			case TAB_KEY        : /* TODO */ break;
@@ -87,14 +87,24 @@ bool CmdParser::moveBufPtr(char* const ptr)
 {
 	// TODO...
 	bool returnValue=false;
+/*
+cout << "//ptr: " << (int)ptr;
+cout << "//read buf ptr" << (int)_readBufPtr;
+cout << "//read buf " << (int)_readBuf;
+cout << "//read buf end" << (int)_readBufEnd;
+*/
+
 	if(ptr >= _readBuf && ptr <= _readBufEnd){
-	
+
+	//cout <<"moved";	
+		cout << char(BACK_SPACE_CHAR);
 		_readBufPtr = ptr;
 		returnValue=true;
 
 	}
 	else{
 
+	//cout << "not moved";
 		mybeep();
 		returnValue = false;
 
@@ -182,6 +192,8 @@ void CmdParser::insertChar(char ch, int rep)
 		cout << _readBuf[i];
 
 	}
+	_readBufPtr += sizeof(char *);
+	_readBufEnd += sizeof(char *);
 
 }
 
