@@ -49,6 +49,37 @@
 //
 // Run "testAsc" to define your setting here...
 //
+#define TA_LINE_BEGIN_KEY   1
+#define TA_LINE_END_KEY     5
+#define TA_INPUT_END_KEY    4
+#define TA_TAB_KEY          int('\t')
+#define TA_NEWLINE_KEY      int('\n')
+#define TA_ESC_KEY          27
+#define TA_BACK_SPACE_KEY   127
+#define TA_ARROW_KEY_FLAG   (1 << 8)
+#define TA_ARROW_KEY_INT    91
+#define TA_ARROW_UP_KEY     (65 + TA_ARROW_KEY_FLAG)
+#define TA_ARROW_DOWN_KEY   (66 + TA_ARROW_KEY_FLAG)
+#define TA_ARROW_RIGHT_KEY  (67 + TA_ARROW_KEY_FLAG)
+#define TA_ARROW_LEFT_KEY   (68 + TA_ARROW_KEY_FLAG)
+#define TA_ARROW_KEY_BEGIN  TA_ARROW_UP_KEY
+#define TA_ARROW_KEY_END    TA_ARROW_LEFT_KEY
+#define TA_MOD_KEY_FLAG     (1 << 9)
+#define TA_MOD_KEY_INT      91
+#define TA_HOME_KEY         (49 + TA_MOD_KEY_FLAG)
+#define TA_INSERT_KEY       (50 + TA_MOD_KEY_FLAG)
+#define TA_DELETE_KEY       (51 + TA_MOD_KEY_FLAG)
+#define TA_END_KEY          (52 + TA_MOD_KEY_FLAG)
+#define TA_PG_UP_KEY        (53 + TA_MOD_KEY_FLAG)
+#define TA_PG_DOWN_KEY      (54 + TA_MOD_KEY_FLAG)
+#define TA_MOD_KEY_BEGIN    TA_HOME_KEY
+#define TA_MOD_KEY_END      TA_PG_DOWN_KEY
+#define TA_MOD_KEY_DUMMY    126
+#define TA_UNDEFINED_KEY    INT_MAX
+#define TA_BEEP_CHAR        7
+#define TA_BACK_SPACE_CHAR  8
+
+
 // Make sure you DO NOT define TA_KB_SETTING in your Makefile
 //
 enum ParseChar
@@ -103,6 +134,11 @@ enum ParseChar
    MOD_KEY_BEGIN    = HOME_KEY,
    MOD_KEY_END      = PG_DOWN_KEY,
    MOD_KEY_DUMMY    = 126,
+
+	 MY_KEY_FLAG      = 1 << 10,
+	 MY_KEY_INT       = 79,
+	 MY_HOME_KEY      = 72 + MY_KEY_FLAG,
+	 MY_END_KEY       = 70 + MY_KEY_FLAG,
 
    //
    // [For undefined keys]

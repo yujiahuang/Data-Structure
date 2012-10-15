@@ -97,7 +97,8 @@ checkChar(char ch, istream& istr)
       //
       // Combo keys: multiple codes for one key press
       // -- Usually starts with ESC key, so we check the "case ESC"
-      // case ESC_KEY:
+      case ESC_KEY:
+				
 
       // For the remaining printable and undefined keys
       default:
