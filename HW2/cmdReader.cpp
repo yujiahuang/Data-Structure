@@ -44,10 +44,10 @@ CmdParser::readCmdInt(istream& istr)
 		if (pch == INPUT_END_KEY) break;
 		switch (pch) {
 			case LINE_BEGIN_KEY :
-			case HOME_KEY       : moveBufPtr(_readBuf); break;
+			case HOME_KEY       : /* TODO */moveBufPtr(_readBuf); break;
 			case LINE_END_KEY   :
-			case END_KEY        : moveBufPtr(_readBufEnd); break;
-			case BACK_SPACE_KEY : deleteChar(); break;
+			case END_KEY        : /* TODO */moveBufPtr(_readBufEnd); break;
+			case BACK_SPACE_KEY : /* TODO */deleteChar(); break;
 			case DELETE_KEY     : deleteChar(); break;
 			case NEWLINE_KEY    : addHistory();
 														cout << char(NEWLINE_KEY);
@@ -95,17 +95,26 @@ cout << "//read buf end" << (int)_readBufEnd;
 */
 
 	if(ptr >= _readBuf && ptr <= _readBufEnd){
+	
+		if(ptr > _readBufPtr){
 
-	//cout <<"moved";
-		if(ptr < _readBufPtr) cout << char(BACK_SPACE_CHAR);
-		//if(ptr > _readBufPtr) cout << char(27);
+			int currentPosi=(_readBufPtr-_readBuf)/sizeof(char *);
+			cout << _readBuf[currentPosi];
+
+		}
+		else{
+
+			for(unsigned int i=1; i<=(_readBufPtr-ptr)/sizeof(char *); i++) 
+				cout << char(BACK_SPACE_CHAR);
+	
+		}		
+
 		_readBufPtr = ptr;
 		returnValue=true;
 
 	}
 	else{
 
-	//cout << "not moved";
 		mybeep();
 		returnValue = false;
 
@@ -134,23 +143,41 @@ cout << "//read buf end" << (int)_readBufEnd;
 // cmd> This is he command
 //              ^
 //
-bool
-CmdParser::deleteChar()
-{
+bool CmdParser::deleteChar(){
 	// TODO...
 	bool returnValue=false;
 	if(_readBufPtr != _readBufEnd){
 	
 		returnValue=true;
-		int i=(_readBufPtr-_readBuf)/sizeof(char *);
-		for(;i < strlen(_readBuf)-1; i++){
+	
+	//renew data
+		int currentPosi=(_readBufPtr-_readBuf)/sizeof(char *);
+		for(int i=currentPosi; i < strlen(_readBuf)-1; i++){
 		
 			_readBuf[i]=_readBuf[i+1];
 			
 		}
-		_readBufEnd=&_readBuf[i];
+		_readBufEnd=&_readBuf[strlen(_readBuf)-1];
 		*_readBufEnd=0;
 
+	//	cout << "//"  << _readBuf << "//";	
+	//output
+		moveBufPtr(_readBuf);
+		for(int i=0; i < strlen(_readBuf); i++){
+
+			cout << _readBuf[i];		
+
+		}
+		cout << ' ' << char(BACK_SPACE_CHAR);
+		for(int i=currentPosi; i < strlen(_readBuf); i++){
+
+			cout << char(BACK_SPACE_CHAR);		
+
+		}
+
+		moveBufPtr(_readBuf + currentPosi*sizeof(char *));
+		//cout << "//" << (int)_readBuf + currentPosi*sizeof(char *) - (int)_readBufEnd << "//";
+	
 	}
 	else{
 	
@@ -180,23 +207,31 @@ void CmdParser::insertChar(char ch, int rep)
 {
 	// TODO...
 
+//renew data
 	int currentPosi=(_readBufPtr-_readBuf)/sizeof(char *);
-	
-		
-
-	for(int i=strlen(_readBuf);i > currentPosi; i--){
+	for(int i=strlen(_readBuf); i > currentPosi; i--){
 
 		_readBuf[i]=_readBuf[i-1];
 
 	}
-	_readBuf[currentPosi]=ch;
-
-	
-
-
-
-	_readBufPtr += sizeof(char *);
 	_readBufEnd += sizeof(char *);
+  *_readBufEnd=0;
+	_readBuf[currentPosi]=ch;
+	_readBufPtr += sizeof(char *);
+
+//output
+	int count=0;
+	for(unsigned int i=currentPosi; i<strlen(_readBuf); i++){
+
+		cout << _readBuf[i];
+		count ++;
+
+	}
+	for(int i=1; i<count; i++){
+
+		cout << char(BACK_SPACE_CHAR);
+
+	}
 
 }
 
@@ -260,10 +295,17 @@ CmdParser::moveToHistory(int index)
 // 6. Reset _readBufPtr and _readBufEnd to _readBuf
 // 7. Make sure *_readBufEnd = 0 ==> _readBuf becomes null string
 //
-	void
-CmdParser::addHistory()
-{
+void CmdParser::addHistory(){
+
 	// TODO...
+	
+	
+
+	_readBufPtr=_readBuf;
+	_readBufEnd=_readBuf;
+	for(int i=0; i<READ_BUF_SIZE; i++) _readBuf[i]=0;
+	*_readBufEnd=0;
+
 }
 
 
