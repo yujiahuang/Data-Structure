@@ -102,7 +102,7 @@ cout << "//read buf end" << (int)_readBufEnd;
 			cout << _readBuf[currentPosi];
 
 		}
-		else{
+		else if(ptr < _readBufPtr){
 
 			for(unsigned int i=1; i<=(_readBufPtr-ptr)/sizeof(char *); i++) 
 				cout << char(BACK_SPACE_CHAR);
@@ -152,7 +152,7 @@ bool CmdParser::deleteChar(){
 	
 	//renew data
 		int currentPosi=(_readBufPtr-_readBuf)/sizeof(char *);
-		for(int i=currentPosi; i < strlen(_readBuf)-1; i++){
+		for(unsigned int i=currentPosi; i < strlen(_readBuf)-1; i++){
 		
 			_readBuf[i]=_readBuf[i+1];
 			
@@ -162,20 +162,19 @@ bool CmdParser::deleteChar(){
 
 	//	cout << "//"  << _readBuf << "//";	
 	//output
-		moveBufPtr(_readBuf);
-		for(int i=0; i < strlen(_readBuf); i++){
+		for(unsigned int i=currentPosi; i < strlen(_readBuf); i++){
 
 			cout << _readBuf[i];		
 
 		}
 		cout << ' ' << char(BACK_SPACE_CHAR);
-		for(int i=currentPosi; i < strlen(_readBuf); i++){
+
+		for(unsigned int i=currentPosi; i < strlen(_readBuf); i++){
 
 			cout << char(BACK_SPACE_CHAR);		
 
 		}
-
-		moveBufPtr(_readBuf + currentPosi*sizeof(char *));
+		
 		//cout << "//" << (int)_readBuf + currentPosi*sizeof(char *) - (int)_readBufEnd << "//";
 	
 	}
