@@ -96,8 +96,9 @@ cout << "//read buf end" << (int)_readBufEnd;
 
 	if(ptr >= _readBuf && ptr <= _readBufEnd){
 
-	//cout <<"moved";	
-		cout << char(BACK_SPACE_CHAR);
+	//cout <<"moved";
+		if(ptr < _readBufPtr) cout << char(BACK_SPACE_CHAR);
+		//if(ptr > _readBufPtr) cout << char(27);
 		_readBufPtr = ptr;
 		returnValue=true;
 
@@ -180,18 +181,20 @@ void CmdParser::insertChar(char ch, int rep)
 	// TODO...
 
 	int currentPosi=(_readBufPtr-_readBuf)/sizeof(char *);
+	
+		
+
 	for(int i=strlen(_readBuf);i > currentPosi; i--){
 
-		_readBuf[i+1]=_readBuf[i];
+		_readBuf[i]=_readBuf[i-1];
 
 	}
 	_readBuf[currentPosi]=ch;
 
-	for(int i=currentPosi; i < strlen(_readBuf); i++){
+	
 
-		cout << _readBuf[i];
 
-	}
+
 	_readBufPtr += sizeof(char *);
 	_readBufEnd += sizeof(char *);
 
