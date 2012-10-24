@@ -1,0 +1,248 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ARROW_DOWN_KEY	cmd/cmdCharDef.h	/^   ARROW_DOWN_KEY   = 66 + ARROW_KEY_FLAG,$/;"	e	enum:ParseChar
+ARROW_DOWN_KEY	cmd/cmdCharDef.h	/^   ARROW_DOWN_KEY   = TA_ARROW_DOWN_KEY,$/;"	e	enum:ParseChar
+ARROW_KEY_BEGIN	cmd/cmdCharDef.h	/^   ARROW_KEY_BEGIN  = ARROW_UP_KEY,$/;"	e	enum:ParseChar
+ARROW_KEY_BEGIN	cmd/cmdCharDef.h	/^   ARROW_KEY_BEGIN  = TA_ARROW_KEY_BEGIN,$/;"	e	enum:ParseChar
+ARROW_KEY_END	cmd/cmdCharDef.h	/^   ARROW_KEY_END    = ARROW_LEFT_KEY,$/;"	e	enum:ParseChar
+ARROW_KEY_END	cmd/cmdCharDef.h	/^   ARROW_KEY_END    = TA_ARROW_KEY_END,$/;"	e	enum:ParseChar
+ARROW_KEY_FLAG	cmd/cmdCharDef.h	/^   ARROW_KEY_FLAG   = 1 << 8,$/;"	e	enum:ParseChar
+ARROW_KEY_FLAG	cmd/cmdCharDef.h	/^   ARROW_KEY_FLAG   = TA_ARROW_KEY_FLAG,$/;"	e	enum:ParseChar
+ARROW_KEY_INT	cmd/cmdCharDef.h	/^   ARROW_KEY_INT    = 91,$/;"	e	enum:ParseChar
+ARROW_KEY_INT	cmd/cmdCharDef.h	/^   ARROW_KEY_INT    = TA_ARROW_KEY_INT,$/;"	e	enum:ParseChar
+ARROW_LEFT_KEY	cmd/cmdCharDef.h	/^   ARROW_LEFT_KEY   = 68 + ARROW_KEY_FLAG,$/;"	e	enum:ParseChar
+ARROW_LEFT_KEY	cmd/cmdCharDef.h	/^   ARROW_LEFT_KEY   = TA_ARROW_LEFT_KEY,$/;"	e	enum:ParseChar
+ARROW_RIGHT_KEY	cmd/cmdCharDef.h	/^   ARROW_RIGHT_KEY  = 67 + ARROW_KEY_FLAG,$/;"	e	enum:ParseChar
+ARROW_RIGHT_KEY	cmd/cmdCharDef.h	/^   ARROW_RIGHT_KEY  = TA_ARROW_RIGHT_KEY,$/;"	e	enum:ParseChar
+ARROW_UP_KEY	cmd/cmdCharDef.h	/^   ARROW_UP_KEY     = 65 + ARROW_KEY_FLAG,$/;"	e	enum:ParseChar
+ARROW_UP_KEY	cmd/cmdCharDef.h	/^   ARROW_UP_KEY     = TA_ARROW_UP_KEY,$/;"	e	enum:ParseChar
+BACK_SPACE_CHAR	cmd/cmdCharDef.h	/^   BACK_SPACE_CHAR  = 8,$/;"	e	enum:ParseChar
+BACK_SPACE_CHAR	cmd/cmdCharDef.h	/^   BACK_SPACE_CHAR  = TA_BACK_SPACE_CHAR,$/;"	e	enum:ParseChar
+BACK_SPACE_KEY	cmd/cmdCharDef.h	/^   BACK_SPACE_KEY   = 127,$/;"	e	enum:ParseChar
+BACK_SPACE_KEY	cmd/cmdCharDef.h	/^   BACK_SPACE_KEY   = TA_BACK_SPACE_KEY,$/;"	e	enum:ParseChar
+BEEP_CHAR	cmd/cmdCharDef.h	/^   BEEP_CHAR        = 7,$/;"	e	enum:ParseChar
+BEEP_CHAR	cmd/cmdCharDef.h	/^   BEEP_CHAR        = TA_BEEP_CHAR,$/;"	e	enum:ParseChar
+CALC_CMD_H	calc/calcCmd.h	9;"	d
+CALC_MOD_NUM_H	calc/calcModNum.h	9;"	d
+CMD_CHAR_DEF_H	cmd/cmdCharDef.h	9;"	d
+CMD_COMMON_H	cmd/cmdCommon.h	9;"	d
+CMD_EXEC_DONE	cmd/cmdParser.h	/^   CMD_EXEC_DONE  = 0,$/;"	e	enum:CmdExecStatus
+CMD_EXEC_ERROR	cmd/cmdParser.h	/^   CMD_EXEC_ERROR = 1,$/;"	e	enum:CmdExecStatus
+CMD_EXEC_NOP	cmd/cmdParser.h	/^   CMD_EXEC_NOP   = 3,$/;"	e	enum:CmdExecStatus
+CMD_EXEC_QUIT	cmd/cmdParser.h	/^   CMD_EXEC_QUIT  = 2,$/;"	e	enum:CmdExecStatus
+CMD_EXEC_TOT	cmd/cmdParser.h	/^   CMD_EXEC_TOT$/;"	e	enum:CmdExecStatus
+CMD_OPT_ERROR_TOT	cmd/cmdParser.h	/^   CMD_OPT_ERROR_TOT$/;"	e	enum:CmdOptionError
+CMD_OPT_EXTRA	cmd/cmdParser.h	/^   CMD_OPT_EXTRA      = 1,$/;"	e	enum:CmdOptionError
+CMD_OPT_FOPEN_FAIL	cmd/cmdParser.h	/^   CMD_OPT_FOPEN_FAIL = 3,$/;"	e	enum:CmdOptionError
+CMD_OPT_ILLEGAL	cmd/cmdParser.h	/^   CMD_OPT_ILLEGAL    = 2,$/;"	e	enum:CmdOptionError
+CMD_OPT_MISSING	cmd/cmdParser.h	/^   CMD_OPT_MISSING    = 0,$/;"	e	enum:CmdOptionError
+CMD_PARSER_H	cmd/cmdParser.h	9;"	d
+CalcMap	calc/calcModNum.h	/^typedef map<string, ModNum> CalcMap;$/;"	t
+CmdClass	cmd/cmdParser.h	89;"	d
+CmdExec	cmd/cmdParser.h	/^   CmdExec() {}$/;"	f	class:CmdExec
+CmdExec	cmd/cmdParser.h	/^class CmdExec$/;"	c
+CmdExecStatus	cmd/cmdParser.h	/^enum CmdExecStatus$/;"	g
+CmdMap	cmd/cmdParser.h	/^typedef map<const string, CmdExec*>   CmdMap;$/;"	t	class:CmdParser
+CmdOptionError	cmd/cmdParser.h	/^enum CmdOptionError$/;"	g
+CmdParser	cmd/cmdParser.h	/^   CmdParser(const string& p) : _prompt(p), _dofile(0),$/;"	f	class:CmdParser
+CmdParser	cmd/cmdParser.h	/^class CmdParser$/;"	c
+CmdRegPair	cmd/cmdParser.h	/^typedef pair<const string, CmdExec*>  CmdRegPair;$/;"	t	class:CmdParser
+DELETE_KEY	cmd/cmdCharDef.h	/^   DELETE_KEY       = 51 + MOD_KEY_FLAG,$/;"	e	enum:ParseChar
+DELETE_KEY	cmd/cmdCharDef.h	/^   DELETE_KEY       = TA_DELETE_KEY,$/;"	e	enum:ParseChar
+DofileCmd	cmd/cmdCommon.h	/^CmdClass(DofileCmd);$/;"	v
+END_KEY	cmd/cmdCharDef.h	/^   END_KEY          = 52 + MOD_KEY_FLAG,$/;"	e	enum:ParseChar
+END_KEY	cmd/cmdCharDef.h	/^   END_KEY          = TA_END_KEY,$/;"	e	enum:ParseChar
+ESC_KEY	cmd/cmdCharDef.h	/^   ESC_KEY          = 27,         \/\/ Not printable; used for combo keys$/;"	e	enum:ParseChar
+ESC_KEY	cmd/cmdCharDef.h	/^   ESC_KEY          = TA_ESC_KEY,         \/\/ Not printable; used for combo keys$/;"	e	enum:ParseChar
+HOME_KEY	cmd/cmdCharDef.h	/^   HOME_KEY         = 49 + MOD_KEY_FLAG,$/;"	e	enum:ParseChar
+HOME_KEY	cmd/cmdCharDef.h	/^   HOME_KEY         = TA_HOME_KEY,$/;"	e	enum:ParseChar
+HelpCmd	cmd/cmdCommon.h	/^CmdClass(HelpCmd);$/;"	v
+HistoryCmd	cmd/cmdCommon.h	/^CmdClass(HistoryCmd);$/;"	v
+INPUT_END_KEY	cmd/cmdCharDef.h	/^   INPUT_END_KEY    = 4,          \/\/ ctrl-d$/;"	e	enum:ParseChar
+INPUT_END_KEY	cmd/cmdCharDef.h	/^   INPUT_END_KEY    = TA_INPUT_END_KEY,   \/\/ ctrl-d$/;"	e	enum:ParseChar
+INSERT_KEY	cmd/cmdCharDef.h	/^   INSERT_KEY       = 50 + MOD_KEY_FLAG,$/;"	e	enum:ParseChar
+INSERT_KEY	cmd/cmdCharDef.h	/^   INSERT_KEY       = TA_INSERT_KEY,$/;"	e	enum:ParseChar
+LINE_BEGIN_KEY	cmd/cmdCharDef.h	/^   LINE_BEGIN_KEY   = 1,          \/\/ ctrl-a$/;"	e	enum:ParseChar
+LINE_BEGIN_KEY	cmd/cmdCharDef.h	/^   LINE_BEGIN_KEY   = TA_LINE_BEGIN_KEY,  \/\/ ctrl-a$/;"	e	enum:ParseChar
+LINE_END_KEY	cmd/cmdCharDef.h	/^   LINE_END_KEY     = 5,          \/\/ ctrl-e$/;"	e	enum:ParseChar
+LINE_END_KEY	cmd/cmdCharDef.h	/^   LINE_END_KEY     = TA_LINE_END_KEY,    \/\/ ctrl-e$/;"	e	enum:ParseChar
+MOD_KEY_BEGIN	cmd/cmdCharDef.h	/^   MOD_KEY_BEGIN    = HOME_KEY,$/;"	e	enum:ParseChar
+MOD_KEY_BEGIN	cmd/cmdCharDef.h	/^   MOD_KEY_BEGIN    = TA_MOD_KEY_BEGIN,$/;"	e	enum:ParseChar
+MOD_KEY_DUMMY	cmd/cmdCharDef.h	/^   MOD_KEY_DUMMY    = 126,$/;"	e	enum:ParseChar
+MOD_KEY_DUMMY	cmd/cmdCharDef.h	/^   MOD_KEY_DUMMY    = TA_MOD_KEY_DUMMY,$/;"	e	enum:ParseChar
+MOD_KEY_END	cmd/cmdCharDef.h	/^   MOD_KEY_END      = PG_DOWN_KEY,$/;"	e	enum:ParseChar
+MOD_KEY_END	cmd/cmdCharDef.h	/^   MOD_KEY_END      = TA_MOD_KEY_END,$/;"	e	enum:ParseChar
+MOD_KEY_FLAG	cmd/cmdCharDef.h	/^   MOD_KEY_FLAG     = 1 << 9,$/;"	e	enum:ParseChar
+MOD_KEY_FLAG	cmd/cmdCharDef.h	/^   MOD_KEY_FLAG     = TA_MOD_KEY_FLAG,$/;"	e	enum:ParseChar
+MOD_KEY_INT	cmd/cmdCharDef.h	/^   MOD_KEY_INT      = 91,$/;"	e	enum:ParseChar
+MOD_KEY_INT	cmd/cmdCharDef.h	/^   MOD_KEY_INT      = TA_MOD_KEY_INT,$/;"	e	enum:ParseChar
+MaddCmd	calc/calcCmd.h	/^CmdClass(MaddCmd);$/;"	v
+McmpCmd	calc/calcCmd.h	/^CmdClass(McmpCmd);$/;"	v
+MmultCmd	calc/calcCmd.h	/^CmdClass(MmultCmd);$/;"	v
+ModNum	calc/calcModNum.h	/^   ModNum(const string& str) { _num = _varMap[str]._num; }$/;"	f	class:ModNum
+ModNum	calc/calcModNum.h	/^   ModNum(int i = 0){}$/;"	f	class:ModNum
+ModNum	calc/calcModNum.h	/^class ModNum$/;"	c
+MprintCmd	calc/calcCmd.h	/^CmdClass(MprintCmd);$/;"	v
+MsetCmd	calc/calcCmd.h	/^CmdClass(MsetCmd);$/;"	v
+MsubCmd	calc/calcCmd.h	/^CmdClass(MsubCmd);$/;"	v
+MvarCmd	calc/calcCmd.h	/^CmdClass(MvarCmd);$/;"	v
+NEWLINE_KEY	cmd/cmdCharDef.h	/^   NEWLINE_KEY      = TA_NEWLINE_KEY,     \/\/ enter('\\n') or ctrl-m$/;"	e	enum:ParseChar
+NEWLINE_KEY	cmd/cmdCharDef.h	/^   NEWLINE_KEY      = int('\\n'),  \/\/ enter('\\n') or ctrl-m$/;"	e	enum:ParseChar
+NUM_MOD	test/test.cpp	14;"	d	file:
+PARSE_CHAR_END	cmd/cmdCharDef.h	/^   PARSE_CHAR_END$/;"	e	enum:ParseChar
+PG_DOWN_KEY	cmd/cmdCharDef.h	/^   PG_DOWN_KEY      = 54 + MOD_KEY_FLAG,$/;"	e	enum:ParseChar
+PG_DOWN_KEY	cmd/cmdCharDef.h	/^   PG_DOWN_KEY      = TA_PG_DOWN_KEY,$/;"	e	enum:ParseChar
+PG_OFFSET	cmd/cmdParser.h	109;"	d
+PG_UP_KEY	cmd/cmdCharDef.h	/^   PG_UP_KEY        = 53 + MOD_KEY_FLAG,$/;"	e	enum:ParseChar
+PG_UP_KEY	cmd/cmdCharDef.h	/^   PG_UP_KEY        = TA_PG_UP_KEY,$/;"	e	enum:ParseChar
+ParseChar	cmd/cmdCharDef.h	/^enum ParseChar$/;"	g
+QuitCmd	cmd/cmdCommon.h	/^CmdClass(QuitCmd);$/;"	v
+READ_BUF_SIZE	cmd/cmdParser.h	107;"	d
+TAB_KEY	cmd/cmdCharDef.h	/^   TAB_KEY          = TA_TAB_KEY,         \/\/ tab('\\t') or Ctrl-i$/;"	e	enum:ParseChar
+TAB_KEY	cmd/cmdCharDef.h	/^   TAB_KEY          = int('\\t'),  \/\/ tab('\\t') or Ctrl-i$/;"	e	enum:ParseChar
+TAB_POSITION	cmd/cmdParser.h	108;"	d
+TA_ARROW_DOWN_KEY	cmd/cmdCharDef.h	25;"	d
+TA_ARROW_KEY_BEGIN	cmd/cmdCharDef.h	28;"	d
+TA_ARROW_KEY_END	cmd/cmdCharDef.h	29;"	d
+TA_ARROW_KEY_FLAG	cmd/cmdCharDef.h	22;"	d
+TA_ARROW_KEY_INT	cmd/cmdCharDef.h	23;"	d
+TA_ARROW_LEFT_KEY	cmd/cmdCharDef.h	27;"	d
+TA_ARROW_RIGHT_KEY	cmd/cmdCharDef.h	26;"	d
+TA_ARROW_UP_KEY	cmd/cmdCharDef.h	24;"	d
+TA_BACK_SPACE_CHAR	cmd/cmdCharDef.h	43;"	d
+TA_BACK_SPACE_KEY	cmd/cmdCharDef.h	21;"	d
+TA_BEEP_CHAR	cmd/cmdCharDef.h	42;"	d
+TA_DELETE_KEY	cmd/cmdCharDef.h	34;"	d
+TA_END_KEY	cmd/cmdCharDef.h	35;"	d
+TA_ESC_KEY	cmd/cmdCharDef.h	20;"	d
+TA_HOME_KEY	cmd/cmdCharDef.h	32;"	d
+TA_INPUT_END_KEY	cmd/cmdCharDef.h	17;"	d
+TA_INSERT_KEY	cmd/cmdCharDef.h	33;"	d
+TA_LINE_BEGIN_KEY	cmd/cmdCharDef.h	15;"	d
+TA_LINE_END_KEY	cmd/cmdCharDef.h	16;"	d
+TA_MOD_KEY_BEGIN	cmd/cmdCharDef.h	38;"	d
+TA_MOD_KEY_DUMMY	cmd/cmdCharDef.h	40;"	d
+TA_MOD_KEY_END	cmd/cmdCharDef.h	39;"	d
+TA_MOD_KEY_FLAG	cmd/cmdCharDef.h	30;"	d
+TA_MOD_KEY_INT	cmd/cmdCharDef.h	31;"	d
+TA_NEWLINE_KEY	cmd/cmdCharDef.h	19;"	d
+TA_PG_DOWN_KEY	cmd/cmdCharDef.h	37;"	d
+TA_PG_UP_KEY	cmd/cmdCharDef.h	36;"	d
+TA_TAB_KEY	cmd/cmdCharDef.h	18;"	d
+TA_UNDEFINED_KEY	cmd/cmdCharDef.h	41;"	d
+UNDEFINED_KEY	cmd/cmdCharDef.h	/^   UNDEFINED_KEY    = TA_UNDEFINED_KEY,$/;"	e	enum:ParseChar
+UNDEFINED_KEY	cmd/cmdCharDef.h	/^   UNDEFINED_KEY  = INT_MAX,$/;"	e	enum:ParseChar
+UTIL_H	util/util.h	9;"	d
+_cmdMap	cmd/cmdParser.h	/^   CmdMap    _cmdMap;                \/\/ map from string to command$/;"	m	class:CmdParser
+_dofile	cmd/cmdParser.h	/^   ifstream* _dofile;                \/\/ for command script$/;"	m	class:CmdParser
+_dofileStack	cmd/cmdParser.h	/^   stack<ifstream*> _dofileStack;    \/\/ For recursive dofile calling$/;"	m	class:CmdParser
+_history	cmd/cmdParser.h	/^   vector<string>   _history;        \/\/ oldest:_history[0],latest:_hist.back()$/;"	m	class:CmdParser
+_historyIdx	cmd/cmdParser.h	/^   int              _historyIdx;     \/\/ (1) Position to insert history string$/;"	m	class:CmdParser
+_modulus	calc/calcModNum.h	/^   static int         _modulus;$/;"	m	class:ModNum
+_num	calc/calcModNum.h	/^   int                _num;$/;"	m	class:ModNum
+_optCmd	cmd/cmdParser.h	/^   string            _optCmd;$/;"	m	class:CmdExec
+_prompt	cmd/cmdParser.h	/^   const string _prompt;             \/\/ command prompt$/;"	m	class:CmdParser
+_readBuf	cmd/cmdParser.h	/^   char      _readBuf[READ_BUF_SIZE];\/\/ save the current line input$/;"	m	class:CmdParser
+_readBufEnd	cmd/cmdParser.h	/^   char*     _readBufEnd;            \/\/ end of string position of _readBuf$/;"	m	class:CmdParser
+_readBufPtr	cmd/cmdParser.h	/^   char*     _readBufPtr;            \/\/ point to the cursor position$/;"	m	class:CmdParser
+_tempCmdStored	cmd/cmdParser.h	/^   bool      _tempCmdStored;         \/\/ When up\/pgUp is pressed, current line$/;"	m	class:CmdParser
+_varMap	calc/calcModNum.h	/^   static CalcMap     _varMap;$/;"	m	class:ModNum
+checkOptCmd	cmd/cmdParser.cpp	/^CmdExec::checkOptCmd(const string& check) const$/;"	f	class:CmdExec
+closeDofile	cmd/cmdParser.cpp	/^CmdParser::closeDofile()$/;"	f	class:CmdParser
+errorOption	cmd/cmdParser.cpp	/^CmdExec::errorOption(CmdOptionError err, const string& opt) const$/;"	f	class:CmdExec
+exec	calc/calcCmd.cpp	/^MaddCmd::exec(const string& option)$/;"	f	class:MaddCmd
+exec	calc/calcCmd.cpp	/^McmpCmd::exec(const string& option)$/;"	f	class:McmpCmd
+exec	calc/calcCmd.cpp	/^MmultCmd::exec(const string& option)$/;"	f	class:MmultCmd
+exec	calc/calcCmd.cpp	/^MprintCmd::exec(const string& option)$/;"	f	class:MprintCmd
+exec	calc/calcCmd.cpp	/^MsetCmd::exec(const string& option)$/;"	f	class:MsetCmd
+exec	calc/calcCmd.cpp	/^MsubCmd::exec(const string& option)$/;"	f	class:MsubCmd
+exec	calc/calcCmd.cpp	/^MvarCmd::exec(const string& option)$/;"	f	class:MvarCmd
+exec	cmd/cmdCommon.cpp	/^DofileCmd::exec(const string& option)$/;"	f	class:DofileCmd
+exec	cmd/cmdCommon.cpp	/^HelpCmd::exec(const string& option)$/;"	f	class:HelpCmd
+exec	cmd/cmdCommon.cpp	/^HistoryCmd::exec(const string& option)$/;"	f	class:HistoryCmd
+exec	cmd/cmdCommon.cpp	/^QuitCmd::exec(const string& option)$/;"	f	class:QuitCmd
+execOneCmd	cmd/cmdParser.cpp	/^CmdParser::execOneCmd()$/;"	f	class:CmdParser
+getChar	cmd/cmdCharDef.cpp	/^CmdParser::getChar(istream& istr) const$/;"	f	class:CmdParser
+getCmd	cmd/cmdParser.cpp	/^CmdParser::getCmd(string cmd)$/;"	f	class:CmdParser
+getModulus	calc/calcModNum.h	/^   static int getModulus() { return _modulus; }$/;"	f	class:ModNum
+getOptCmd	cmd/cmdParser.h	/^   const string& getOptCmd() const { return _optCmd; }$/;"	f	class:CmdExec
+getStrVal	calc/calcModNum.h	/^   static bool getStrVal(const string& s, ModNum& n) { return true; }$/;"	f	class:ModNum
+getVarVal	calc/calcModNum.h	/^   static bool getVarVal(const string& s, ModNum& n) { return true; }$/;"	f	class:ModNum
+help	calc/calcCmd.cpp	/^MaddCmd::help() const$/;"	f	class:MaddCmd
+help	calc/calcCmd.cpp	/^McmpCmd::help() const$/;"	f	class:McmpCmd
+help	calc/calcCmd.cpp	/^MmultCmd::help() const$/;"	f	class:MmultCmd
+help	calc/calcCmd.cpp	/^MprintCmd::help() const$/;"	f	class:MprintCmd
+help	calc/calcCmd.cpp	/^MsetCmd::help() const$/;"	f	class:MsetCmd
+help	calc/calcCmd.cpp	/^MsubCmd::help() const$/;"	f	class:MsubCmd
+help	calc/calcCmd.cpp	/^MvarCmd::help() const$/;"	f	class:MvarCmd
+help	cmd/cmdCommon.cpp	/^DofileCmd::help() const$/;"	f	class:DofileCmd
+help	cmd/cmdCommon.cpp	/^HelpCmd::help() const$/;"	f	class:HelpCmd
+help	cmd/cmdCommon.cpp	/^HistoryCmd::help() const$/;"	f	class:HistoryCmd
+help	cmd/cmdCommon.cpp	/^QuitCmd::help() const$/;"	f	class:QuitCmd
+initCalcCmd	calc/calcCmd.cpp	/^initCalcCmd()$/;"	f
+initCommonCmd	cmd/cmdCommon.cpp	/^initCommonCmd()$/;"	f
+isValidVarName	util/myString.cpp	/^isValidVarName(const string& str)$/;"	f
+lexOptions	cmd/cmdParser.cpp	/^CmdExec::lexOptions$/;"	f	class:CmdExec
+lexSingleOption	cmd/cmdParser.cpp	/^CmdExec::lexSingleOption$/;"	f	class:CmdExec
+listCmd	cmd/cmdParser.cpp	/^CmdParser::listCmd(const string& str)$/;"	f	class:CmdParser
+main	main/main.cpp	/^main(int argc, char** argv)$/;"	f
+main	test/test.cpp	/^int main(int argc, char **argv)$/;"	f
+myGetChar	util/myGetChar.cpp	/^char myGetChar()$/;"	f
+myGetChar	util/myGetChar.cpp	/^char myGetChar(istream& istr)$/;"	f
+myStr2Int	util/myString.cpp	/^myStr2Int(const string& str, int& num)$/;"	f
+myStrGetTok	util/myString.cpp	/^myStrGetTok(const string& str, string& tok, size_t pos = 0,$/;"	f
+myStrNCmp	util/myString.cpp	/^myStrNCmp(const string& s1, const string& s2, unsigned n)$/;"	f
+mybeep	cmd/cmdCharDef.cpp	/^void mybeep()$/;"	f
+myexit	main/main.cpp	/^myexit()$/;"	f	file:
+mygetc	cmd/cmdCharDef.cpp	/^char mygetc(istream& istr)$/;"	f
+openDofile	cmd/cmdParser.cpp	/^CmdParser::openDofile(const string& dof)$/;"	f	class:CmdParser
+operator !=	calc/calcModNum.h	/^   bool operator != (const ModNum& n) const { return true; }$/;"	f	class:ModNum
+operator *	calc/calcModNum.h	/^   ModNum operator * (const ModNum& n) const { return 0; }$/;"	f	class:ModNum
+operator *=	calc/calcModNum.h	/^   ModNum& operator *= (const ModNum& n) { return (*this); }$/;"	f	class:ModNum
+operator +	calc/calcModNum.h	/^   ModNum operator + (const ModNum& n) const { return 0; }$/;"	f	class:ModNum
+operator +=	calc/calcModNum.h	/^   ModNum& operator += (const ModNum& n) { return (*this); }$/;"	f	class:ModNum
+operator -	calc/calcModNum.h	/^   ModNum operator - (const ModNum& n) const { return 0; }$/;"	f	class:ModNum
+operator -=	calc/calcModNum.h	/^   ModNum& operator -= (const ModNum& n) { return (*this); }$/;"	f	class:ModNum
+operator <<	calc/calcModNum.cpp	/^ostream& operator << (ostream& os, const ModNum& n)$/;"	f
+operator =	calc/calcModNum.h	/^   ModNum& operator = (const ModNum& n) { return (*this); }$/;"	f	class:ModNum
+operator ==	calc/calcModNum.h	/^   bool operator == (const ModNum& n) const { return true; }$/;"	f	class:ModNum
+parseCmd	cmd/cmdParser.cpp	/^CmdParser::parseCmd(string& option)$/;"	f	class:CmdParser
+print	test/test.cpp	/^void print()$/;"	f
+printHelps	cmd/cmdParser.cpp	/^CmdParser::printHelps() const$/;"	f	class:CmdParser
+printHistory	cmd/cmdParser.cpp	/^CmdParser::printHistory(int nPrint) const$/;"	f	class:CmdParser
+printPrompt	cmd/cmdParser.h	/^   void printPrompt() const { cout << _prompt; }$/;"	f	class:CmdParser
+printVars	calc/calcModNum.h	/^   static void printVars() {}$/;"	f	class:ModNum
+regCmd	cmd/cmdParser.cpp	/^CmdParser::regCmd(const string& cmd, unsigned nCmp, CmdExec* e)$/;"	f	class:CmdParser
+reset	test/test.cpp	/^void reset()$/;"	f
+resetBufAndPrintPrompt	cmd/cmdParser.h	/^   void resetBufAndPrintPrompt() {$/;"	f	class:CmdParser
+resetVapMap	calc/calcModNum.h	/^   static void resetVapMap() {}$/;"	f	class:ModNum
+reset_keypress	cmd/cmdCharDef.cpp	/^static void reset_keypress(void)$/;"	f	file:
+reset_keypress	util/myGetChar.cpp	/^static void reset_keypress(void)$/;"	f	file:
+returnCh	cmd/cmdCharDef.cpp	/^returnCh(int ch)$/;"	f
+run	test/test.cpp	/^void run(int num1, int num2, int num3)$/;"	f
+setModulus	calc/calcModNum.h	/^   static void setModulus(int m) { _modulus = m; }$/;"	f	class:ModNum
+setOptCmd	cmd/cmdParser.h	/^   void setOptCmd(const string& str) { _optCmd = str; }$/;"	f	class:CmdExec
+setVarVal	calc/calcModNum.h	/^   static void setVarVal(const string& s, const ModNum& n) { }$/;"	f	class:ModNum
+set_keypress	cmd/cmdCharDef.cpp	/^static void set_keypress(void)$/;"	f	file:
+set_keypress	util/myGetChar.cpp	/^static void set_keypress(void)$/;"	f	file:
+stored_settings	cmd/cmdCharDef.cpp	/^static struct termios stored_settings;$/;"	v	typeref:struct:termios	file:
+stored_settings	util/myGetChar.cpp	/^static struct termios stored_settings;$/;"	v	typeref:struct:termios	file:
+taTestOnly	cmd/cmdParser.h	/^   void taTestOnly() {}$/;"	f	class:CmdParser
+usage	calc/calcCmd.cpp	/^MaddCmd::usage(ostream& os) const$/;"	f	class:MaddCmd
+usage	calc/calcCmd.cpp	/^McmpCmd::usage(ostream& os) const$/;"	f	class:McmpCmd
+usage	calc/calcCmd.cpp	/^MmultCmd::usage(ostream& os) const$/;"	f	class:MmultCmd
+usage	calc/calcCmd.cpp	/^MprintCmd::usage(ostream& os) const$/;"	f	class:MprintCmd
+usage	calc/calcCmd.cpp	/^MsetCmd::usage(ostream& os) const$/;"	f	class:MsetCmd
+usage	calc/calcCmd.cpp	/^MsubCmd::usage(ostream& os) const$/;"	f	class:MsubCmd
+usage	calc/calcCmd.cpp	/^MvarCmd::usage(ostream& os) const$/;"	f	class:MvarCmd
+usage	cmd/cmdCommon.cpp	/^DofileCmd::usage(ostream& os) const$/;"	f	class:DofileCmd
+usage	cmd/cmdCommon.cpp	/^HelpCmd::usage(ostream& os) const$/;"	f	class:HelpCmd
+usage	cmd/cmdCommon.cpp	/^HistoryCmd::usage(ostream& os) const$/;"	f	class:HistoryCmd
+usage	cmd/cmdCommon.cpp	/^QuitCmd::usage(ostream& os) const$/;"	f	class:QuitCmd
+usage	main/main.cpp	/^usage()$/;"	f	file:
+~CmdExec	cmd/cmdParser.h	/^   virtual ~CmdExec() {}$/;"	f	class:CmdExec
+~CmdParser	cmd/cmdParser.h	/^   virtual ~CmdParser() {}$/;"	f	class:CmdParser
