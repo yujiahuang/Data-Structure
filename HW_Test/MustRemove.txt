@@ -1,8 +1,7 @@
-_hw1.2/hw1.2.p1a.main.cpp
-_hw1.2/hw1.2.p1.bug.cpp
-_hw1.2/*.o
-_hw1.2/hw1.2.p2a
-_hw1.2/hw1.2.p2b
-_hw1.2/hw1.2.p3a
-_hw1.2/hw1.2.p3b
-_hw1.2/hw1.2.p3c
+_hw2/cmdCharDef.o
+_hw2/cmdReader.o
+_hw2/main.o
+_hw2/testAsc.o
+_hw2/cmdParser.h
+_hw2/cmdReader
+_hw2/testAsc

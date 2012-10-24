@@ -1,0 +1,467 @@
+Missing option!!
+mcalc> do
+
+Error: cannot open file "-a"!!
+mcalc> do -a
+
+mcalc> help do
+Usage: DOfile <(string file)>
+
+Error: cannot open file "12a"!!
+mcalc> do 12a
+
+Error: cannot open file "12"!!
+mcalc> do 12
+
+mcalc> help help
+Usage: HELp [(string cmd)]
+
+Illegal option!! (he)
+mcalc> help he
+
+mcalc> help his
+Usage: HIStory [(int nPrint)]
+
+mcalc> help madd
+Usage: MADD <(string y)> <(string a) | (int va)> <(string b) | (int vb)>
+
+Illegal command!! (hep)
+mcalc> hep mcompARE
+
+mcalc> help mCompAre
+Usage: MCOMPare <(string var1) | (int val1)> <(string var2) | (int val2)>
+
+mcalc> help mprint
+Usage: MPrint [(string var)...]
+
+Illegal option!! (a)
+Illegal option!! (b)
+Illegal option!! (c)
+mcalc> mprint a b c
+
+mcalc> mvar a -1
+a = 99999999
+
+mcalc> mvar a -3
+a = 99999997
+
+mcalc> mvar b -3
+b = 99999997
+
+mcalc> mvar c -7
+c = 99999993
+
+mcalc> mvar b -5
+b = 99999995
+
+mcalc> mprint
+a = 99999997
+b = 99999995
+c = 99999993
+
+mcalc> mprint a b
+a = 99999997
+b = 99999995
+
+mcalc> mprint  b c
+b = 99999995
+c = 99999993
+
+mcalc> mprint  c
+c = 99999993
+
+mcalc> mset 1123
+
+Illegal option!! (a)
+mcalc> mprint a
+
+Illegal option!! (a)
+mcalc> mset a
+
+mcalc> help mset
+Usage: MSET <(int modulus)>
+
+mcalc> help mmulti
+Usage: MMULTiply <(string y)> <(string a) | (int va)> <(string b) | (int vb)>
+
+Extra option!! ( -1)
+mcalc> mset a -1
+
+Illegal option!! (-123)
+mcalc> mset -123
+
+mcalc> mvar a -123
+a = 1000
+
+mcalc> mvar b -234
+b = 889
+
+mcalc> mvar c -655377
+c = 455
+
+mcalc> mmult d 123 c
+d(938) = 123 * 455
+
+mcalc> madd e 123 -23
+e(100) = 123 + 1100
+
+mcalc> mprint a c d
+a = 1000
+c = 455
+d = 938
+
+mcalc> mprint
+a = 1000
+b = 889
+c = 455
+d = 938
+e = 100
+
+mcalc> his
+   0: do
+   1: do -a
+   2: help do
+   3: do 12a
+   4: do 12
+   5: help help
+   6: help he
+   7: help his
+   8: help madd
+   9: hep mcompARE
+   10: help mCompAre
+   11: help mprint
+   12: mprint a b c
+   13: mvar a -1
+   14: mvar a -3
+   15: mvar b -3
+   16: mvar c -7
+   17: mvar b -5
+   18: mprint
+   19: mprint a b
+   20: mprint  b c
+   21: mprint  c
+   22: mset 1123
+   23: mprint a
+   24: mset a
+   25: help mset
+   26: help mmulti
+   27: mset a -1
+   28: mset -123
+   29: mvar a -123
+   30: mvar b -234
+   31: mvar c -655377
+   32: mmult d 123 c
+   33: madd e 123 -23
+   34: mprint a c d
+   35: mprint
+   36: his
+
+mcalc> help mvar
+Usage: MVARiable <(string var)> <(string var) | (int val)>
+
+Illegal option!! (i)
+mcalc> MVAR __ i
+
+mcalc> MVAR __ a
+__ = 1000
+
+mcalc> MVAR __ __
+__ = 1000
+
+mcalc> MVAR __ __
+__ = 1000
+
+mcalc> MVAR __ __
+__ = 1000
+
+mcalc> MVAR __ __
+__ = 1000
+
+mcalc> help q
+Usage: Quit [-Force]
+
+mcalc> help mComp
+Usage: MCOMPare <(string var1) | (int val1)> <(string var2) | (int val2)>
+
+mcalc> mcomp __ a
+1000 == 1000
+
+mcalc> mcomp __ b
+1000 != 889
+
+mcalc> mcomp __ -123
+1000 == 1000
+
+Illegal option!! (12)
+mcalc> mvar 12 123
+
+Illegal option!! (12a)
+mcalc> mvar 12a 123
+
+Illegal option!! (1a2)
+mcalc> mvar 1a2 123
+
+mcalc> mvar a12 123
+a12 = 123
+
+Illegal command!! (^)
+mcalc> ^
+
+Illegal option!! ('a')
+mcalc> mset 'a'
+
+Illegal option!! ('')
+mcalc> mvar '' 12
+
+Illegal option!! (&)
+mcalc> mvar & 12
+
+Illegal option!! (a~)
+mcalc> mvar a~ 12
+
+mcalc> mprint
+__ = 1000
+a = 1000
+a12 = 123
+b = 889
+c = 455
+d = 938
+e = 100
+
+mcalc> mvar Q_Q 123
+Q_Q = 123
+
+mcalc> mvar T_T 345
+T_T = 345
+
+mcalc> mvar XD 567
+XD = 567
+
+mcalc> mset 1
+
+Illegal option!! (0)
+mcalc> mset 0
+
+Illegal command!! (print)
+mcalc> print
+
+mcalc> mprint
+
+mcalc> mvar Q_Q -1
+Q_Q = 0
+
+mcalc> mvar Q_Q -2
+Q_Q = 0
+
+mcalc> mvar Q_Q -3
+Q_Q = 0
+
+mcalc> mvar T_T -3
+T_T = 0
+
+Illegal option!! (^.<)
+mcalc> mvar ^.< -3
+
+Missing option!!
+mcalc> mvar XD
+
+mcalc> mvar XD 1
+XD = 0
+
+Illegal command!! (bye)
+mcalc> bye
+
+mcalc> mprint XD
+XD = 0
+
+mcalc> his
+   0: do
+   1: do -a
+   2: help do
+   3: do 12a
+   4: do 12
+   5: help help
+   6: help he
+   7: help his
+   8: help madd
+   9: hep mcompARE
+   10: help mCompAre
+   11: help mprint
+   12: mprint a b c
+   13: mvar a -1
+   14: mvar a -3
+   15: mvar b -3
+   16: mvar c -7
+   17: mvar b -5
+   18: mprint
+   19: mprint a b
+   20: mprint  b c
+   21: mprint  c
+   22: mset 1123
+   23: mprint a
+   24: mset a
+   25: help mset
+   26: help mmulti
+   27: mset a -1
+   28: mset -123
+   29: mvar a -123
+   30: mvar b -234
+   31: mvar c -655377
+   32: mmult d 123 c
+   33: madd e 123 -23
+   34: mprint a c d
+   35: mprint
+   36: his
+   37: help mvar
+   38: MVAR __ i
+   39: MVAR __ a
+   40: MVAR __ __
+   41: MVAR __ __
+   42: MVAR __ __
+   43: MVAR __ __
+   44: help q
+   45: help mComp
+   46: mcomp __ a
+   47: mcomp __ b
+   48: mcomp __ -123
+   49: mvar 12 123
+   50: mvar 12a 123
+   51: mvar 1a2 123
+   52: mvar a12 123
+   53: ^
+   54: mset 'a'
+   55: mvar '' 12
+   56: mvar & 12
+   57: mvar a~ 12
+   58: mprint
+   59: mvar Q_Q 123
+   60: mvar T_T 345
+   61: mvar XD 567
+   62: mset 1
+   63: mset 0
+   64: print
+   65: mprint
+   66: mvar Q_Q -1
+   67: mvar Q_Q -2
+   68: mvar Q_Q -3
+   69: mvar T_T -3
+   70: mvar ^.< -3
+   71: mvar XD
+   72: mvar XD 1
+   73: bye
+   74: mprint XD
+   75: his
+
+Missing option!!
+mcalc> mmult __ a
+
+Illegal option!! (a)
+mcalc> mmult __ a 0
+
+mcalc> mmult __ 0 0
+__(0) = 0 * 0
+
+mcalc> mmult __ 1 0
+__(0) = 0 * 0
+
+mcalc> mmult __ 12 0
+__(0) = 0 * 0
+
+mcalc> mmult __ 12 __
+__(0) = 0 * 0
+
+mcalc> mmult __ __ __
+__(0) = 0 * 0
+
+Illegal option!! (a)
+mcalc> mmult a a a
+
+mcalc> his
+   0: do
+   1: do -a
+   2: help do
+   3: do 12a
+   4: do 12
+   5: help help
+   6: help he
+   7: help his
+   8: help madd
+   9: hep mcompARE
+   10: help mCompAre
+   11: help mprint
+   12: mprint a b c
+   13: mvar a -1
+   14: mvar a -3
+   15: mvar b -3
+   16: mvar c -7
+   17: mvar b -5
+   18: mprint
+   19: mprint a b
+   20: mprint  b c
+   21: mprint  c
+   22: mset 1123
+   23: mprint a
+   24: mset a
+   25: help mset
+   26: help mmulti
+   27: mset a -1
+   28: mset -123
+   29: mvar a -123
+   30: mvar b -234
+   31: mvar c -655377
+   32: mmult d 123 c
+   33: madd e 123 -23
+   34: mprint a c d
+   35: mprint
+   36: his
+   37: help mvar
+   38: MVAR __ i
+   39: MVAR __ a
+   40: MVAR __ __
+   41: MVAR __ __
+   42: MVAR __ __
+   43: MVAR __ __
+   44: help q
+   45: help mComp
+   46: mcomp __ a
+   47: mcomp __ b
+   48: mcomp __ -123
+   49: mvar 12 123
+   50: mvar 12a 123
+   51: mvar 1a2 123
+   52: mvar a12 123
+   53: ^
+   54: mset 'a'
+   55: mvar '' 12
+   56: mvar & 12
+   57: mvar a~ 12
+   58: mprint
+   59: mvar Q_Q 123
+   60: mvar T_T 345
+   61: mvar XD 567
+   62: mset 1
+   63: mset 0
+   64: print
+   65: mprint
+   66: mvar Q_Q -1
+   67: mvar Q_Q -2
+   68: mvar Q_Q -3
+   69: mvar T_T -3
+   70: mvar ^.< -3
+   71: mvar XD
+   72: mvar XD 1
+   73: bye
+   74: mprint XD
+   75: his
+   76: mmult __ a
+   77: mmult __ a 0
+   78: mmult __ 0 0
+   79: mmult __ 1 0
+   80: mmult __ 12 0
+   81: mmult __ 12 __
+   82: mmult __ __ __
+   83: mmult a a a
+   84: his
+
+mcalc> q -f
+

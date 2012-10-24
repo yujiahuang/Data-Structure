@@ -1,0 +1,87 @@
+do
+do -a
+help do
+do 12a
+do 12
+help help
+help he
+help his
+help madd
+hep mcompARE
+help mCompAre
+help mprint
+mprint a b c
+mvar a -1
+mvar a -3
+mvar b -3
+mvar c -7
+mvar b -5
+mprint
+mprint a b
+mprint  b c
+mprint  c
+mset 1123
+mprint a
+mset a
+help mset
+help mmulti
+mset a -1
+mset -123
+mvar a -123
+mvar b -234
+mvar c -655377
+mmult d 123 c
+madd e 123 -23
+mprint a c d
+mprint
+his
+help mvar
+MVAR __ i
+MVAR __ a
+MVAR __ __
+MVAR __ __
+MVAR __ __
+MVAR __ __
+help q
+help mComp
+mcomp __ a
+mcomp __ b
+mcomp __ -123
+mvar 12 123
+mvar 12a 123
+mvar 1a2 123
+mvar a12 123
+^
+mset 'a'
+mvar '' 12
+mvar & 12
+mvar a~ 12
+mprint
+mvar Q_Q 123
+mvar T_T 345
+mvar XD 567
+mset 1
+mset 0
+print
+mprint
+mvar Q_Q -1
+mvar Q_Q -2
+mvar Q_Q -3
+mvar T_T -3
+mvar ^.< -3
+mvar XD
+mvar XD 1
+bye
+mprint XD
+his
+mmult __ a
+mmult __ a 0
+mmult __ 0 0
+mmult __ 1 0
+mmult __ 12 0
+mmult __ 12 __
+mmult __ __ __
+mmult a a a
+his
+q -f
+
