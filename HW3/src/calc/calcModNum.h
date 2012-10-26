@@ -35,11 +35,11 @@ class ModNum
 		// Operator overload
 		// TODO: overload the following operators (+, +=, -, -=, *, *=, ==, !=, =)
 		//
-		ModNum operator + (const ModNum& n) const { return _num+n._num; }
+		ModNum operator + (const ModNum& n) const { return ModNum(_num+n._num); }
 		ModNum& operator += (const ModNum& n) { _num+=n._num; return (*this); }
-		ModNum operator - (const ModNum& n) const { return _num-n._num; }
+		ModNum operator - (const ModNum& n) const { return ModNum(_num-n._num); }
 		ModNum& operator -= (const ModNum& n) { _num-=n._num; return (*this); }
-		ModNum operator * (const ModNum& n) const { return _num*n._num; }
+		ModNum operator * (const ModNum& n) const { return ModNum(_num*n._num); }
 		ModNum& operator *= (const ModNum& n) { _num*=n._num; return (*this); }
 		bool operator == (const ModNum& n) const { return (_num==n._num); }
 		bool operator != (const ModNum& n) const { return (_num!=n._num); }
