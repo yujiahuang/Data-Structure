@@ -13,6 +13,13 @@
 //       (Note: let default _modulus = 100000000)
 // TODO: Define the member functions of class ModNum
 
+int ModNum::_modulus = 100000000;
+CalcMap ModNum::_varMap;
+
+
+
+
+
 ostream& operator << (ostream& os, const ModNum& n)
 {
    return os;

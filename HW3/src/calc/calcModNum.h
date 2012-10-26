@@ -26,7 +26,8 @@ class ModNum
 		// Default constructor
 		// ==> Make sure _num is within [0, _modulus)
 		// TODO: Implement the default constructor;
-		ModNum(int i = 0){ if(i >= 0 && i<=_modulus) _num=i; else _num=0; }
+		ModNum(int i = 0){ _num=modulate(i); }
+		
 		// Get the ModNum from the _varMap based on the string "str".
 		// If found, copy the value.
 		// If not found, create a default one and insert to the _varMap.
@@ -36,11 +37,11 @@ class ModNum
 		// TODO: overload the following operators (+, +=, -, -=, *, *=, ==, !=, =)
 		//
 		ModNum operator + (const ModNum& n) const { return ModNum(_num+n._num); }
-		ModNum& operator += (const ModNum& n) { _num+=n._num; return (*this); }
+		ModNum& operator += (const ModNum& n) { _num=modulate(_num+n._num); return (*this); }
 		ModNum operator - (const ModNum& n) const { return ModNum(_num-n._num); }
-		ModNum& operator -= (const ModNum& n) { _num-=n._num; return (*this); }
+		ModNum& operator -= (const ModNum& n) { _num=modulate(_num-n._num); return (*this); }
 		ModNum operator * (const ModNum& n) const { return ModNum(_num*n._num); }
-		ModNum& operator *= (const ModNum& n) { _num*=n._num; return (*this); }
+		ModNum& operator *= (const ModNum& n) { _num=modulate(_num*n._num); return (*this); }
 		bool operator == (const ModNum& n) const { return (_num==n._num); }
 		bool operator != (const ModNum& n) const { return (_num!=n._num); }
 		ModNum& operator = (const ModNum& n) { _num=n._num; return (*this); }
@@ -117,6 +118,16 @@ class ModNum
 
 		static int         _modulus;
 		static CalcMap     _varMap;
+
+		//make some int be within [0, _modulus)
+		int modulate(int i){
+
+			if(i>=_modulus) i=i%_modulus;
+			while(i<0){ i+=_modulus; } 
+			return i;
+
+		}
+
 };
 
 #endif // CALC_MOD_NUM_H

@@ -65,6 +65,7 @@ int main(int argc, char **argv)
    // Modulus = 16
    cout << "Setting modulus = 16..." << endl;
    ModNum::setModulus(16);
+
    run(num1, num2, num3);
 
    // reset...

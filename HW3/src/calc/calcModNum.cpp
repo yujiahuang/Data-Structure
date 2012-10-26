@@ -1,10 +1,10 @@
 /****************************************************************************
-  FileName     [ calcModNum.cpp ]
-  PackageName  [ calc ]
-  Synopsis     [ Define member functions for class ModNum ]
-  Author       [ Chung-Yang (Ric) Huang ]
-  Copyright    [ Copyleft(c) 2007-2012 LaDs(III), GIEE, NTU, Taiwan ]
-****************************************************************************/
+	FileName     [ calcModNum.cpp ]
+	PackageName  [ calc ]
+	Synopsis     [ Define member functions for class ModNum ]
+	Author       [ Chung-Yang (Ric) Huang ]
+	Copyright    [ Copyleft(c) 2007-2012 LaDs(III), GIEE, NTU, Taiwan ]
+ ****************************************************************************/
 #include <iostream>
 #include "util.h"
 #include "calcModNum.h"
@@ -20,8 +20,11 @@ CalcMap ModNum::_varMap;
 
 
 
-ostream& operator << (ostream& os, const ModNum& n)
-{
-   return os;
+ostream& operator << (ostream& os, const ModNum& n){
+
+	os << n._num;
+	return os;
+
 }
+
 
