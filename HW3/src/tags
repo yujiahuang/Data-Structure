@@ -83,8 +83,8 @@ MOD_KEY_INT	cmd/cmdCharDef.h	/^   MOD_KEY_INT      = TA_MOD_KEY_INT,$/;"	e	enum:
 MaddCmd	calc/calcCmd.h	/^CmdClass(MaddCmd);$/;"	v
 McmpCmd	calc/calcCmd.h	/^CmdClass(McmpCmd);$/;"	v
 MmultCmd	calc/calcCmd.h	/^CmdClass(MmultCmd);$/;"	v
-ModNum	calc/calcModNum.h	/^   ModNum(const string& str) { _num = _varMap[str]._num; }$/;"	f	class:ModNum
-ModNum	calc/calcModNum.h	/^   ModNum(int i = 0){}$/;"	f	class:ModNum
+ModNum	calc/calcModNum.h	/^		ModNum(const string& str) { _num = _varMap[str]._num; }$/;"	f	class:ModNum
+ModNum	calc/calcModNum.h	/^		ModNum(int i = 0){ _num=modulate(i); }$/;"	f	class:ModNum
 ModNum	calc/calcModNum.h	/^class ModNum$/;"	c
 MprintCmd	calc/calcCmd.h	/^CmdClass(MprintCmd);$/;"	v
 MsetCmd	calc/calcCmd.h	/^CmdClass(MsetCmd);$/;"	v
@@ -142,15 +142,17 @@ _dofile	cmd/cmdParser.h	/^   ifstream* _dofile;                \/\/ for command 
 _dofileStack	cmd/cmdParser.h	/^   stack<ifstream*> _dofileStack;    \/\/ For recursive dofile calling$/;"	m	class:CmdParser
 _history	cmd/cmdParser.h	/^   vector<string>   _history;        \/\/ oldest:_history[0],latest:_hist.back()$/;"	m	class:CmdParser
 _historyIdx	cmd/cmdParser.h	/^   int              _historyIdx;     \/\/ (1) Position to insert history string$/;"	m	class:CmdParser
-_modulus	calc/calcModNum.h	/^   static int         _modulus;$/;"	m	class:ModNum
-_num	calc/calcModNum.h	/^   int                _num;$/;"	m	class:ModNum
+_modulus	calc/calcModNum.cpp	/^int ModNum::_modulus = 100000000;$/;"	m	class:ModNum	file:
+_modulus	calc/calcModNum.h	/^		static int         _modulus;$/;"	m	class:ModNum
+_num	calc/calcModNum.h	/^		int                _num;$/;"	m	class:ModNum
 _optCmd	cmd/cmdParser.h	/^   string            _optCmd;$/;"	m	class:CmdExec
 _prompt	cmd/cmdParser.h	/^   const string _prompt;             \/\/ command prompt$/;"	m	class:CmdParser
 _readBuf	cmd/cmdParser.h	/^   char      _readBuf[READ_BUF_SIZE];\/\/ save the current line input$/;"	m	class:CmdParser
 _readBufEnd	cmd/cmdParser.h	/^   char*     _readBufEnd;            \/\/ end of string position of _readBuf$/;"	m	class:CmdParser
 _readBufPtr	cmd/cmdParser.h	/^   char*     _readBufPtr;            \/\/ point to the cursor position$/;"	m	class:CmdParser
 _tempCmdStored	cmd/cmdParser.h	/^   bool      _tempCmdStored;         \/\/ When up\/pgUp is pressed, current line$/;"	m	class:CmdParser
-_varMap	calc/calcModNum.h	/^   static CalcMap     _varMap;$/;"	m	class:ModNum
+_varMap	calc/calcModNum.cpp	/^CalcMap ModNum::_varMap;$/;"	m	class:ModNum	file:
+_varMap	calc/calcModNum.h	/^		static CalcMap     _varMap;$/;"	m	class:ModNum
 checkOptCmd	cmd/cmdParser.cpp	/^CmdExec::checkOptCmd(const string& check) const$/;"	f	class:CmdExec
 closeDofile	cmd/cmdParser.cpp	/^CmdParser::closeDofile()$/;"	f	class:CmdParser
 errorOption	cmd/cmdParser.cpp	/^CmdExec::errorOption(CmdOptionError err, const string& opt) const$/;"	f	class:CmdExec
@@ -168,10 +170,10 @@ exec	cmd/cmdCommon.cpp	/^QuitCmd::exec(const string& option)$/;"	f	class:QuitCmd
 execOneCmd	cmd/cmdParser.cpp	/^CmdParser::execOneCmd()$/;"	f	class:CmdParser
 getChar	cmd/cmdCharDef.cpp	/^CmdParser::getChar(istream& istr) const$/;"	f	class:CmdParser
 getCmd	cmd/cmdParser.cpp	/^CmdParser::getCmd(string cmd)$/;"	f	class:CmdParser
-getModulus	calc/calcModNum.h	/^   static int getModulus() { return _modulus; }$/;"	f	class:ModNum
+getModulus	calc/calcModNum.h	/^		static int getModulus() { return _modulus; }$/;"	f	class:ModNum
 getOptCmd	cmd/cmdParser.h	/^   const string& getOptCmd() const { return _optCmd; }$/;"	f	class:CmdExec
-getStrVal	calc/calcModNum.h	/^   static bool getStrVal(const string& s, ModNum& n) { return true; }$/;"	f	class:ModNum
-getVarVal	calc/calcModNum.h	/^   static bool getVarVal(const string& s, ModNum& n) { return true; }$/;"	f	class:ModNum
+getStrVal	calc/calcModNum.h	/^		static bool getStrVal(const string& s, ModNum& n) { $/;"	f	class:ModNum
+getVarVal	calc/calcModNum.h	/^		static bool getVarVal(const string& s, ModNum& n) {$/;"	f	class:ModNum
 help	calc/calcCmd.cpp	/^MaddCmd::help() const$/;"	f	class:MaddCmd
 help	calc/calcCmd.cpp	/^McmpCmd::help() const$/;"	f	class:McmpCmd
 help	calc/calcCmd.cpp	/^MmultCmd::help() const$/;"	f	class:MmultCmd
@@ -191,6 +193,7 @@ lexSingleOption	cmd/cmdParser.cpp	/^CmdExec::lexSingleOption$/;"	f	class:CmdExec
 listCmd	cmd/cmdParser.cpp	/^CmdParser::listCmd(const string& str)$/;"	f	class:CmdParser
 main	main/main.cpp	/^main(int argc, char** argv)$/;"	f
 main	test/test.cpp	/^int main(int argc, char **argv)$/;"	f
+modulate	calc/calcModNum.h	/^		int modulate(int i){$/;"	f	class:ModNum
 myGetChar	util/myGetChar.cpp	/^char myGetChar()$/;"	f
 myGetChar	util/myGetChar.cpp	/^char myGetChar(istream& istr)$/;"	f
 myStr2Int	util/myString.cpp	/^myStr2Int(const string& str, int& num)$/;"	f
@@ -199,34 +202,34 @@ myStrNCmp	util/myString.cpp	/^myStrNCmp(const string& s1, const string& s2, unsi
 mybeep	cmd/cmdCharDef.cpp	/^void mybeep()$/;"	f
 myexit	main/main.cpp	/^myexit()$/;"	f	file:
 mygetc	cmd/cmdCharDef.cpp	/^char mygetc(istream& istr)$/;"	f
-openDofile	cmd/cmdParser.cpp	/^CmdParser::openDofile(const string& dof)$/;"	f	class:CmdParser
-operator !=	calc/calcModNum.h	/^   bool operator != (const ModNum& n) const { return true; }$/;"	f	class:ModNum
-operator *	calc/calcModNum.h	/^   ModNum operator * (const ModNum& n) const { return 0; }$/;"	f	class:ModNum
-operator *=	calc/calcModNum.h	/^   ModNum& operator *= (const ModNum& n) { return (*this); }$/;"	f	class:ModNum
-operator +	calc/calcModNum.h	/^   ModNum operator + (const ModNum& n) const { return 0; }$/;"	f	class:ModNum
-operator +=	calc/calcModNum.h	/^   ModNum& operator += (const ModNum& n) { return (*this); }$/;"	f	class:ModNum
-operator -	calc/calcModNum.h	/^   ModNum operator - (const ModNum& n) const { return 0; }$/;"	f	class:ModNum
-operator -=	calc/calcModNum.h	/^   ModNum& operator -= (const ModNum& n) { return (*this); }$/;"	f	class:ModNum
-operator <<	calc/calcModNum.cpp	/^ostream& operator << (ostream& os, const ModNum& n)$/;"	f
-operator =	calc/calcModNum.h	/^   ModNum& operator = (const ModNum& n) { return (*this); }$/;"	f	class:ModNum
-operator ==	calc/calcModNum.h	/^   bool operator == (const ModNum& n) const { return true; }$/;"	f	class:ModNum
+openDofile	cmd/cmdParser.cpp	/^bool CmdParser::openDofile(const string& dof){$/;"	f	class:CmdParser
+operator !=	calc/calcModNum.h	/^		bool operator != (const ModNum& n) const { return (_num!=n._num); }$/;"	f	class:ModNum
+operator *	calc/calcModNum.h	/^		ModNum operator * (const ModNum& n) const { return ModNum(_num*n._num); }$/;"	f	class:ModNum
+operator *=	calc/calcModNum.h	/^		ModNum& operator *= (const ModNum& n) { _num=modulate(_num*n._num); return (*this); }$/;"	f	class:ModNum
+operator +	calc/calcModNum.h	/^		ModNum operator + (const ModNum& n) const { return ModNum(_num+n._num); }$/;"	f	class:ModNum
+operator +=	calc/calcModNum.h	/^		ModNum& operator += (const ModNum& n) { _num=modulate(_num+n._num); return (*this); }$/;"	f	class:ModNum
+operator -	calc/calcModNum.h	/^		ModNum operator - (const ModNum& n) const { return ModNum(_num-n._num); }$/;"	f	class:ModNum
+operator -=	calc/calcModNum.h	/^		ModNum& operator -= (const ModNum& n) { _num=modulate(_num-n._num); return (*this); }$/;"	f	class:ModNum
+operator <<	calc/calcModNum.cpp	/^ostream& operator << (ostream& os, const ModNum& n){$/;"	f
+operator =	calc/calcModNum.h	/^		ModNum& operator = (const ModNum& n) { _num=n._num; return (*this); }$/;"	f	class:ModNum
+operator ==	calc/calcModNum.h	/^		bool operator == (const ModNum& n) const { return (_num==n._num); }$/;"	f	class:ModNum
 parseCmd	cmd/cmdParser.cpp	/^CmdParser::parseCmd(string& option)$/;"	f	class:CmdParser
 print	test/test.cpp	/^void print()$/;"	f
 printHelps	cmd/cmdParser.cpp	/^CmdParser::printHelps() const$/;"	f	class:CmdParser
 printHistory	cmd/cmdParser.cpp	/^CmdParser::printHistory(int nPrint) const$/;"	f	class:CmdParser
 printPrompt	cmd/cmdParser.h	/^   void printPrompt() const { cout << _prompt; }$/;"	f	class:CmdParser
-printVars	calc/calcModNum.h	/^   static void printVars() {}$/;"	f	class:ModNum
+printVars	calc/calcModNum.h	/^		static void printVars() {$/;"	f	class:ModNum
 regCmd	cmd/cmdParser.cpp	/^CmdParser::regCmd(const string& cmd, unsigned nCmp, CmdExec* e)$/;"	f	class:CmdParser
 reset	test/test.cpp	/^void reset()$/;"	f
 resetBufAndPrintPrompt	cmd/cmdParser.h	/^   void resetBufAndPrintPrompt() {$/;"	f	class:CmdParser
-resetVapMap	calc/calcModNum.h	/^   static void resetVapMap() {}$/;"	f	class:ModNum
+resetVapMap	calc/calcModNum.h	/^		static void resetVapMap() {}$/;"	f	class:ModNum
 reset_keypress	cmd/cmdCharDef.cpp	/^static void reset_keypress(void)$/;"	f	file:
 reset_keypress	util/myGetChar.cpp	/^static void reset_keypress(void)$/;"	f	file:
 returnCh	cmd/cmdCharDef.cpp	/^returnCh(int ch)$/;"	f
 run	test/test.cpp	/^void run(int num1, int num2, int num3)$/;"	f
-setModulus	calc/calcModNum.h	/^   static void setModulus(int m) { _modulus = m; }$/;"	f	class:ModNum
+setModulus	calc/calcModNum.h	/^		static void setModulus(int m) { _modulus = m; }$/;"	f	class:ModNum
 setOptCmd	cmd/cmdParser.h	/^   void setOptCmd(const string& str) { _optCmd = str; }$/;"	f	class:CmdExec
-setVarVal	calc/calcModNum.h	/^   static void setVarVal(const string& s, const ModNum& n) { }$/;"	f	class:ModNum
+setVarVal	calc/calcModNum.h	/^		static void setVarVal(const string& s, const ModNum& n) {$/;"	f	class:ModNum
 set_keypress	cmd/cmdCharDef.cpp	/^static void set_keypress(void)$/;"	f	file:
 set_keypress	util/myGetChar.cpp	/^static void set_keypress(void)$/;"	f	file:
 stored_settings	cmd/cmdCharDef.cpp	/^static struct termios stored_settings;$/;"	v	typeref:struct:termios	file:

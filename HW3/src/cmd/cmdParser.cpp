@@ -1,10 +1,10 @@
 /****************************************************************************
-  FileName     [ cmdParser.cpp ]
-  PackageName  [ cmd ]
-  Synopsis     [ Define command parsing member functions for class CmdParser ]
-  Author       [ Chung-Yang (Ric) Huang ]
-  Copyright    [ Copyleft(c) 2007-2012 LaDs(III), GIEE, NTU, Taiwan ]
-****************************************************************************/
+	FileName     [ cmdParser.cpp ]
+	PackageName  [ cmd ]
+	Synopsis     [ Define command parsing member functions for class CmdParser ]
+	Author       [ Chung-Yang (Ric) Huang ]
+	Copyright    [ Copyleft(c) 2007-2012 LaDs(III), GIEE, NTU, Taiwan ]
+ ****************************************************************************/
 #include <cassert>
 #include <iostream>
 #include <iomanip>
@@ -31,94 +31,106 @@ void mybeep();
 //----------------------------------------------------------------------
 // return false if file cannot be opened
 // Please refer to the comments in "DofileCmd::exec", cmdCommon.cpp
-bool
-CmdParser::openDofile(const string& dof)
-{
-   // TODO...
-   _dofile = new ifstream(dof.c_str());
-   return _dofile;
+bool CmdParser::openDofile(const string& dof){
+
+	// TODO...
+
+	_dofile = new ifstream(dof.c_str());
+	
+	return _dofile->is_open();
+
 }
 
 // Must make sure _dofile != 0
-void
-CmdParser::closeDofile()
-{
-   assert(_dofile != 0);
-   // TODO...
-   delete _dofile;
+void CmdParser::closeDofile(){
+
+	assert(_dofile != 0);
+	// TODO...
+
+	delete _dofile;
+
 }
 
 // Return false if registration fails
-bool
+	bool
 CmdParser::regCmd(const string& cmd, unsigned nCmp, CmdExec* e)
 {
-   // Make sure cmd hasn't been registered and won't cause ambiguity
-   string str = cmd;
-   unsigned s = str.size();
-   if (s < nCmp) return false;
-   while (true) {
-      if (getCmd(str)) return false;
-      if (s == nCmp) break;
-      str.resize(--s);
-   }
+	// Make sure cmd hasn't been registered and won't cause ambiguity
+	string str = cmd;
+	unsigned s = str.size();
+	if (s < nCmp) return false;
+	while (true) {
+		if (getCmd(str)) return false;
+		if (s == nCmp) break;
+		str.resize(--s);
+	}
 
-   // Change the first nCmp characters to upper case to facilitate
-   //    case-insensitive comparison later.
-   // The strings stored in _cmdMap are all upper case
-   //
-   assert(str.size() == nCmp);  // str is now mandCmd
-   string& mandCmd = str;
-   for (unsigned i = 0; i < nCmp; ++i)
-      mandCmd[i] = toupper(mandCmd[i]);
-   string optCmd = cmd.substr(nCmp);
-   assert(e != 0);
-   e->setOptCmd(optCmd);
+	// Change the first nCmp characters to upper case to facilitate
+	//    case-insensitive comparison later.
+	// The strings stored in _cmdMap are all upper case
+	//
+	assert(str.size() == nCmp);  // str is now mandCmd
+	string& mandCmd = str;
+	for (unsigned i = 0; i < nCmp; ++i)
+		mandCmd[i] = toupper(mandCmd[i]);
+	string optCmd = cmd.substr(nCmp);
+	assert(e != 0);
+	e->setOptCmd(optCmd);
 
-   // insert (mandCmd, e) to _cmdMap; return false if insertion fails.
-   return (_cmdMap.insert(CmdRegPair(mandCmd, e))).second;
+	// insert (mandCmd, e) to _cmdMap; return false if insertion fails.
+	return (_cmdMap.insert(CmdRegPair(mandCmd, e))).second;
 }
 
 // Return false on "quit" or if excetion happens
-CmdExecStatus
+	CmdExecStatus
 CmdParser::execOneCmd()
 {
-   bool newCmd = false;
-   if (_dofile != 0)
-      newCmd = readCmd(*_dofile);
-   else
-      newCmd = readCmd(cin);
+	bool newCmd = false;
+	if (_dofile != 0)
+		newCmd = readCmd(*_dofile);
+	else
+		newCmd = readCmd(cin);
 
-   // execute the command
-   if (newCmd) {
-      string option;
-      CmdExec* e = parseCmd(option);
-      if (e != 0)
-         return e->exec(option);
-   }
-   return CMD_EXEC_NOP;
+	// execute the command
+	if (newCmd) {
+		string option;
+		CmdExec* e = parseCmd(option);
+		if (e != 0)
+			return e->exec(option);
+	}
+	return CMD_EXEC_NOP;
 }
 
 // For each CmdExec* in _cmdMap, call its "help()" to print out the help msg.
 // Print an endl at the end.
-void
-CmdParser::printHelps() const
-{
-   // TODO...
+void CmdParser::printHelps() const{
+	// TODO...
+
+	CmdMap::const_iterator it=_cmdMap.begin();
+	
+	for( ; it!=_cmdMap.end(); it++){
+	
+		(*it).second -> help();	
+
+	}
+	
+	cout << endl;
+
 }
 
-void
-CmdParser::printHistory(int nPrint) const
-{
-   assert(_tempCmdStored == false);
-   if (_history.empty()) {
-      cout << "Empty command history!!" << endl;
-      return;
-   }
-   int s = _history.size();
-   if ((nPrint < 0) || (nPrint > s))
-      nPrint = s;
-   for (int i = s - nPrint; i < s; ++i)
-      cout << "   " << i << ": " << _history[i] << endl;
+void CmdParser::printHistory(int nPrint) const{
+
+	assert(_tempCmdStored == false);
+	if (_history.empty()) {
+		cout << "Empty command history!!" << endl;
+		return;
+	}
+	int s = _history.size();
+	if ((nPrint < 0) || (nPrint > s))
+		nPrint = s;
+	for (int i = s - nPrint; i < s; ++i)
+		cout << "   " << i << ": " << _history[i] << endl;
+
 }
 
 
@@ -137,16 +149,32 @@ CmdParser::printHistory(int nPrint) const
 // 3. Get the command options from the trailing part of str (i.e. second
 //    words and beyond) and store them in "option"
 //
-CmdExec*
-CmdParser::parseCmd(string& option)
-{
-   assert(_tempCmdStored == false);
-   assert(!_history.empty());
-   string str = _history.back();
+CmdExec* CmdParser::parseCmd(string& option){
 
-   // TODO...
-   assert(str[0] != 0 && str[0] != ' ');
-   return NULL;
+	assert(_tempCmdStored == false);
+	assert(!_history.empty());
+	string str = _history.back();
+
+	// TODO...
+	string token;
+	myStrGetTok(str, token);	
+	CmdExec* cmd = getCmd(token);
+
+	if(cmd){
+		
+		option=str.substr(token.length());
+
+	}
+	else{
+	
+		cout << "Illegal command!! \"" << token << "\"";
+	
+	}
+	
+	
+	assert(str[0] != 0 && str[0] != ' ');
+	return cmd;
+
 }
 
 // This function is called by pressing 'Tab'.
@@ -209,10 +237,10 @@ CmdParser::parseCmd(string& option)
 //    [After Tab]
 //    ==> Beep and stay in the same location
 //
-void
+	void
 CmdParser::listCmd(const string& str)
 {
-   // TODO...
+	// TODO...
 }
 
 // cmd is a copy of the original input
@@ -227,13 +255,35 @@ CmdParser::listCmd(const string& str)
 //    ==> Checked by the CmdExec::checkOptCmd(const string&) function
 // 3. All string comparison are "case-insensitive".
 //
-CmdExec*
-CmdParser::getCmd(string cmd)
-{
-   CmdExec* e = 0;
-   // TODO...
-   // call CmdExec::checkOptCmd(const string&) if needed...
-   return e;
+CmdExec* CmdParser::getCmd(string cmd){
+
+	CmdExec* e = 0;
+	// TODO...
+	// call CmdExec::checkOptCmd(const string&) if needed...
+
+//search
+	CmdMap::iterator it=_cmdMap.begin();
+	bool found=false;
+
+	for(; it!=_cmdMap.end() && !found; it++){
+	
+		string compared=(*it).first;
+		
+		if(myStrNCmp(cmd, compared, compared.length())==0) found=true;
+
+	}
+		
+//check optional
+	if(found){
+	
+		string remaindar=cmd.substr((*it).first.length());
+		e=(*it).second;
+		if(!e->checkOptCmd(remaindar)) e=0;
+
+	}
+	
+	return e;
+
 }
 
 
@@ -248,18 +298,18 @@ bool
 CmdExec::lexSingleOption
 (const string& option, string& token, bool optional) const
 {
-   size_t n = myStrGetTok(option, token);
-   if (!optional) {
-      if (token.size() == 0) {
-         errorOption(CMD_OPT_MISSING, "");
-         return false;
-      }
-   }
-   if (n != string::npos) {
-      errorOption(CMD_OPT_EXTRA, option.substr(n));
-      return false;
-   }
-   return true;
+	size_t n = myStrGetTok(option, token);
+	if (!optional) {
+		if (token.size() == 0) {
+			errorOption(CMD_OPT_MISSING, "");
+			return false;
+		}
+	}
+	if (n != string::npos) {
+		errorOption(CMD_OPT_EXTRA, option.substr(n));
+		return false;
+	}
+	return true;
 }
 
 // if nOpts is specified (!= 0), the number of tokens must be exactly = nOpts
@@ -269,48 +319,48 @@ bool
 CmdExec::lexOptions
 (const string& option, vector<string>& tokens, size_t nOpts) const
 {
-   string token;
-   size_t n = myStrGetTok(option, token);
-   while (token.size()) {
-      tokens.push_back(token);
-      n = myStrGetTok(option, token, n);
-   }
-   if (nOpts != 0) {
-      if (tokens.size() < nOpts) {
-         errorOption(CMD_OPT_MISSING, "");
-         return false;
-      }
-      if (tokens.size() > nOpts) {
-         errorOption(CMD_OPT_EXTRA, tokens[nOpts]);
-         return false;
-      }
-   }
-   return true;
+	string token;
+	size_t n = myStrGetTok(option, token);
+	while (token.size()) {
+		tokens.push_back(token);
+		n = myStrGetTok(option, token, n);
+	}
+	if (nOpts != 0) {
+		if (tokens.size() < nOpts) {
+			errorOption(CMD_OPT_MISSING, "");
+			return false;
+		}
+		if (tokens.size() > nOpts) {
+			errorOption(CMD_OPT_EXTRA, tokens[nOpts]);
+			return false;
+		}
+	}
+	return true;
 }
 
 CmdExecStatus
 CmdExec::errorOption(CmdOptionError err, const string& opt) const
 {
-   switch (err) {
-      case CMD_OPT_MISSING:
-         cerr << "Missing option";
-         if (opt.size()) cerr << " after (" << opt << ")";
-         cerr << "!!" << endl;
-      break;
-      case CMD_OPT_EXTRA:
-         cerr << "Extra option!! (" << opt << ")" << endl;
-      break;
-      case CMD_OPT_ILLEGAL:
-         cerr << "Illegal option!! (" << opt << ")" << endl;
-      break;
-      case CMD_OPT_FOPEN_FAIL:
-         cerr << "Error: cannot open file \"" << opt << "\"!!" << endl;
-      break;
-      default:
-         cerr << "Unknown option error type!! (" << err << ")" << endl;
-      exit(-1);
-   }
-   return CMD_EXEC_ERROR;
+	switch (err) {
+		case CMD_OPT_MISSING:
+			cerr << "Missing option";
+			if (opt.size()) cerr << " after (" << opt << ")";
+			cerr << "!!" << endl;
+			break;
+		case CMD_OPT_EXTRA:
+			cerr << "Extra option!! (" << opt << ")" << endl;
+			break;
+		case CMD_OPT_ILLEGAL:
+			cerr << "Illegal option!! (" << opt << ")" << endl;
+			break;
+		case CMD_OPT_FOPEN_FAIL:
+			cerr << "Error: cannot open file \"" << opt << "\"!!" << endl;
+			break;
+		default:
+			cerr << "Unknown option error type!! (" << err << ")" << endl;
+			exit(-1);
+	}
+	return CMD_EXEC_ERROR;
 }
 
 // Called by "getCmd()"
@@ -322,6 +372,10 @@ CmdExec::errorOption(CmdOptionError err, const string& opt) const
 bool
 CmdExec::checkOptCmd(const string& check) const
 {
-   // TODO...
-   return true;
+	// TODO...
+
+	bool returnedValue=false;
+	if(check.length()<=_optCmd.length()) returnedValue = (myStrNCmp(_optCmd, check, check.length())==0) ? true : false;
+
+	return returnedValue;
 }
