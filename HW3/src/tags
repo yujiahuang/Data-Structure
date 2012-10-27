@@ -154,9 +154,9 @@ _tempCmdStored	cmd/cmdParser.h	/^   bool      _tempCmdStored;         \/\/ When 
 _varMap	calc/calcModNum.cpp	/^CalcMap ModNum::_varMap;$/;"	m	class:ModNum	file:
 _varMap	calc/calcModNum.h	/^		static CalcMap     _varMap;$/;"	m	class:ModNum
 checkOptCmd	cmd/cmdParser.cpp	/^CmdExec::checkOptCmd(const string& check) const$/;"	f	class:CmdExec
-closeDofile	cmd/cmdParser.cpp	/^CmdParser::closeDofile()$/;"	f	class:CmdParser
+closeDofile	cmd/cmdParser.cpp	/^void CmdParser::closeDofile(){$/;"	f	class:CmdParser
 errorOption	cmd/cmdParser.cpp	/^CmdExec::errorOption(CmdOptionError err, const string& opt) const$/;"	f	class:CmdExec
-exec	calc/calcCmd.cpp	/^MaddCmd::exec(const string& option)$/;"	f	class:MaddCmd
+exec	calc/calcCmd.cpp	/^CmdExecStatus MaddCmd::exec(const string& option){$/;"	f	class:MaddCmd
 exec	calc/calcCmd.cpp	/^McmpCmd::exec(const string& option)$/;"	f	class:McmpCmd
 exec	calc/calcCmd.cpp	/^MmultCmd::exec(const string& option)$/;"	f	class:MmultCmd
 exec	calc/calcCmd.cpp	/^MprintCmd::exec(const string& option)$/;"	f	class:MprintCmd
@@ -169,7 +169,7 @@ exec	cmd/cmdCommon.cpp	/^HistoryCmd::exec(const string& option)$/;"	f	class:Hist
 exec	cmd/cmdCommon.cpp	/^QuitCmd::exec(const string& option)$/;"	f	class:QuitCmd
 execOneCmd	cmd/cmdParser.cpp	/^CmdParser::execOneCmd()$/;"	f	class:CmdParser
 getChar	cmd/cmdCharDef.cpp	/^CmdParser::getChar(istream& istr) const$/;"	f	class:CmdParser
-getCmd	cmd/cmdParser.cpp	/^CmdParser::getCmd(string cmd)$/;"	f	class:CmdParser
+getCmd	cmd/cmdParser.cpp	/^CmdExec* CmdParser::getCmd(string cmd){$/;"	f	class:CmdParser
 getModulus	calc/calcModNum.h	/^		static int getModulus() { return _modulus; }$/;"	f	class:ModNum
 getOptCmd	cmd/cmdParser.h	/^   const string& getOptCmd() const { return _optCmd; }$/;"	f	class:CmdExec
 getStrVal	calc/calcModNum.h	/^		static bool getStrVal(const string& s, ModNum& n) { $/;"	f	class:ModNum
@@ -185,7 +185,7 @@ help	cmd/cmdCommon.cpp	/^DofileCmd::help() const$/;"	f	class:DofileCmd
 help	cmd/cmdCommon.cpp	/^HelpCmd::help() const$/;"	f	class:HelpCmd
 help	cmd/cmdCommon.cpp	/^HistoryCmd::help() const$/;"	f	class:HistoryCmd
 help	cmd/cmdCommon.cpp	/^QuitCmd::help() const$/;"	f	class:QuitCmd
-initCalcCmd	calc/calcCmd.cpp	/^initCalcCmd()$/;"	f
+initCalcCmd	calc/calcCmd.cpp	/^bool initCalcCmd(){$/;"	f
 initCommonCmd	cmd/cmdCommon.cpp	/^initCommonCmd()$/;"	f
 isValidVarName	util/myString.cpp	/^isValidVarName(const string& str)$/;"	f
 lexOptions	cmd/cmdParser.cpp	/^CmdExec::lexOptions$/;"	f	class:CmdExec
@@ -213,10 +213,10 @@ operator -=	calc/calcModNum.h	/^		ModNum& operator -= (const ModNum& n) { _num=m
 operator <<	calc/calcModNum.cpp	/^ostream& operator << (ostream& os, const ModNum& n){$/;"	f
 operator =	calc/calcModNum.h	/^		ModNum& operator = (const ModNum& n) { _num=n._num; return (*this); }$/;"	f	class:ModNum
 operator ==	calc/calcModNum.h	/^		bool operator == (const ModNum& n) const { return (_num==n._num); }$/;"	f	class:ModNum
-parseCmd	cmd/cmdParser.cpp	/^CmdParser::parseCmd(string& option)$/;"	f	class:CmdParser
+parseCmd	cmd/cmdParser.cpp	/^CmdExec* CmdParser::parseCmd(string& option){$/;"	f	class:CmdParser
 print	test/test.cpp	/^void print()$/;"	f
-printHelps	cmd/cmdParser.cpp	/^CmdParser::printHelps() const$/;"	f	class:CmdParser
-printHistory	cmd/cmdParser.cpp	/^CmdParser::printHistory(int nPrint) const$/;"	f	class:CmdParser
+printHelps	cmd/cmdParser.cpp	/^void CmdParser::printHelps() const{$/;"	f	class:CmdParser
+printHistory	cmd/cmdParser.cpp	/^void CmdParser::printHistory(int nPrint) const{$/;"	f	class:CmdParser
 printPrompt	cmd/cmdParser.h	/^   void printPrompt() const { cout << _prompt; }$/;"	f	class:CmdParser
 printVars	calc/calcModNum.h	/^		static void printVars() {$/;"	f	class:ModNum
 regCmd	cmd/cmdParser.cpp	/^CmdParser::regCmd(const string& cmd, unsigned nCmp, CmdExec* e)$/;"	f	class:CmdParser

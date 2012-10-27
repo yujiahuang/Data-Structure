@@ -83,9 +83,15 @@ class ModNum
 		static bool getStrVal(const string& s, ModNum& n) { 
 
 			bool returnedValue=false;
+			int intStr;
 
 			if(isValidVarName(s)) returnedValue=getVarVal(s, n); 
-			else if(myStr2Int(s, n._num)) returnedValue=true;
+			else if(myStr2Int(s, intStr)){
+			
+				n._num=ModNum::modulate(intStr);
+				returnedValue=true;
+			
+			}
 			else returnedValue=false;
 
 			return returnedValue; 
@@ -106,10 +112,24 @@ class ModNum
 			}	
 
 		}
-		static void resetVapMap() {}
+		static void resetVapMap() {
+		
+			//TODO?
+			_varMap.erase(_varMap.begin(), _varMap.end());
+		
+		}
 
 		// friend functions
 		friend ostream& operator << (ostream&, const ModNum&);  // TODO
+
+		//make some int be within [0, _modulus)
+		static int modulate(int i){
+
+			if(i>=_modulus) i=i%_modulus;
+			while(i<0){ i+=_modulus; } 
+			return i;
+
+		}
 
 	private:
 		// Data members
@@ -118,15 +138,6 @@ class ModNum
 
 		static int         _modulus;
 		static CalcMap     _varMap;
-
-		//make some int be within [0, _modulus)
-		int modulate(int i){
-
-			if(i>=_modulus) i=i%_modulus;
-			while(i<0){ i+=_modulus; } 
-			return i;
-
-		}
 
 };
 

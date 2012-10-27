@@ -33,8 +33,8 @@ initCommonCmd()
 CmdExecStatus
 HelpCmd::exec(const string& option)
 {
-   // check option
-   string token;
+  // check option
+	string token;
    if (!CmdExec::lexSingleOption(option, token))
       return CMD_EXEC_ERROR;
    if (token.size()) {
@@ -109,7 +109,7 @@ QuitCmd::help() const
 CmdExecStatus
 HistoryCmd::exec(const string& option)
 {
-   // check option
+	// check option
    string token;
    if (!CmdExec::lexSingleOption(option, token))
       return CMD_EXEC_ERROR;

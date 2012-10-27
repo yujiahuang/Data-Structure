@@ -31,129 +31,117 @@ void mybeep();
 //----------------------------------------------------------------------
 // return false if file cannot be opened
 // Please refer to the comments in "DofileCmd::exec", cmdCommon.cpp
-bool CmdParser::openDofile(const string& dof){
+/*bool CmdParser::openDofile(const string& dof){
 
 	// TODO...
 	bool returnedValue=false;
 
-	if(_dofile){
+	cout << "//nothing here//";
 
-		if(_dofileStack.size()>1024) return false;
-
-		_dofileStack.push(_dofile);
-		_dofile=new ifstream(dof.c_str());
-
-		//cout << "//opening" << _dofile << "//";
-		
-		if(!_dofile->fail()){
-		
-			cmdMgr->execOneCmd();
-			returnedValue = true;
-		
-		}
-		else{
-		
-			returnedValue = false;
-			cout << "Error: cannot open file \"" << dof << "\"!!";
-			delete _dofile;
-			_dofile = 0;
+	if(_dofile->is_open()){
 	
+		ifstream *tmpDo = _dofile;
+		ifstream newDof;
+		newDof.open(dof.c_str());
+
+		if(!newDof.fail()){
+
+			_dofile = &newDof;
+			returnedValue = true;
+			execOneCmd();
+			
 		}
-		_dofile = _dofileStack.top();
-		_dofileStack.pop();
+		else returnedValue = false;
+		
+		_dofile = tmpDo;
+		execOneCmd();
 
 	}
 	else{
-	
-		_dofile = new ifstream(dof.c_str());
-	
-		//cout << "//opening" << _dofile << "//";
 
-		if(!_dofile->fail()){
-		
-			returnedValue=true;
-
-		}
-		else{
-
-			returnedValue = false;
-			cout << "Error: cannot open file \"" << dof << "\"!!";
-			delete _dofile;
-			_dofile = 0;
+		ifstream newDof;
+		newDof.open(dof.c_str());
+		returnedValue = !newDof.fail();
+		if(returnedValue){
 			
+			_dofile = &newDof;
+			execOneCmd();
+
 		}
 
 	}
-	
+
 	return returnedValue;
 
+
+
+}*/
+bool
+CmdParser::openDofile(const string& dof)
+{
+   // TODO...
+   _dofile = new ifstream(dof.c_str());
+   return _dofile;
 }
 
 // Must make sure _dofile != 0
-void CmdParser::closeDofile(){
-
-	assert(_dofile != 0);
-	// TODO...
-
-	//cout << "//closing" << _dofile << "//";
-
-	_dofile -> close();
-	_dofile -> clear();
-
-	delete _dofile;
-	_dofile=0;
-
+void
+CmdParser::closeDofile()
+{
+   assert(_dofile != 0);
+   // TODO...
+   delete _dofile;
 }
 
 // Return false if registration fails
-	bool
+bool
 CmdParser::regCmd(const string& cmd, unsigned nCmp, CmdExec* e)
 {
-	// Make sure cmd hasn't been registered and won't cause ambiguity
-	string str = cmd;
-	unsigned s = str.size();
-	if (s < nCmp) return false;
-	while (true) {
-		if (getCmd(str)) return false;
-		if (s == nCmp) break;
-		str.resize(--s);
-	}
+   // Make sure cmd hasn't been registered and won't cause ambiguity
+   string str = cmd;
+   unsigned s = str.size();
+   if (s < nCmp) return false;
+   while (true) {
+      if (getCmd(str)) return false;
+      if (s == nCmp) break;
+      str.resize(--s);
+   }
 
-	// Change the first nCmp characters to upper case to facilitate
-	//    case-insensitive comparison later.
-	// The strings stored in _cmdMap are all upper case
-	//
-	assert(str.size() == nCmp);  // str is now mandCmd
-	string& mandCmd = str;
-	for (unsigned i = 0; i < nCmp; ++i)
-		mandCmd[i] = toupper(mandCmd[i]);
-	string optCmd = cmd.substr(nCmp);
-	assert(e != 0);
-	e->setOptCmd(optCmd);
+   // Change the first nCmp characters to upper case to facilitate
+   //    case-insensitive comparison later.
+   // The strings stored in _cmdMap are all upper case
+   //
+   assert(str.size() == nCmp);  // str is now mandCmd
+   string& mandCmd = str;
+   for (unsigned i = 0; i < nCmp; ++i)
+      mandCmd[i] = toupper(mandCmd[i]);
+   string optCmd = cmd.substr(nCmp);
+   assert(e != 0);
+   e->setOptCmd(optCmd);
 
-	// insert (mandCmd, e) to _cmdMap; return false if insertion fails.
-	return (_cmdMap.insert(CmdRegPair(mandCmd, e))).second;
+   // insert (mandCmd, e) to _cmdMap; return false if insertion fails.
+   return (_cmdMap.insert(CmdRegPair(mandCmd, e))).second;
 }
 
 
 // Return false on "quit" or if excetion happens
-	CmdExecStatus
+CmdExecStatus
 CmdParser::execOneCmd()
 {
-	bool newCmd = false;
-	if (_dofile != 0)
-		newCmd = readCmd(*_dofile);
-	else
-		newCmd = readCmd(cin);
+   bool newCmd = false;
+   if (_dofile != 0)
+      newCmd = readCmd(*_dofile);
+   else
+      newCmd = readCmd(cin);
 
-	// execute the command
-	if (newCmd) {
-		string option;
-		CmdExec* e = parseCmd(option);
-		if (e != 0)
-			return e->exec(option);
-	}
-	return CMD_EXEC_NOP;
+   // execute the command
+   if (newCmd) {
+      string option;
+      CmdExec* e = parseCmd(option);
+      if (e != 0)
+         return e->exec(option);
+   }
+   return CMD_EXEC_NOP;
 }
 
 // For each CmdExec* in _cmdMap, call its "help()" to print out the help msg.
@@ -162,13 +150,13 @@ void CmdParser::printHelps() const{
 	// TODO...
 
 	CmdMap::const_iterator it=_cmdMap.begin();
-
+	
 	for( ; it!=_cmdMap.end(); it++){
-
+	
 		(*(*it).second).help();	
 
 	}
-
+	
 	cout << endl;
 
 }
@@ -217,17 +205,17 @@ CmdExec* CmdParser::parseCmd(string& option){
 	CmdExec* cmd = getCmd(token);
 
 	if(cmd){
-
+		
 		option=str.substr(token.length());
 
 	}
 	else{
-
-		cout << "Illegal command!! \"" << token << "\"" << endl;
-
+	
+		cout << "Illegal command!! \"" << token << "\"";
+	
 	}
-
-
+	
+	
 	assert(str[0] != 0 && str[0] != ' ');
 	return cmd;
 
@@ -317,15 +305,15 @@ CmdExec* CmdParser::getCmd(string cmd){
 	// TODO...
 	// call CmdExec::checkOptCmd(const string&) if needed...
 
-	//search
+//search
 	CmdMap::iterator it=_cmdMap.begin();
 	bool found=false;
 	bool remain=false;
 
 	for(; it!=_cmdMap.end() && !found; it++){
-
+	
 		string compared=(*it).first;
-
+		cout << "//" << compared << "//";
 		//check if there is remaining chars
 		if(compared.length()<cmd.length()) remain=true;
 		else remain=false;
@@ -334,17 +322,17 @@ CmdExec* CmdParser::getCmd(string cmd){
 		if(compared.length()<=cmd.length() && myStrNCmp(cmd, compared, compared.length())==0) found=true;
 
 	}
-
-	//check optional
+	
+//check optional
 	if(found){
-
+	
 		it--;
 		e=(*it).second;
 		if(remain){
 
 			string remaindar=cmd.substr((*it).first.length());
 			if(!e->checkOptCmd(remaindar)) e=0;
-
+		
 		}
 
 	}

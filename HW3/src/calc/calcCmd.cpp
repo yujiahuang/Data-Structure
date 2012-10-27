@@ -1,246 +1,348 @@
 /****************************************************************************
-  FileName     [ calcCmd.cpp ]
-  PackageName  [ calc ]
-  Synopsis     [ Define modular calculator commands ]
-  Author       [ Chung-Yang (Ric) Huang ]
-  Copyright    [ Copyleft(c) 2007-2012 LaDs(III), GIEE, NTU, Taiwan ]
-****************************************************************************/
+	FileName     [ calcCmd.cpp ]
+	PackageName  [ calc ]
+	Synopsis     [ Define modular calculator commands ]
+	Author       [ Chung-Yang (Ric) Huang ]
+	Copyright    [ Copyleft(c) 2007-2012 LaDs(III), GIEE, NTU, Taiwan ]
+ ****************************************************************************/
 #include <iostream>
 #include <iomanip>
 #include "util.h"
 #include "calcCmd.h"
 #include "calcModNum.h"
 
-bool
-initCalcCmd()
-{
-   // TODO...
-   return true;
+bool initCalcCmd(){
+
+	// TODO...
+	if (!(cmdMgr->regCmd("MADD", 4, new MaddCmd) &&
+				cmdMgr->regCmd("MCOMPare", 5, new McmpCmd) &&
+				cmdMgr->regCmd("MMULTiply", 5, new MmultCmd) &&
+				cmdMgr->regCmd("MPrint", 2, new MprintCmd) &&
+				cmdMgr->regCmd("MSET", 4, new MsetCmd) &&
+				cmdMgr->regCmd("MSUBtract", 4, new MsubCmd) &&
+				cmdMgr->regCmd("MVARiable", 4, new MvarCmd)
+		 )) {
+		cerr << "Registering \"init\" commands fails... exiting" << endl;
+		return false;
+	}
+
+	return true;
+
 }
 
 //----------------------------------------------------------------------
 //    MSET <(int modulus)>
 //----------------------------------------------------------------------
-CmdExecStatus
+	CmdExecStatus
 MsetCmd::exec(const string& option)
 {
-   // check option
-   string token;
-   if (!CmdExec::lexSingleOption(option, token, false))
-      return CMD_EXEC_ERROR;
+	// check option
+	string token;
+	if (!CmdExec::lexSingleOption(option, token, false))
+		return CMD_EXEC_ERROR;
 
-   int m;
-   if (!myStr2Int(token, m) || (m <= 0))
-      return CmdExec::errorOption(CMD_OPT_ILLEGAL, token);
+	int m;
+	if (!myStr2Int(token, m) || (m <= 0))
+		return CmdExec::errorOption(CMD_OPT_ILLEGAL, token);
 
-   if (ModNum::getModulus() != m) {
-      ModNum::setModulus(m);
-      // modulus changed; all the numbers need to be reset
-      ModNum::resetVapMap();
-   }
+	if (ModNum::getModulus() != m) {
+		ModNum::setModulus(m);
+		// modulus changed; all the numbers need to be reset
+		ModNum::resetVapMap();
+	}
 
-   return CMD_EXEC_DONE;
+	return CMD_EXEC_DONE;
 }
 
 void
 MsetCmd::usage(ostream& os) const
 {
-   os << "Usage: MSET <(int modulus)>" << endl;
+	os << "Usage: MSET <(int modulus)>" << endl;
 }
 
 void
 MsetCmd::help() const
 {
-   cout << setw(15) << left << "MSET: "
-        << "set the modulus of the modular number calculator" << endl;
+	cout << setw(15) << left << "MSET: "
+		<< "set the modulus of the modular number calculator" << endl;
 }
 
 
 //----------------------------------------------------------------------
 //    MVARiable <(string var)> <(string var) | (int val)>
 //----------------------------------------------------------------------
-CmdExecStatus
+	CmdExecStatus
 MvarCmd::exec(const string& option)
 {
-   // check option
-   vector<string> options;
-   if (!CmdExec::lexOptions(option, options, 2))
-      return CMD_EXEC_ERROR;
+	// check option
+	vector<string> options;
+	if (!CmdExec::lexOptions(option, options, 2))
+		return CMD_EXEC_ERROR;
 
-   // check option 1
-   if (!isValidVarName(options[0]))
-      return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[0]);
-   // check option 2
-   ModNum v;
-   if (!ModNum::getStrVal(options[1], v))
-      return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[1]);
+	// check option 1
+	if (!isValidVarName(options[0]))
+		return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[0]);
+	// check option 2
+	ModNum v;
+	if (!ModNum::getStrVal(options[1], v))
+		return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[1]);
 
-   ModNum::setVarVal(options[0], v);
-   cout << options[0] << " = " << v << endl;
+	ModNum::setVarVal(options[0], v);
+	cout << options[0] << " = " << v << endl;
 
-   return CMD_EXEC_DONE;
+	return CMD_EXEC_DONE;
 }
 
 void
 MvarCmd::usage(ostream& os) const
 {
-   os << "Usage: MVARiable <(string var)> <(string var) | (int val)>"
-      << endl;
+	os << "Usage: MVARiable <(string var)> <(string var) | (int val)>"
+		<< endl;
 }
 
 void
 MvarCmd::help() const
 {
-   cout << setw(15) << left << "MVARiable: "
-        << "set the variable value of the modular number calculator"
-        << endl;
+	cout << setw(15) << left << "MVARiable: "
+		<< "set the variable value of the modular number calculator"
+		<< endl;
 }
 
 
 //----------------------------------------------------------------------
 //    MADD <(string y)> <(string a) | (int va)> <(string b) | (int vb)>
 //----------------------------------------------------------------------
-CmdExecStatus
-MaddCmd::exec(const string& option)
-{
-   // TODO...
+CmdExecStatus MaddCmd::exec(const string& option){
 
-   return CMD_EXEC_DONE;
+	// TODO...
+
+	// check option
+	vector<string> options;
+	if (!CmdExec::lexOptions(option, options, 3))
+		return CMD_EXEC_ERROR;
+
+	// check option 1
+	if (!isValidVarName(options[0]))
+		return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[0]);
+	
+	// check option 2
+	ModNum v1;
+	if (!ModNum::getStrVal(options[1], v1))
+		return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[1]);
+	
+	// check option 3
+	ModNum v2;
+	if (!ModNum::getStrVal(options[2], v2))
+		return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[2]);
+
+	//do things	
+	ModNum result=ModNum(v1+v2);
+	ModNum::setVarVal(options[0], result);
+
+	cout << options[0] << "(" << result << ") = " 
+			 << options[1] << " + " << options[2] << endl;
+
+	return CMD_EXEC_DONE;
+
 }
 
 void
 MaddCmd::usage(ostream& os) const
 {
-   os << "Usage: MADD "
-      << "<(string y)> <(string a) | (int va)> <(string b) | (int vb)>"
-      << endl;
+	os << "Usage: MADD "
+		<< "<(string y)> <(string a) | (int va)> <(string b) | (int vb)>"
+		<< endl;
 }
 
 void
 MaddCmd::help() const
 {
-   cout << setw(15) << left << "MADD: "
-        << "perform modular number addition" << endl;
+	cout << setw(15) << left << "MADD: "
+		<< "perform modular number addition" << endl;
 }
 
 
 //----------------------------------------------------------------------
 //    MSUBtract <(string y)> <(string a) | (int va)> <(string b) | (int vb)>
 //----------------------------------------------------------------------
-CmdExecStatus
-MsubCmd::exec(const string& option)
-{
-   // TODO...
+CmdExecStatus MsubCmd::exec(const string& option){
+	// TODO...
+	
+	// check option
+	vector<string> options;
+	if (!CmdExec::lexOptions(option, options, 3))
+		return CMD_EXEC_ERROR;
 
-   return CMD_EXEC_DONE;
+	// check option 1
+	if (!isValidVarName(options[0]))
+		return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[0]);
+	
+	// check option 2
+	ModNum v1;
+	if (!ModNum::getStrVal(options[1], v1))
+		return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[1]);
+	
+	// check option 3
+	ModNum v2;
+	if (!ModNum::getStrVal(options[2], v2))
+		return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[2]);
+
+	//do things	
+	ModNum result=ModNum(v1-v2);
+	ModNum::setVarVal(options[0], result);
+
+	cout << options[0] << "(" << result << ") = " 
+			 << options[1] << " - " << options[2] << endl;
+
+
+	return CMD_EXEC_DONE;
+
 }
 
 void
 MsubCmd::usage(ostream& os) const
 {
-   os << "Usage: MSUBtract "
-      << "<(string y)> <(string a) | (int va)> <(string b) | (int vb)>"
-      << endl;
+	os << "Usage: MSUBtract "
+		<< "<(string y)> <(string a) | (int va)> <(string b) | (int vb)>"
+		<< endl;
 }
 
 void
 MsubCmd::help() const
 {
-   cout << setw(15) << left << "MSUBtract: "
-        << "perform modular number subtraction" << endl;
+	cout << setw(15) << left << "MSUBtract: "
+		<< "perform modular number subtraction" << endl;
 }
 
 
 //----------------------------------------------------------------------
 //    MMULTiply <(string y)> <(string a) | (int va)> <(string b) | (int vb)>
 //----------------------------------------------------------------------
-CmdExecStatus
-MmultCmd::exec(const string& option)
-{
-   // TODO...
-   
-   return CMD_EXEC_DONE;
+CmdExecStatus MmultCmd::exec(const string& option){
+	// TODO...
+	
+	// check option
+	vector<string> options;
+	if (!CmdExec::lexOptions(option, options, 3))
+		return CMD_EXEC_ERROR;
+
+	// check option 1
+	if (!isValidVarName(options[0]))
+		return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[0]);
+	
+	// check option 2
+	ModNum v1;
+	if (!ModNum::getStrVal(options[1], v1))
+		return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[1]);
+	
+	// check option 3
+	ModNum v2;
+	if (!ModNum::getStrVal(options[2], v2))
+		return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[2]);
+
+	//do things	
+	ModNum result=ModNum(v1*v2);
+	ModNum::setVarVal(options[0], result);
+
+	cout << options[0] << "(" << result << ") = " 
+			 << v1 << " * " << v2 << endl;
+
+	return CMD_EXEC_DONE;
 }
 
 void
 MmultCmd::usage(ostream& os) const
 {
-   os << "Usage: MMULTiply "
-      << "<(string y)> <(string a) | (int va)> <(string b) | (int vb)>"
-      << endl;
+	os << "Usage: MMULTiply "
+		<< "<(string y)> <(string a) | (int va)> <(string b) | (int vb)>"
+		<< endl;
 }
 
 void
 MmultCmd::help() const
 {
-   cout << setw(15) << left << "MMULTiply: "
-        << "perform modular number multiplication" << endl;
+	cout << setw(15) << left << "MMULTiply: "
+		<< "perform modular number multiplication" << endl;
 }
 
 
 //----------------------------------------------------------------------
 //    MCOMPare <(string var1) | (int val1)> <(string var2) | (int val2)>
 //----------------------------------------------------------------------
-CmdExecStatus
-McmpCmd::exec(const string& option)
-{
-   // TODO...
+CmdExecStatus McmpCmd::exec(const string& option){
+	// TODO...
+	
+	// check option
+	vector<string> options;
+	if (!CmdExec::lexOptions(option, options, 2))
+		return CMD_EXEC_ERROR;
 
-   return CMD_EXEC_DONE;
+	// check option 1
+	ModNum v1;
+	if (!ModNum::getStrVal(options[0], v1))
+		return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[0]);
+	// check option 2
+	ModNum v2;
+	if (!ModNum::getStrVal(options[1], v2))
+		return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[1]);
+
+	(v1==v2) ? cout << options[0] << " == " << options[1] << endl : cout << options[0] << " != " << options[1] << endl;
+
+	return CMD_EXEC_DONE;
 }
 
-void
+void 
 McmpCmd::usage(ostream& os) const
 {
-   os << "Usage: MCOMPare "
-      << "<(string var1) | (int val1)> <(string var2) | (int val2)>"
-      << endl;
+	os << "Usage: MCOMPare "
+		<< "<(string var1) | (int val1)> <(string var2) | (int val2)>"
+		<< endl;
 }
 
 void
 McmpCmd::help() const
 {
-   cout << setw(15) << left << "MCOMPare: "
-        << "compare if two variables or values are equal"
-        << endl;
+	cout << setw(15) << left << "MCOMPare: "
+		<< "compare if two variables or values are equal"
+		<< endl;
 }
 
 
 //----------------------------------------------------------------------
 //    MPrint [(string var)...]
 //----------------------------------------------------------------------
-CmdExecStatus
+	CmdExecStatus
 MprintCmd::exec(const string& option)
 {
-   vector<string> options;
-   CmdExec::lexOptions(option, options);
-   size_t n = options.size();
-   if (n) {
-      for (size_t i = 0; i < n; ++i) {
-         ModNum val;
-         if (isValidVarName(options[i]) && ModNum::getVarVal(options[i], val))
-            cout << options[i] << " = " << val << endl;
-         else
-            CmdExec::errorOption(CMD_OPT_ILLEGAL, options[i]);
-      }
-   }
-   else
-      ModNum::printVars();
-   return CMD_EXEC_DONE;
+	vector<string> options;
+	CmdExec::lexOptions(option, options);
+	size_t n = options.size();
+	if (n) {
+		for (size_t i = 0; i < n; ++i) {
+			ModNum val;
+			if (isValidVarName(options[i]) && ModNum::getVarVal(options[i], val))
+				cout << options[i] << " = " << val << endl;
+			else
+				CmdExec::errorOption(CMD_OPT_ILLEGAL, options[i]);
+		}
+	}
+	else
+		ModNum::printVars();
+	return CMD_EXEC_DONE;
 }
 
 void
 MprintCmd::usage(ostream& os) const
 {
-   os << "Usage: MPrint [(string var)...]" << endl;
+	os << "Usage: MPrint [(string var)...]" << endl;
 }
 
 void
 MprintCmd::help() const
 {
-   cout << setw(15) << left << "MPrint: "
-        << "print the variables of the modular number calculator"
-        << endl;
+	cout << setw(15) << left << "MPrint: "
+		<< "print the variables of the modular number calculator"
+		<< endl;
 }
 
 
