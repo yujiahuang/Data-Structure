@@ -293,10 +293,142 @@ CmdExec* CmdParser::parseCmd(string& option){
 //    [After Tab]
 //    ==> Beep and stay in the same location
 //
-	void
-CmdParser::listCmd(const string& str)
-{
+void CmdParser::listCmd(const string& str){
+
 	// TODO...
+	string inputStr = str.substr(0, _readBufPtr-_readBuf);
+
+	CmdMap::iterator it=_cmdMap.begin();
+	CmdMap foundMap;
+	bool match=false;
+
+	//iterate thru cmdMap
+	for(int count=0; it!=_cmdMap.end(); it++, count++){
+
+		string compared=(*it).first;
+		
+		//check if is on first word
+		if(_readBufPtr!=_readBuf){
+		
+			bool found = false;
+			bool remain=false;
+
+			//check if there is remaining chars
+			if(compared.length()<inputStr.length()) remain=true;
+			else remain=false;
+
+			//check if found or match
+
+			//cout << "//" << inputStr.length() << "//" << compared.length() << "//";
+			if(inputStr.length()>0 && compared.length()<=inputStr.length() && myStrNCmp(inputStr, compared, compared.length())==0){
+
+				found=true;
+				match=true;
+
+			}
+			else if(inputStr.length()>0 && compared.length()>inputStr.length() && myStrNCmp(compared, inputStr, inputStr.length())==0){
+
+				found=true;
+
+			}
+
+			//cout << "//found checked//";
+
+			//if match, no need to check more
+			if(match){
+
+				CmdExec *e;
+				e=(*it).second;
+				cout << endl;
+				e->usage(cout);
+				reprintCmd();
+				break;
+
+			}
+
+			//check optional
+			if(found){
+
+				CmdExec *e;
+				e=(*it).second;
+				bool optCmdCorrect=false;
+				
+				if(remain){
+					
+					string remaindar=inputStr.substr((*it).first.length());
+					optCmdCorrect=e->checkOptCmd(remaindar);
+
+				}
+
+				if( optCmdCorrect || !remain){
+
+					foundMap.insert( CmdRegPair( (*it).first, (*it).second ) );
+
+				}
+
+			}
+
+		}
+		else{
+	
+			if(count%5==0) cout << endl; //print empty line
+			string cmd;
+			cmd.append(compared);
+			cmd.append((*it).second->getOptCmd());
+			cout << setw(12) << left << cmd; //print cmd
+		
+		}
+
+		//cout << "//found//" << found << "//match//" << match << "//remain//" << remain;
+
+	} //iteration end
+
+	//check found number
+	if(_readBufPtr!=_readBuf){ //'==' situation aready handled
+
+		if(foundMap.size()==0) mybeep();
+		else if(foundMap.size()==1 && !match){ //'match' situaltion already handled
+		
+			string outputStr;
+			outputStr.append(foundMap.begin()->first);
+			outputStr.append(foundMap.begin()->second->getOptCmd());
+			
+			string outputSub=outputStr.substr(_readBufPtr-_readBuf);
+
+			//handle _readBuf stuff
+			for(int i=0; i<(signed int)outputSub.length(); i++){
+			
+				insertChar(outputSub.c_str()[i]);
+			
+			}
+			insertChar(' ');
+			_readBufPtr+=outputSub.length();
+			_readBufEnd+=outputSub.length();
+	
+		} 
+		else if(foundMap.size()>1){
+	
+			cout << endl;
+			for(CmdMap::iterator i=foundMap.begin(); i!=foundMap.end(); i++){
+		
+				string output;
+				output.append((*i).first);
+				output.append((*i).second->getOptCmd());
+				cout << setw(12) << left << output;
+			
+			}
+			reprintCmd();
+		
+		}
+	
+	}
+	else{
+	
+		reprintCmd();
+
+	}
+
+
 }
 
 // cmd is a copy of the original input
