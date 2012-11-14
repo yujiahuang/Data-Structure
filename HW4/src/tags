@@ -1,0 +1,18 @@
+MEM_MGR_INIT	mem/memMgr.h	/^#define MEM_MGR_INIT(T) \\$/
+USE_MEM_MGR	mem/memMgr.h	/^#define USE_MEM_MGR(T)                            /
+downtoSizeT	mem/memMgr.h	/^#define downtoSizeT(t) 	int count=0;\\$/
+exec	mem/memCmd.cpp	/^MTResetCmd::exec(const string& option)$/
+help	mem/memCmd.cpp	/^MTResetCmd::help() const$/
+initMemCmd	mem/memCmd.cpp	/^initMemCmd()$/
+toSizeT	mem/memMgr.h	/^#define toSizeT(t)   		int count=0;\\$/
+usage	mem/memCmd.cpp	/^MTResetCmd::usage(ostream& os) const$/
+isValidVarName	util/myString.cpp	/^isValidVarName(const string& str)$/
+myGetChar	util/myGetChar.cpp	/^char myGetChar(istream& istr)$/
+myStr2Int	util/myString.cpp	/^myStr2Int(const string& str, int& num)$/
+myStrGetTok	util/myString.cpp	/^myStrGetTok(const string& str, string& tok, size_t/
+reset_keypress	util/myGetChar.cpp	/^static void reset_keypress(void)$/
+set_keypress	util/myGetChar.cpp	/^static void set_keypress(void)$/
+strlen	util/myString.cpp	/^\/\/ 1. strlen(s1) must >= n$/
+Mmain.cpp	main/main.cpp	/^main(int argc, char** argv)$/
+myexit	main/main.cpp	/^myexit()$/
+usage	main/main.cpp	/^usage()$/

@@ -1,0 +1,15 @@
+mtr 60
+mtp
+mtn -a 2 1
+mtp
+mtn 1
+mtp
+
+mtr 50
+mtp
+mtn -a 2 1
+mtp
+mtn 1
+mtp
+
+q -f
