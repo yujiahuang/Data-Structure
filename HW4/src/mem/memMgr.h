@@ -90,11 +90,12 @@ class MemBlock
 
 		bool returnedValue=true;
 		toSizeT(t);
-		if(t>getRemainSize) returnedValue=false;
 		
-		_ptr+=t;
+		if(t>getRemainSize()) returnedValue=false;
+		else _ptr+=t;
+		
 		ret=_ptr;
-
+	
 		return returnedValue;
 	}
 	size_t getRemainSize() const { return size_t(_end - _ptr); }
@@ -337,7 +338,20 @@ class MemMgr
 		MemRecycleList<T>* getMemRecycleList(size_t n) {
 			size_t m = n % R_SIZE;
 			// TODO
-			return _recycleList[m].getList(n); ;
+			MemRecycleList<T> *_tmpRL=_recycleList+m;	
+			while(_tmpRL->_arrSize!=n && _tmpRL!=0){
+			
+				_tmpRL=_tmpRL->_nextList;
+
+			}
+			if(_tmpRL==0){
+			
+				_tmpRL=new MemRecycleList<T>(n);	
+				_tmpRL->_nextList=_recycleList+m;	
+
+			}
+
+			return _tmpRL;
 		}
 		// t is the #Bytes requested from new or new[]
 		// Note: Make sure the returned memory is a multiple of SIZE_T
@@ -348,10 +362,19 @@ class MemMgr
 #endif // MEM_DEBUG
 			// TODO ---
 			// 1. Make sure to promote t to a multiple of SIZE_T
+			toSizeT(t);	
+			
 			// 2. Check if the requested memory is greater than the block size.
 			//    If so, throw a "bad_alloc()" exception.
 			//    cerr << "Requested memory (" << t << ") is greater than block size"
 			//         << "(" << _blockSize << "). " << "Exception raised...\n";
+			if(t>_blockSize){
+	
+				cerr << "Requested memory (" << t << ") is greater than block size"
+						 << "(" << _blockSize << "). " << "Exception raised...\n";
+				bad_alloc();
+
+			}
 			// 3. Check the _recycleList first...
 			//    #ifdef MEM_DEBUG
 			//    cout << "Recycled from _recycleList[" << n << "]..." << ret << endl;
@@ -359,8 +382,32 @@ class MemMgr
 			//    => 'n' is the size of array
 			//    => "ret" is the return address
 
+			size_t n=getRecycleIdx(t);
+			ret=getMemRecycleList(n).popFront();
+			#ifdef MEM_DEBUG
+			cout << "Recycled from _recycleList[" << n << "]..." << ret << endl;
+			#endif // MEM_DEBUG
+			
 			// If no match from recycle list...
 			// 4. Get the memory from _activeBlock
+			if(!ret){
+			
+				if(!_activeBlock->getMem(t, ret)){
+				
+					//recycle remained
+					//find biggest by recurse
+
+						#ifdef MEM_DEBUG
+						cout << "Recycling " << ret << " to _recycleList[" << R_SIZE << "]\n";
+			    	#endif // MEM_DEBUG
+						
+					}
+
+				
+				}
+			
+			}
+			
 			// 5. If not enough, recycle the remained memory and print out ---
 			//    Note: recycle to the as biggest array index as possible
 			//    Note: rn is the array size
