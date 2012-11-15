@@ -87,13 +87,15 @@ class MemBlock
 	// 4. Return false if not enough memory
 	bool getMem(size_t t, T*& ret) {
 		// TODO
-		bool returnedValue=false;
 
-		this=(MemBlock *)malloc(t);
+		bool returnedValue=true;
 		toSizeT(t);
-		_ptr = _begin+=t;
+		if(t>getRemainSize) returnedValue=false;
+		
+		_ptr+=t;
+		ret=_ptr;
 
-		return true;
+		return returnedValue;
 	}
 	size_t getRemainSize() const { return size_t(_end - _ptr); }
 
@@ -204,10 +206,43 @@ class MemMgr
 		void reset(size_t b = 0) {
 			assert(b % SIZE_T == 0);
 #ifdef MEM_DEBUG
-			
+
 #endif // MEM_DEBUG
-			// TODO
+	
+		// TODO
+			
+			//reset mem blocks
+			MemBlock<T>* _memB = _activeBlock;
+			while(_memB->getNextBlcok() != 0){
+			
+				delete _memB;
+				_memB=_memB->getNextBlcok();
+			
+			}
+			_memB->reset();
+			
+			//reset recycle list
+			for(int i=0; i<R_SIZE; i++){
+			
+				_recycleList[i].reset();
+			
+			}	
+			
+			//reset size
+			if(b!=0 && b!=_blockSize){
+			
+				delete _memB;
+				_blockSize=b;
+				_activeBlock = new MemBlock<T>(0, _blockSize);
+			
+			}else {
+			
+				_activeBlock = _memB;
+			
+			}
+
 		}
+
 		// Called by new
 		T* alloc(size_t t) {
 			assert(t == S);
@@ -239,12 +274,13 @@ class MemMgr
 			// TODO
 			// Get the array size 'n' stored by system,
 			// which is also the _recycleList index
-			size_t n = 0;
+			size_t n = getRecycleIdx(sizeof(T*));
 #ifdef MEM_DEBUG
 			cout << ">> Array size = " << n << endl;
 			cout << "Recycling " << p << " to _recycleList[" << n << "]" << endl;
 #endif // MEM_DEBUG
 			// add to recycle list...
+			_recycleList->pushFront(p);
 		}
 		void print() const {
 			cout << "=========================================" << endl

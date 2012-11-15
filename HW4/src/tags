@@ -1,19 +1,132 @@
-MEM_MGR_INIT	mem/memMgr.h	/^#define MEM_MGR_INIT(T) \\$/
-MtestMem.cpp	mem/testMem.cpp	/^int main(){$/
-USE_MEM_MGR	mem/memMgr.h	/^#define USE_MEM_MGR(T)                            /
-downtoSizeT	mem/memMgr.h	/^#define downtoSizeT(t) 	int count=0;\\$/
-exec	mem/memCmd.cpp	/^MTResetCmd::exec(const string& option)$/
-help	mem/memCmd.cpp	/^MTResetCmd::help() const$/
-initMemCmd	mem/memCmd.cpp	/^initMemCmd()$/
-toSizeT	mem/memMgr.h	/^#define toSizeT(t)   		int count=0;\\$/
-usage	mem/memCmd.cpp	/^MTResetCmd::usage(ostream& os) const$/
-isValidVarName	util/myString.cpp	/^isValidVarName(const string& str)$/
-myGetChar	util/myGetChar.cpp	/^char myGetChar(istream& istr)$/
-myStr2Int	util/myString.cpp	/^myStr2Int(const string& str, int& num)$/
-myStrGetTok	util/myString.cpp	/^myStrGetTok(const string& str, string& tok, size_t/
-reset_keypress	util/myGetChar.cpp	/^static void reset_keypress(void)$/
-set_keypress	util/myGetChar.cpp	/^static void set_keypress(void)$/
-strlen	util/myString.cpp	/^\/\/ 1. strlen(s1) must >= n$/
-Mmain.cpp	main/main.cpp	/^main(int argc, char** argv)$/
-myexit	main/main.cpp	/^myexit()$/
-usage	main/main.cpp	/^usage()$/
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+MEM_CMD_H	mem/memCmd.h	9;"	d
+MEM_MGR_H	mem/memMgr.h	10;"	d
+MEM_MGR_INIT	mem/memMgr.h	25;"	d
+MEM_TEST_H	mem/memTest.h	9;"	d
+MTDeleteCmd	mem/memCmd.h	/^CmdClass(MTDeleteCmd);$/;"	v
+MTNewCmd	mem/memCmd.h	/^CmdClass(MTNewCmd);$/;"	v
+MTPrintCmd	mem/memCmd.h	/^CmdClass(MTPrintCmd);$/;"	v
+MTResetCmd	mem/memCmd.h	/^CmdClass(MTResetCmd);$/;"	v
+MYCLK_TCK	util/myUsage.h	21;"	d
+MYCLK_TCK	util/myUsage.h	22;"	d
+MY_USAGE_H	util/myUsage.h	10;"	d
+MemBlock	mem/memMgr.h	/^	MemBlock(MemBlock<T>* n, size_t b) : _nextBlock(n) {$/;"	f	class:MemBlock
+MemBlock	mem/memMgr.h	/^class MemBlock$/;"	c
+MemMgr	mem/memMgr.h	/^		MemMgr(size_t b = 65536) : _blockSize(b) {$/;"	f	class:MemMgr
+MemMgr	mem/memMgr.h	/^class MemMgr$/;"	c
+MemRecycleList	mem/memMgr.h	/^	MemRecycleList(size_t a = 0) : _arrSize(a), _first(0), _nextList(0) {}$/;"	f	class:MemRecycleList
+MemRecycleList	mem/memMgr.h	/^class MemRecycleList$/;"	c
+MemTest	mem/memTest.h	/^   MemTest() { _objList.reserve(1024); _arrList.reserve(1024); }$/;"	f	class:MemTest
+MemTest	mem/memTest.h	/^class MemTest$/;"	c
+MemTestObj	mem/memTest.h	/^   MemTestObj() {}$/;"	f	class:MemTestObj
+MemTestObj	mem/memTest.h	/^class MemTestObj$/;"	c
+MyUsage	util/myUsage.h	/^   MyUsage() { reset(); }$/;"	f	class:MyUsage
+MyUsage	util/myUsage.h	/^class MyUsage$/;"	c
+RN_GEN_H	util/rnGen.h	9;"	d
+R_SIZE	mem/memMgr.h	55;"	d
+RandomNumGen	util/rnGen.h	/^      RandomNumGen() { my_srandom(getpid()); }$/;"	f	class:RandomNumGen
+RandomNumGen	util/rnGen.h	/^      RandomNumGen(unsigned seed) { my_srandom(seed); }$/;"	f	class:RandomNumGen
+RandomNumGen	util/rnGen.h	/^class RandomNumGen$/;"	c
+S	mem/memMgr.h	186;"	d
+SIZE_T	mem/memMgr.h	39;"	d
+SIZE_T_1	mem/memMgr.h	40;"	d
+USE_MEM_MGR	mem/memMgr.h	28;"	d
+UTIL_H	util/util.h	9;"	d
+_activeBlock	mem/memMgr.h	/^		MemBlock<T>*               _activeBlock;$/;"	m	class:MemMgr
+_arrList	mem/memTest.h	/^   vector<MemTestObj*>   _arrList;$/;"	m	class:MemTest
+_arrSize	mem/memMgr.h	/^	size_t              _arrSize;   \/\/ the array size of the recycled data$/;"	m	class:MemRecycleList
+_begin	mem/memMgr.h	/^	char*             _begin;$/;"	m	class:MemBlock
+_blockSize	mem/memMgr.h	/^		size_t                     _blockSize;$/;"	m	class:MemMgr
+_currentMem	util/myUsage.h	/^   double     _currentMem;$/;"	m	class:MyUsage
+_currentTick	util/myUsage.h	/^   double     _currentTick;$/;"	m	class:MyUsage
+_dataC	mem/memTest.h	/^   char  _dataC[3];$/;"	m	class:MemTestObj
+_dataI	mem/memTest.h	/^   int   _dataI[6];$/;"	m	class:MemTestObj
+_end	mem/memMgr.h	/^	char*             _end;$/;"	m	class:MemBlock
+_first	mem/memMgr.h	/^	T*                  _first;     \/\/ the first recycled data$/;"	m	class:MemRecycleList
+_initMem	util/myUsage.h	/^   double     _initMem;$/;"	m	class:MyUsage
+_nextBlock	mem/memMgr.h	/^	MemBlock<T>*      _nextBlock;$/;"	m	class:MemBlock
+_nextList	mem/memMgr.h	/^	MemRecycleList<T>*  _nextList;  \/\/ next MemRecycleList$/;"	m	class:MemRecycleList
+_objList	mem/memTest.h	/^   vector<MemTestObj*>   _objList;$/;"	m	class:MemTest
+_periodUsedTime	util/myUsage.h	/^   double     _periodUsedTime;$/;"	m	class:MyUsage
+_ptr	mem/memMgr.h	/^	char*             _ptr;$/;"	m	class:MemBlock
+_recycleList	mem/memMgr.h	/^		MemRecycleList<T>          _recycleList[R_SIZE];$/;"	m	class:MemMgr
+_totalUsedTime	util/myUsage.h	/^   double     _totalUsedTime;$/;"	m	class:MyUsage
+alloc	mem/memMgr.h	/^		T* alloc(size_t t) {$/;"	f	class:MemMgr
+allocArr	mem/memMgr.h	/^		T* allocArr(size_t t) {$/;"	f	class:MemMgr
+checkMem	util/myUsage.h	/^   double checkMem() const {$/;"	f	class:MyUsage
+checkTick	util/myUsage.h	/^   double checkTick() const {$/;"	f	class:MyUsage
+deleteArr	mem/memTest.h	/^   void deleteArr(size_t idx) {$/;"	f	class:MemTest
+deleteObj	mem/memTest.h	/^   void deleteObj(size_t idx) {$/;"	f	class:MemTest
+downtoSizeT	mem/memMgr.h	52;"	d
+exec	mem/memCmd.cpp	/^MTDeleteCmd::exec(const string& option)$/;"	f	class:MTDeleteCmd
+exec	mem/memCmd.cpp	/^MTNewCmd::exec(const string& option)$/;"	f	class:MTNewCmd
+exec	mem/memCmd.cpp	/^MTPrintCmd::exec(const string& option)$/;"	f	class:MTPrintCmd
+exec	mem/memCmd.cpp	/^MTResetCmd::exec(const string& option)$/;"	f	class:MTResetCmd
+free	mem/memMgr.h	/^		void  free(T* p) {$/;"	f	class:MemMgr
+freeArr	mem/memMgr.h	/^		void  freeArr(T* p) {$/;"	f	class:MemMgr
+getArrListSize	mem/memTest.h	/^   size_t getArrListSize() const { return _arrList.size(); }$/;"	f	class:MemTest
+getArrSize	mem/memMgr.h	/^	size_t getArrSize() const { return _arrSize; }$/;"	f	class:MemRecycleList
+getMem	mem/memMgr.h	/^		T* getMem(size_t t) {$/;"	f	class:MemMgr
+getMem	mem/memMgr.h	/^	bool getMem(size_t t, T*& ret) {$/;"	f	class:MemBlock
+getMemRecycleList	mem/memMgr.h	/^		MemRecycleList<T>* getMemRecycleList(size_t n) {$/;"	f	class:MemMgr
+getNext	mem/memMgr.h	/^	T* getNext(T* p) const {$/;"	f	class:MemRecycleList
+getNextBlock	mem/memMgr.h	/^	MemBlock<T>* getNextBlock() const { return _nextBlock; }$/;"	f	class:MemBlock
+getNextList	mem/memMgr.h	/^	MemRecycleList<T>* getNextList() const { return _nextList; }$/;"	f	class:MemRecycleList
+getNumBlocks	mem/memMgr.h	/^		size_t getNumBlocks() const {$/;"	f	class:MemMgr
+getObjListSize	mem/memTest.h	/^   size_t getObjListSize() const { return _objList.size(); }$/;"	f	class:MemTest
+getRecycleIdx	mem/memMgr.h	/^		size_t getRecycleIdx(size_t t) const {$/;"	f	class:MemMgr
+getRemainSize	mem/memMgr.h	/^	size_t getRemainSize() const { return size_t(_end - _ptr); }$/;"	f	class:MemBlock
+help	mem/memCmd.cpp	/^MTDeleteCmd::help() const$/;"	f	class:MTDeleteCmd
+help	mem/memCmd.cpp	/^MTNewCmd::help() const$/;"	f	class:MTNewCmd
+help	mem/memCmd.cpp	/^MTPrintCmd::help() const$/;"	f	class:MTPrintCmd
+help	mem/memCmd.cpp	/^MTResetCmd::help() const$/;"	f	class:MTResetCmd
+initMemCmd	mem/memCmd.cpp	/^initMemCmd()$/;"	f
+isValidVarName	util/myString.cpp	/^isValidVarName(const string& str)$/;"	f
+main	main/main.cpp	/^main(int argc, char** argv)$/;"	f
+main	mem/testMem.cpp	/^int main(){$/;"	f
+mtest	mem/memTest.cpp	/^MemTest mtest;$/;"	v
+myGetChar	util/myGetChar.cpp	/^char myGetChar()$/;"	f
+myGetChar	util/myGetChar.cpp	/^char myGetChar(istream& istr)$/;"	f
+myStr2Int	util/myString.cpp	/^myStr2Int(const string& str, int& num)$/;"	f
+myStrGetTok	util/myString.cpp	/^myStrGetTok(const string& str, string& tok, size_t pos = 0,$/;"	f
+myStrNCmp	util/myString.cpp	/^myStrNCmp(const string& s1, const string& s2, unsigned n)$/;"	f
+myUsage	util/util.cpp	/^MyUsage       myUsage;$/;"	v
+my_random	util/rnGen.h	17;"	d
+my_srandom	util/rnGen.h	16;"	d
+myexit	main/main.cpp	/^myexit()$/;"	f	file:
+newArrs	mem/memTest.h	/^   void newArrs(size_t n, size_t s) {$/;"	f	class:MemTest
+newObjs	mem/memTest.h	/^   void newObjs(size_t n) {$/;"	f	class:MemTest
+numElm	mem/memMgr.h	/^	size_t numElm() const {$/;"	f	class:MemRecycleList
+operator ()	util/rnGen.h	/^      const int operator() (const int range) const {$/;"	f	class:RandomNumGen
+popFront	mem/memMgr.h	/^	T* popFront() {$/;"	f	class:MemRecycleList
+print	mem/memMgr.h	/^		void print() const {$/;"	f	class:MemMgr
+print	mem/memTest.h	/^   void print() const {$/;"	f	class:MemTest
+pushFront	mem/memMgr.h	/^	void  pushFront(T* p) {$/;"	f	class:MemRecycleList
+report	util/myUsage.h	/^   void report(bool repTime, bool repMem) {$/;"	f	class:MyUsage
+reset	mem/memMgr.h	/^		void reset(size_t b = 0) {$/;"	f	class:MemMgr
+reset	mem/memMgr.h	/^	void reset() { _ptr = _begin; }$/;"	f	class:MemBlock
+reset	mem/memMgr.h	/^	void reset() {$/;"	f	class:MemRecycleList
+reset	mem/memTest.h	/^   void reset(size_t b = 0) {$/;"	f	class:MemTest
+reset	util/myUsage.h	/^   void reset() {$/;"	f	class:MyUsage
+reset_keypress	util/myGetChar.cpp	/^static void reset_keypress(void)$/;"	f	file:
+setMemUsage	util/myUsage.h	/^   void setMemUsage() { _currentMem = checkMem() - _initMem; }$/;"	f	class:MyUsage
+setNextList	mem/memMgr.h	/^	void setNextList(MemRecycleList<T>* l) { _nextList = l; }$/;"	f	class:MemRecycleList
+setTimeUsage	util/myUsage.h	/^   void setTimeUsage() {$/;"	f	class:MyUsage
+set_keypress	util/myGetChar.cpp	/^static void set_keypress(void)$/;"	f	file:
+stored_settings	util/myGetChar.cpp	/^static struct termios stored_settings;$/;"	v	typeref:struct:termios	file:
+toSizeT	mem/memMgr.h	47;"	d
+usage	main/main.cpp	/^usage()$/;"	f	file:
+usage	mem/memCmd.cpp	/^MTDeleteCmd::usage(ostream& os) const$/;"	f	class:MTDeleteCmd
+usage	mem/memCmd.cpp	/^MTNewCmd::usage(ostream& os) const$/;"	f	class:MTNewCmd
+usage	mem/memCmd.cpp	/^MTPrintCmd::usage(ostream& os) const$/;"	f	class:MTPrintCmd
+usage	mem/memCmd.cpp	/^MTResetCmd::usage(ostream& os) const$/;"	f	class:MTResetCmd
+~MemBlock	mem/memMgr.h	/^	~MemBlock() { delete [] _begin; }$/;"	f	class:MemBlock
+~MemMgr	mem/memMgr.h	/^		~MemMgr() { reset(); delete _activeBlock; }$/;"	f	class:MemMgr
+~MemRecycleList	mem/memMgr.h	/^	~MemRecycleList() { reset(); }$/;"	f	class:MemRecycleList
+~MemTest	mem/memTest.h	/^   ~MemTest() {}$/;"	f	class:MemTest
+~MemTestObj	mem/memTest.h	/^   ~MemTestObj() {}$/;"	f	class:MemTestObj
