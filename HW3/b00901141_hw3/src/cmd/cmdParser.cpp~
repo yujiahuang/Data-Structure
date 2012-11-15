@@ -225,7 +225,7 @@ CmdExec* CmdParser::parseCmd(string& option){
 	}
 	else{
 
-		cout << "Illegal command!! (" << token << ")" << endl;
+		cout << "Illegal command!! \"" << token << "\"" << endl;
 
 	}
 
