@@ -42,26 +42,14 @@ static MemMgr<T>* const _memMgr
 // TODO: You should use the following two MACROs whenever possible to 
 //       make your code 64/32-bit platform independent.
 //       Define them by SIZE_T and/or SIZE_T_1 MACROs.
-// TODO
 // To promote 't' to the nearest multiple of SIZE_T; 
 // e.g. Let SIZE_T = 8;  toSizeT(7) = 8, toSizeT(12) = 16
-#define toSizeT(t)   		int count=0;\
-																	while(t/SIZE_T!=0){\
-																		t=t%SIZE_T;\
-																		count++;\
-																	}\
-t=(count+1)*SIZE_T
+#define toSizeT(t)   		SIZE_T*(t/SIZE_T+1) //TODO
 
 // TODO
 // To demote 't' to the nearest multiple of SIZE_T
 // e.g. Let SIZE_T = 8;  downtoSizeT(9) = 8, downtoSizeT(100) = 96
-#define downtoSizeT(t) 	int count=0;\
-																	while(t/SIZE_T!=0){\
-																		t=t%SIZE_T;\
-																		count++;\
-																	}\
-t=count*SIZE_T
-
+#define downtoSizeT(t) 	SIZE_T*(t/SIZE_T) //TODO
 
 // R_SIZE is the size of the recycle list
 #define R_SIZE 256
@@ -147,10 +135,10 @@ class MemRecycleList
 	// push the element 'p' to the beginning of the recycle list
 	void  pushFront(T* p) {
 		// TODO
-
-		*p=_first;
+		T *tmp = _first;
 		_first=p;
-
+		size_t *nextAddr = p;
+		*nextAddr=tmp;
 	}
 	// Release the memory occupied by the recycle list(s)
 	// DO NOT release the memory occupied by MemMgr/MemBlock
@@ -170,14 +158,8 @@ class MemRecycleList
 	// Iterate to the next element after 'p' in the recycle list
 	T* getNext(T* p) const {
 		// TODO
-		char c[SIZE_T+1];
-		for(int i=0; i<SIZE_T; i++){
-		
-			c[i]=p[i];
-		
-		}
-		c[SIZE_T]=0;
-		return c;
+		size_t *nextAddr=p;
+		return *nextAddr;
 	}
 	//
 	// count the number of elements in the recycle list
@@ -222,7 +204,7 @@ class MemMgr
 		void reset(size_t b = 0) {
 			assert(b % SIZE_T == 0);
 #ifdef MEM_DEBUG
-
+			
 #endif // MEM_DEBUG
 			// TODO
 		}

@@ -82,8 +82,16 @@ MTNewCmd::exec(const string& option)
 
 	// check option
 	string token;
-	if (!CmdExec::lexSingleOption(option, token))
-		return CMD_EXEC_ERROR;
+	vector<string> options;
+
+	if (!CmdExec::lexSingleOption(option, token)){
+	
+		token=0;
+		if(!CmdExec::lexOptions(option, options, 3))
+			return CMD_EXEC_ERROR;
+	
+	}
+
 	if (token.size()) {
 		int b;
 		if (!myStr2Int(token, b) || b < int(sizeof(MemTestObj))) {
@@ -96,8 +104,7 @@ MTNewCmd::exec(const string& option)
 		mtest.reset();
 #endif // MEM_MGR_H
 	}
-	else
-		mtest.reset();
+	else if(options)
 	
 	return CMD_EXEC_DONE;
 
