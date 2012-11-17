@@ -105,29 +105,56 @@ MTNewCmd::exec(const string& option)
 	else{
 	
 		if (!myStr2Int(tokens[0], num) || num<=0) {
-	
-			return CmdExec::errorOption(CMD_OPT_ILLEGAL, tokens[0]);
-	
-		}
-		else if(tokens[1].length()<=1 || myStrNCmp("-Array", tokens[1], tokens[1].length())!=0){
-	
-			cerr << "token -a:" << tokens[1].length() << "//";
-			return CmdExec::errorOption(CMD_OPT_EXTRA, tokens[1]);
 
-		}
-		else if(tokens.size()>3){
-	
-			return CmdExec::errorOption(CMD_OPT_EXTRA, tokens[3]);
-
-		}
-		else if(tokens.size()==2){
+			if(tokens[0].length()<=1 || myStrNCmp("-Array", tokens[0], tokens[0].length())!=0){
 			
-			return CmdExec::errorOption(CMD_OPT_MISSING, tokens[1]);
-				
+				return CmdExec::errorOption(CMD_OPT_ILLEGAL, tokens[0]);
+
+			}
+			else if(tokens.size()>3){
+
+				return CmdExec::errorOption(CMD_OPT_EXTRA, tokens[3]);
+
+			}
+			else if(!myStr2Int(tokens[1], arr) || arr<=0){
+			
+				return CmdExec::errorOption(CMD_OPT_ILLEGAL, tokens[1]);
+			
+			}
+			else if(tokens.size()==2){
+
+				return CmdExec::errorOption(CMD_OPT_MISSING, "");
+
+			}
+			else if(!myStr2Int(tokens[2], num) || num<=0){
+
+				return CmdExec::errorOption(CMD_OPT_ILLEGAL, tokens[2]);
+
+			}
+
 		}
-		else if(!myStr2Int(tokens[2], arr) || arr<=0){
-		
-			return CmdExec::errorOption(CMD_OPT_ILLEGAL, tokens[2]);
+		else{
+			
+			if(tokens[1].length()<=1 || myStrNCmp("-Array", tokens[1], tokens[1].length())!=0){
+
+				return CmdExec::errorOption(CMD_OPT_EXTRA, tokens[1]);
+
+			}
+			else if(tokens.size()>3){
+
+				return CmdExec::errorOption(CMD_OPT_EXTRA, tokens[3]);
+
+			}
+			else if(tokens.size()==2){
+
+				return CmdExec::errorOption(CMD_OPT_MISSING, tokens[1]);
+
+			}
+			else if(!myStr2Int(tokens[2], arr) || arr<=0){
+
+				return CmdExec::errorOption(CMD_OPT_ILLEGAL, tokens[2]);
+
+			}
 		
 		}
 
@@ -138,8 +165,10 @@ MTNewCmd::exec(const string& option)
 		if(arr==0) mtest.newObjs(num);
 		else mtest.newArrs(num, arr);
 	
-	}catch(bad_alloc& ba){
-	
+	}catch(bad_alloc ba){
+
+		return CMD_EXEC_ERROR;
+
 	}
 
 	return CMD_EXEC_DONE;
@@ -171,11 +200,17 @@ CmdExecStatus MTDeleteCmd::exec(const string& option){
 	if(!CmdExec::lexOptions(option, tokens))
 		return CMD_EXEC_ERROR;
 	
-	int idx=0, rnd=0;
+	int idx=-1, rnd=0;
 
 	//error handling
 
-	if(tokens[0].length()<=1 || myStrNCmp("-Index", tokens[0], tokens[0].length())==0){ //Index
+	if(tokens.size()==0){
+	
+		
+		return CmdExec::errorOption(CMD_OPT_MISSING, "");
+	
+	}
+	else if(tokens[0].length()<=1 || myStrNCmp("-Index", tokens[0], tokens[0].length())==0){ //Index
 
 		if(tokens.size()<2){ //Missing if options < 2
 	
@@ -197,7 +232,7 @@ CmdExecStatus MTDeleteCmd::exec(const string& option){
 			return CmdExec::errorOption(CMD_OPT_MISSING, tokens[0]);
 
 		}
-		else if(!myStr2Int(tokens[1], rnd) || rnd<0){
+		else if(!myStr2Int(tokens[1], rnd) || rnd<=0){
 		
 			return CmdExec::errorOption(CMD_OPT_ILLEGAL, tokens[1]);
 
@@ -212,7 +247,7 @@ CmdExecStatus MTDeleteCmd::exec(const string& option){
 
 	if(tokens.size()==2){
 	
-		if(idx) {
+		if(idx!=-1) {
 		
 			if(idx >= (signed int)mtest.getObjListSize()){ 
 			
@@ -225,11 +260,11 @@ CmdExecStatus MTDeleteCmd::exec(const string& option){
 				mtest.deleteObj(idx);
 		
 		}
-		else if(rnd) {
+		else if(rnd!=0) {
 		
 			for(int i=0; i<rnd; i++){
 			
-				int rndNum=rnGen(mtest.getObjListSize()-1);
+				int rndNum=rnGen(mtest.getObjListSize());
 				mtest.deleteObj(rndNum);
 			
 			}
@@ -241,7 +276,7 @@ CmdExecStatus MTDeleteCmd::exec(const string& option){
 	
 		if(tokens[2].length()<=1 || myStrNCmp("-Array", tokens[2], tokens[2].length())==0){
 
-			if(idx){	
+			if(idx!=-1){	
 			
 				if(idx >= (signed int)mtest.getArrListSize()){ 
 			
@@ -254,7 +289,7 @@ CmdExecStatus MTDeleteCmd::exec(const string& option){
 					mtest.deleteArr(idx);
 			
 			}
-			else if(rnd) {
+			else if(rnd!=0) {
 
 				for(int i=0; i<rnd; i++){
 

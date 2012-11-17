@@ -68,11 +68,10 @@ class MemTest
 		// Allocate "n" number of MemTestObj arrays with size "s"
 		void newArrs(size_t n, size_t s) {
 			// TODO
-			MemTestObj *tmpMemObj;		
 			for(size_t i=n; i>0; i--){
 
-				tmpMemObj=new MemTestObj[s];
-				_arrList.push_back(tmpMemObj);
+				MemTestObj *tmpMemObj=new MemTestObj[s];
+				if(tmpMemObj) _arrList.push_back(tmpMemObj);
 
 			}
 
@@ -91,7 +90,7 @@ class MemTest
 			assert(idx < _arrList.size());
 			// TODO
 			vector<MemTestObj*>::iterator it = _arrList.begin() + idx;
-			if(*it) delete []*it;
+			if(*it) delete [] (*it);
 			*it=0;
 
 		}

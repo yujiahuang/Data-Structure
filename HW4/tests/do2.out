@@ -1,0 +1,29 @@
+mtest> mtn 10
+
+mtest> mtn 5 -a 256
+
+mtest> mtn 5 -a 512
+
+mtest> mtd -i 7 -a
+
+mtest> mtd -i 0 -a
+
+mtest> mtp
+=========================================
+=              Memory Manager           =
+=========================================
+* Block size            : 65536 Bytes
+* Number of blocks      : 2
+* Free mem in last block: 22516
+* Recycle list          : 
+[256] = 1         [512] = 1         [ 25] = 1         
+=========================================
+=             class MemTest             =
+=========================================
+Object list ---
+oooooooooo
+Array list ---
+xooooooxoo
+
+mtest> q -f
+

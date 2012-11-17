@@ -1,0 +1,29 @@
+mtest> mtr 0
+
+mtest> mtr 39
+
+mtest> mtr 40
+
+mtest> mtn 1
+
+mtest> mtn 1 -a 1
+
+mtest> mtn 1 -a 0
+
+mtest> mtp
+=========================================
+=              Memory Manager           =
+=========================================
+* Block size            : 40 Bytes
+* Number of blocks      : 2
+* Free mem in last block: 8
+* Recycle list          : 
+
+=========================================
+=             class MemTest             =
+=========================================
+Object list ---
+o
+Array list ---
+o
+
