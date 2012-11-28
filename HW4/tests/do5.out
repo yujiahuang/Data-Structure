@@ -1,177 +1,162 @@
-mtest> mtreset 200
+mtest> mtnew 10
 
-mtest> mtnew 3
-
-mtest> mtp
-=========================================
-=              Memory Manager           =
-=========================================
-* Block size            : 200 Bytes
-* Number of blocks      : 1
-* Free mem in last block: 116
-* Recycle list          : 
-
-=========================================
-=             class MemTest             =
-=========================================
-Object list ---
-ooo
-Array list ---
-
-
-mtest> mtdel -r 3
+mtest> mtnew 5 -a 512
 
 mtest> mtp
 =========================================
 =              Memory Manager           =
 =========================================
-* Block size            : 200 Bytes
-* Number of blocks      : 1
-* Free mem in last block: 116
+* Block size            : 65536 Bytes
+* Number of blocks      : 2
+* Free mem in last block: 51196
 * Recycle list          : 
-[  0] = 2         
+[281] = 1         
 =========================================
 =             class MemTest             =
 =========================================
 Object list ---
-oxx
-Array list ---
-
-
-mtest> mtnew 5 -a 3
-
-mtest> mtp
-=========================================
-=              Memory Manager           =
-=========================================
-* Block size            : 200 Bytes
-* Number of blocks      : 3
-* Free mem in last block: 24
-* Recycle list          : 
-[  0] = 3         
-=========================================
-=             class MemTest             =
-=========================================
-Object list ---
-oxx
+oooooooooo
 Array list ---
 ooooo
 
-mtest> mtdel -r 2 -a
+mtest> mtnew 5 -a 1024
 
 mtest> mtp
 =========================================
 =              Memory Manager           =
 =========================================
-* Block size            : 200 Bytes
-* Number of blocks      : 3
-* Free mem in last block: 24
-* Recycle list          : 
-[  0] = 3         [  3] = 2         
-=========================================
-=             class MemTest             =
-=========================================
-Object list ---
-oxx
-Array list ---
-oooxx
-
-mtest> mtnew -a 1 3
-
-mtest> mtp
-=========================================
-=              Memory Manager           =
-=========================================
-* Block size            : 200 Bytes
+* Block size            : 65536 Bytes
 * Number of blocks      : 4
-* Free mem in last block: 104
+* Free mem in last block: 8184
 * Recycle list          : 
-[  0] = 3         [  3] = 2         
+[281] = 1         [804] = 1         [292] = 1         
 =========================================
 =             class MemTest             =
 =========================================
 Object list ---
-oxx
+oooooooooo
 Array list ---
-oooxxooo
+oooooooooo
 
-mtest> mtnew -a 5 3
+mtest> mtnew 5 -a 256
 
 mtest> mtp
 =========================================
 =              Memory Manager           =
 =========================================
-* Block size            : 200 Bytes
-* Number of blocks      : 7
-* Free mem in last block: 56
+* Block size            : 65536 Bytes
+* Number of blocks      : 5
+* Free mem in last block: 36848
 * Recycle list          : 
-[  0] = 3         [  1] = 2         [  3] = 3         
+[281] = 1         [ 36] = 1         [804] = 1         [292] = 1         
+
 =========================================
 =             class MemTest             =
 =========================================
 Object list ---
-oxx
+oooooooooo
 Array list ---
-oooxxoooooo
+ooooooooooooooo
 
-mtest> mtnew -a 7 2
+mtest> mtdel -i 3
 
 mtest> mtp
 =========================================
 =              Memory Manager           =
 =========================================
-* Block size            : 200 Bytes
-* Number of blocks      : 9
-* Free mem in last block: 0
+* Block size            : 65536 Bytes
+* Number of blocks      : 5
+* Free mem in last block: 36848
 * Recycle list          : 
-[  0] = 3         [  1] = 3         [  3] = 3         
+[  0] = 1         [281] = 1         [ 36] = 1         [804] = 1         
+[292] = 1         
 =========================================
 =             class MemTest             =
 =========================================
 Object list ---
-oxx
+oooxoooooo
 Array list ---
-oooxxoooooooo
+ooooooooooooooo
 
-mtest> mtdel -r 8 -a
+mtest> mtdel -i 4 -a
 
 mtest> mtp
 =========================================
 =              Memory Manager           =
 =========================================
-* Block size            : 200 Bytes
-* Number of blocks      : 9
-* Free mem in last block: 0
+* Block size            : 65536 Bytes
+* Number of blocks      : 5
+* Free mem in last block: 36848
 * Recycle list          : 
-[  0] = 3         [  1] = 5         [  3] = 4         [  5] = 2         
-
+[  0] = 1         [512] = 1         [281] = 1         [ 36] = 1         
+[804] = 1         [292] = 1         
 =========================================
 =             class MemTest             =
 =========================================
 Object list ---
-oxx
+oooxoooooo
 Array list ---
-ooxxxoxxxxooo
+ooooxoooooooooo
 
-mtest> mtdel -i 12 -a
+mtest> mtdel -i 8 -a
 
 mtest> mtp
 =========================================
 =              Memory Manager           =
 =========================================
-* Block size            : 200 Bytes
-* Number of blocks      : 9
-* Free mem in last block: 0
+* Block size            : 65536 Bytes
+* Number of blocks      : 5
+* Free mem in last block: 36848
 * Recycle list          : 
-[  0] = 3         [  1] = 5         [  3] = 4         [  5] = 2         
-[  7] = 1         
+[  0] = 1         [512] = 1         [1024] = 1         [281] = 1         
+[ 36] = 1         [804] = 1         [292] = 1         
 =========================================
 =             class MemTest             =
 =========================================
 Object list ---
-oxx
+oooxoooooo
 Array list ---
-ooxxxoxxxxoox
+ooooxoooxoooooo
+
+mtest> mtdel -i 13 -a
+
+mtest> mtp
+=========================================
+=              Memory Manager           =
+=========================================
+* Block size            : 65536 Bytes
+* Number of blocks      : 5
+* Free mem in last block: 36848
+* Recycle list          : 
+[  0] = 1         [512] = 1         [1024] = 1         [256] = 1         
+[281] = 1         [ 36] = 1         [804] = 1         [292] = 1         
+
+=========================================
+=             class MemTest             =
+=========================================
+Object list ---
+oooxoooooo
+Array list ---
+ooooxoooxooooxo
+
+mtest> mtr 120
+
+mtest> mtp
+=========================================
+=              Memory Manager           =
+=========================================
+* Block size            : 120 Bytes
+* Number of blocks      : 1
+* Free mem in last block: 120
+* Recycle list          : 
+
+=========================================
+=             class MemTest             =
+=========================================
+Object list ---
+
+Array list ---
+
 
 mtest> q -f
 

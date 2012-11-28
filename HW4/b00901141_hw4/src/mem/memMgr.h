@@ -409,15 +409,12 @@ class MemMgr
 				//    => 'n' is the size of array
 				//    => "ret" is the return address
 				size_t n=getRecycleIdx(t_copy);
-					
-				if(getMemRecycleList(n)->numElm()!=0){
+				ret=getMemRecycleList(n)->popFront();
 
-					ret=getMemRecycleList(n)->popFront();
 #ifdef MEM_DEBUG
-					cout << "Recycled from _recycleList[" << n << "]..." << ret << endl;
+				cout << "Recycled from _recycleList[" << n << "]..." << ret << endl;
 #endif // MEM_DEBUG
-				
-				}
+
 				// If no match from recycle list...
 				// 4. Get the memory from _activeBlock
 				// 5. If not enough, recycle the remained memory and print out ---
@@ -430,12 +427,12 @@ class MemMgr
 				//    #ifdef MEM_DEBUG
 				//    cout << "New MemBlock... " << _activeBlock << endl;
 				//    #endif // MEM_DEBUG
-				else{
+				if(!ret){
 
 					if(!_activeBlock->getMem(t, ret)){
 
 						//recycle remained
-						
+
 						//TODO
 						size_t remainS=_activeBlock->getRemainSize();
 						if(remainS>=S){
