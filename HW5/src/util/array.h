@@ -33,12 +33,12 @@ class Array
 			// TODO: implement these overloaded operators
 			const T& operator * () const { return (*this); }
 			T& operator * () { return (*_node); }
-			iterator& operator ++ () { this->_node+=1; return (*this); }
-			iterator operator ++ (int) { iterator copied=(*this); this->_node+=1; return (*copied); }
+			iterator& operator ++ () { _node+=1; return (*this); }
+			iterator operator ++ (int) { iterator copied((*this)); this->_node+=1; return copied; }
 			iterator& operator -- () { this->_node-=1; return (*this); }
-			iterator operator -- (int) { iterator copied=(*this); this->_node-=1; return (*copied); }
+			iterator operator -- (int) { iterator copied((*this)); this->_node-=1; return copied; }
 
-			iterator operator + (int i) const { iterator copied=(*this); copied._node+=i; return copied; }
+			iterator operator + (int i) const { iterator copied((*this)); copied._node+=i; return copied; }
 			iterator& operator += (int i) { this->_node+=i; return (*this); }
 
 			iterator& operator = (const iterator& i) { this->_node=i._node; return (*this); }
@@ -53,14 +53,14 @@ class Array
 		// TODO: implement these functions
 		iterator begin() const { 
 
-			if(_size!=0) return iterator(_data[0]);
+			if(_size!=0) return iterator(&_data[0]);
 			else return this->end();
 
 		}
 
 		iterator end() const {
 		
-			if(_capacity!=0) return iterator(_data[_size]);
+			if(_capacity!=0) return iterator(&_data[_size]);
 			else return 0;
 			
 		}
@@ -73,7 +73,7 @@ class Array
 
 		void pop_front() {
 		
-			if(this->begin()) erase(this->begin());
+			if(this->begin()!=0) erase(this->begin());
 			for(size_t i=0; i<_size-2; i++){
 			
 				_data[i]=_data[i+1];
@@ -84,8 +84,8 @@ class Array
 
 		void pop_back() {
 		
-			if(this->end()) erase(this->end());
-		
+			if(this->end()+(-1)!=0) erase(this->end()+(-1));
+
 		}
 
 		bool erase(iterator pos) {
@@ -93,17 +93,64 @@ class Array
 			if(!empty()){
 			
 				delete pos._node;
+				for(iterator i=pos; i!=end(); i++){
+				
+					*i=*(i+1);
+				
+				}
+				
 				this->_size-=1;
-			
+				return true;
+
 			}
 			else return false;
 			
 		}
 		//TODO
-		bool erase(const T&x) { return false; }
-		bool insert(const T& x) { return false; }
+		bool erase(const T&x) {
+		
+			bool returnedValue=false;
+			int i=binarySearch(x);
+			if(i!=-1){
+			
+				erase(iterator(&_data[i]));	
+				returnedValue=true;
+			
+			}
+			else returnedValue=false;
+	
+			return returnedValue;
 
-		void clear() { }
+		}
+
+		bool insert(const T& x) {
+		
+			if(binarySearch(x)!=-1) return false;
+			else {
+			
+				T* tmp=new T[_size+1];
+				for(size_t i=0; i<_size; i++){
+				
+					tmp[i]=_data[i];
+				
+				}
+				delete [] _data;
+				_data=tmp;
+				_data[_size]=x;
+				++_size;
+				++_capacity;
+				mergeSort(_data, _size);
+				return true;
+
+			}
+		
+		}
+
+		void clear() {
+		
+			_size=0;
+		
+		}
 
 		// Nice to have, but not required in this homework...
 		// void reserve(size_t n) { ... }
@@ -115,8 +162,95 @@ class Array
 		size_t       _capacity;   // max number of elements
 
 		// [OPTIONAL TODO] Helper functions;
-		// binaery search TODO
+		
 		// merge sort TODO
+		void mergeSort(T* data, size_t size){
+	
+			if(size!=1){
+
+			size_t leftS=size/2, rightS=size/2;
+			if(size%2==1) ++leftS;
+			T left[leftS], right[rightS];
+
+			//copy
+			size_t i=0;
+			for(; i<leftS; i++){
+
+				left[i]=data[i];
+
+			}
+			for(size_t j=0; j<rightS; j++){
+
+				right[j]=data[i];
+				i++;
+
+			}
+
+			//recursive
+			mergeSort(left, leftS);
+			mergeSort(right, rightS);
+
+			//merge
+			size_t leftI=0, rightI=0;
+			i=0;
+			for(; i<size && leftI<leftS && rightI<rightS; i++){
+			
+				if(left[leftI]<right[rightI]){
+				
+					data[i]=left[leftI];
+					++leftI;
+				
+				}
+				else{
+				
+					data[i]=right[rightI];
+					++rightI;
+				
+				}
+			
+			}
+			for(; i<size && leftI<leftS; i++){
+				
+					data[i]=left[leftI];
+					leftI++;
+			
+			}
+			for(; i<size && rightI<rightI; i++){
+				
+					data[i]=right[rightI];
+					rightI++;
+			
+			}
+			
+			}
+		
+		}
+		
+		// binaery search TODO
+		// return -1 if not found
+		int binarySearch(const T& x){
+		
+			int high=_size-1, low=0;
+			while(high>low){
+			
+				if(x==_data[(high+low)/2]) return high+low/2;
+				else if(x<_data[(high+low)/2]){
+				
+					high=(high+low)/2;
+				
+				}
+				else{
+				
+					low=(high+low)/2;
+				
+				}
+			
+			}
+			return -1;
+
+		}
+
+
 
 };
 
