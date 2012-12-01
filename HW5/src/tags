@@ -62,9 +62,10 @@ add	main/adtTest.h	/^   bool add() { return insert(AdtTestObj()); }  \/\/ insert
 adtTest	main/adtTest.cpp	/^AdtTest adtTest;$/;"	v
 begin	util/array.h	/^		iterator begin() const { $/;"	f	class:Array
 begin	util/dlist.h	/^   iterator begin() const { return 0; }$/;"	f	class:DList
+binarySearch	util/array.h	/^		int binarySearch(const T& x){$/;"	f	class:Array
 checkMem	util/myUsage.h	/^   double checkMem() const {$/;"	f	class:MyUsage
 checkTick	util/myUsage.h	/^   double checkTick() const {$/;"	f	class:MyUsage
-clear	util/array.h	/^		void clear() { }$/;"	f	class:Array
+clear	util/array.h	/^		void clear() {$/;"	f	class:Array
 clear	util/dlist.h	/^   void clear() { } \/\/ delete all nodes except for the dummy node$/;"	f	class:DList
 deleteAll	main/adtTest.h	/^   void deleteAll() { _container.clear(); }$/;"	f	class:AdtTest
 deleteBack	main/adtTest.h	/^   void deleteBack(size_t repeat = 1) {$/;"	f	class:AdtTest
@@ -75,7 +76,7 @@ empty	util/array.h	/^		bool empty() const { return !_size; }$/;"	f	class:Array
 empty	util/dlist.h	/^   bool empty() const { return false; }$/;"	f	class:DList
 end	util/array.h	/^		iterator end() const {$/;"	f	class:Array
 end	util/dlist.h	/^   iterator end() const { return 0; }$/;"	f	class:DList
-erase	util/array.h	/^		bool erase(const T&x) { return false; }$/;"	f	class:Array
+erase	util/array.h	/^		bool erase(const T&x) {$/;"	f	class:Array
 erase	util/array.h	/^		bool erase(iterator pos) {$/;"	f	class:Array
 erase	util/dlist.h	/^   bool erase(const T& x) { return false; }$/;"	f	class:DList
 erase	util/dlist.h	/^   bool erase(iterator pos) { return false; }$/;"	f	class:DList
@@ -90,7 +91,7 @@ help	main/adtTest.cpp	/^AdtPrintCmd::help() const$/;"	f	class:AdtPrintCmd
 help	main/adtTest.cpp	/^AdtResetCmd::help() const$/;"	f	class:AdtResetCmd
 initAdtCmd	main/adtTest.cpp	/^initAdtCmd()$/;"	f
 insert	main/adtTest.h	/^   bool insert(const AdtTestObj& o) { return _container.insert(o); }$/;"	f	class:AdtTest
-insert	util/array.h	/^		bool insert(const T& x) { return false; }$/;"	f	class:Array
+insert	util/array.h	/^		bool insert(const T& x) {$/;"	f	class:Array
 insert	util/dlist.h	/^   bool insert(const T& x) { return false; }$/;"	f	class:DList
 isValidVarName	util/myString.cpp	/^isValidVarName(const string& str)$/;"	f
 iterator	util/array.h	/^			iterator(T* n= 0): _node(n) {}$/;"	f	class:Array::iterator
@@ -101,6 +102,7 @@ iterator	util/dlist.h	/^      iterator(DListNode<T>* n= 0): _node(n) {}$/;"	f	cl
 iterator	util/dlist.h	/^      iterator(const iterator& i) : _node(i._node) {}$/;"	f	class:DList::iterator
 iterator	util/dlist.h	/^   class iterator$/;"	c	class:DList
 main	main/main.cpp	/^main(int argc, char** argv)$/;"	f
+mergeSort	util/array.h	/^		void mergeSort(T* data, size_t size){$/;"	f	class:Array
 myGetChar	util/myGetChar.cpp	/^char myGetChar()$/;"	f
 myGetChar	util/myGetChar.cpp	/^char myGetChar(istream& istr)$/;"	f
 myStr2Int	util/myString.cpp	/^myStr2Int(const string& str, int& num)$/;"	f
@@ -117,13 +119,13 @@ operator *	util/array.h	/^			T& operator * () { return (*_node); }$/;"	f	class:A
 operator *	util/array.h	/^			const T& operator * () const { return (*this); }$/;"	f	class:Array::iterator
 operator *	util/dlist.h	/^      T& operator * () { return _node->_data; }$/;"	f	class:DList::iterator
 operator *	util/dlist.h	/^      const T& operator * () const { return *(this); }$/;"	f	class:DList::iterator
-operator +	util/array.h	/^			iterator operator + (int i) const { iterator copied=(*this); copied._node+=i; return copied; }$/;"	f	class:Array::iterator
-operator ++	util/array.h	/^			iterator operator ++ (int) { iterator copied=(*this); this->_node+=1; return (*copied); }$/;"	f	class:Array::iterator
-operator ++	util/array.h	/^			iterator& operator ++ () { this->_node+=1; return (*this); }$/;"	f	class:Array::iterator
+operator +	util/array.h	/^			iterator operator + (int i) const { iterator copied((*this)); copied._node+=i; return copied; }$/;"	f	class:Array::iterator
+operator ++	util/array.h	/^			iterator operator ++ (int) { iterator copied((*this)); this->_node+=1; return copied; }$/;"	f	class:Array::iterator
+operator ++	util/array.h	/^			iterator& operator ++ () { _node+=1; return (*this); }$/;"	f	class:Array::iterator
 operator ++	util/dlist.h	/^      iterator operator ++ (int) { return *(this); }$/;"	f	class:DList::iterator
 operator ++	util/dlist.h	/^      iterator& operator ++ () { return *(this); }$/;"	f	class:DList::iterator
 operator +=	util/array.h	/^			iterator& operator += (int i) { this->_node+=i; return (*this); }$/;"	f	class:Array::iterator
-operator --	util/array.h	/^			iterator operator -- (int) { iterator copied=(*this); this->_node-=1; return (*copied); }$/;"	f	class:Array::iterator
+operator --	util/array.h	/^			iterator operator -- (int) { iterator copied((*this)); this->_node-=1; return copied; }$/;"	f	class:Array::iterator
 operator --	util/array.h	/^			iterator& operator -- () { this->_node-=1; return (*this); }$/;"	f	class:Array::iterator
 operator --	util/dlist.h	/^      iterator operator -- (int) { return *(this); }$/;"	f	class:DList::iterator
 operator --	util/dlist.h	/^      iterator& operator -- () { return *(this); }$/;"	f	class:DList::iterator

@@ -31,7 +31,7 @@ class Array
 			~iterator() {} // Should NOT delete _node
 
 			// TODO: implement these overloaded operators
-			const T& operator * () const { return (*this); }
+			const T& operator * () const { return (*_node); }
 			T& operator * () { return (*_node); }
 			iterator& operator ++ () { _node+=1; return (*this); }
 			iterator operator ++ (int) { iterator copied((*this)); this->_node+=1; return copied; }

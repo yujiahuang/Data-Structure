@@ -1,10 +1,10 @@
 /****************************************************************************
-  FileName     [ dlist.h ]
-  PackageName  [ util ]
-  Synopsis     [ Define doubly linked list package ]
-  Author       [ Chung-Yang (Ric) Huang ]
-  Copyright    [ Copyleft(c) 2005-2012 LaDs(III), GIEE, NTU, Taiwan ]
-****************************************************************************/
+	FileName     [ dlist.h ]
+	PackageName  [ util ]
+	Synopsis     [ Define doubly linked list package ]
+	Author       [ Chung-Yang (Ric) Huang ]
+	Copyright    [ Copyleft(c) 2005-2012 LaDs(III), GIEE, NTU, Taiwan ]
+ ****************************************************************************/
 
 #ifndef DLIST_H
 #define DLIST_H
@@ -21,76 +21,191 @@ template <class T> class DList;
 template <class T>
 class DListNode
 {
-   friend class DList<T>;
-   friend class DList<T>::iterator;
+	friend class DList<T>;
+	friend class DList<T>::iterator;
 
-   DListNode(const T& d, DListNode<T>* p = 0, DListNode<T>* n = 0):
-      _data(d), _prev(p), _next(n) {}
+	DListNode(const T& d, DListNode<T>* p = 0, DListNode<T>* n = 0):
+		_data(d), _prev(p), _next(n) {}
 
-   T              _data;
-   DListNode<T>*  _prev;
-   DListNode<T>*  _next;
+	T              _data;
+	DListNode<T>*  _prev;
+	DListNode<T>*  _next;
 };
 
 
 template <class T>
 class DList
 {
-public:
-   DList() {
-      _head = new DListNode<T>(T());
-      _head->_prev = _head->_next = _head; // _head is a dummy node
-   }
-   ~DList() { clear(); delete _head; }
+	public:
+		DList() {
+			_head = new DListNode<T>(T());
+			_head->_prev = _head->_next = _head; // _head is a dummy node
+		}
+		~DList() { clear(); delete _head; }
 
-   // DO NOT add any more data member or function for class iterator
-   class iterator
-   {
-      friend class DList;
+		// DO NOT add any more data member or function for class iterator
+		class iterator
+		{
+			friend class DList;
 
-   public:
-      iterator(DListNode<T>* n= 0): _node(n) {}
-      iterator(const iterator& i) : _node(i._node) {}
-      ~iterator() {} // Should NOT delete _node
+			public:
+			iterator(DListNode<T>* n= 0): _node(n) {}
+			iterator(const iterator& i) : _node(i._node) {}
+			~iterator() {} // Should NOT delete _node
 
-      // TODO: implement these overloaded operators
-      const T& operator * () const { return *(this); }
-      T& operator * () { return _node->_data; }
-      iterator& operator ++ () { return *(this); }
-      iterator operator ++ (int) { return *(this); }
-      iterator& operator -- () { return *(this); }
-      iterator operator -- (int) { return *(this); }
+			// TODO: implement these overloaded operators
+			const T& operator * () const { return _node->_data; }
+			T& operator * () { return _node->_data; }
+			iterator& operator ++ ()  { _node=_node->_next; return (*this); }
+			iterator operator ++ (int)  { iterator copied((*this)); ++(*this); return copied; }
+			iterator& operator -- ()  { _node=_node->_prev; return (*this); }
+			iterator operator -- (int)  { iterator copied((*this)); --(*this); return copied; }
 
-      iterator& operator = (const iterator& i) { return *(this); }
+			iterator& operator = (const iterator& i)  { this->_node=i._node; return (*this); }
 
-      bool operator != (const iterator& i) const { return false; }
-      bool operator == (const iterator& i) const { return false; }
+			bool operator != (const iterator& i)  { return (this->_node)!=(i._node); }
+			bool operator == (const iterator& i)  { return (this->_node)==(i._node); }
 
-   private:
-      DListNode<T>* _node;
-   };
+			private:
+			DListNode<T>* _node;
+		};
 
-   // TODO: implement these functions
-   iterator begin() const { return 0; }
-   iterator end() const { return 0; }
-   bool empty() const { return false; }
-   size_t size() const {  return 0; }
+		// TODO: implement these functions
 
-   void pop_front() { }
-   void pop_back() { }
+		iterator begin() const {     
 
-   // return false if nothing to erase
-   bool erase(iterator pos) { return false; }
-   bool erase(const T& x) { return false; }
-   // return false if insertion fails
-   bool insert(const T& x) { return false; }
+			return iterator(_head);
 
-   void clear() { } // delete all nodes except for the dummy node
+		}
 
-private:
-   DListNode<T>*  _head;  // = dummy node if list is empty
+		iterator end() const {  
 
-   // [OPTIONAL TODO] helper functions; 
+			return iterator(_head->_prev);
+
+		}
+
+		bool empty() const { return (_head==_head->_next); }
+		size_t size() const { 
+		
+			size_t count=0;
+			DListNode<T>* _node=_head->_next;
+			while(_node!=_head){
+			
+				count++;
+			
+			}
+		
+			return count; 
+		
+		}
+
+		void pop_front() {
+		
+			DListNode<T>* tmp=_head->_next;
+			DListNode<T>* dummy=_head->_prev;
+			erase(iterator(begin()));
+			_head=tmp;
+			_head->_prev=dummy;
+		
+		}
+		void pop_back() {
+		
+			DListNode<T>* tmp=_head->_prev->_prev->_prev;
+			erase(iterator(_head->_prev->_prev));
+			_head->_prev->_prev=tmp;
+		
+		}
+
+		// return false if nothing to erase
+		bool erase(iterator pos) {
+		
+			if(!empty()){
+
+				DListNode<T>* next=pos._node->_next;
+				DListNode<T>* prev=pos._node->_prev;
+				next->_prev=prev;
+				prev->_next=next;
+				delete pos._node;
+				return true;
+
+			}
+			else return false; 
+		
+		}
+		
+		bool erase(const T& x) { 
+		
+			iterator pos=sequentialSearch(x);
+			if(pos!=0){
+			
+				erase(pos);
+				return true;
+
+			}
+			else return false; 
+		
+		}
+
+		// return false if insertion fails
+		bool insert(const T& x) {
+		
+			iterator pos=sequentialSearch(x);
+			if(pos==0){
+			
+				DListNode<T>* node=_head;
+				while(node->_data<x && node!=_head->_prev){
+
+					node=node->_next;
+			
+				}
+
+				DListNode<T>* newNode = new DListNode<T>(x);
+				newNode->_prev=node->_prev;
+				node->_prev->_next=newNode;
+				newNode->_next=node;
+				node->_prev=newNode;
+
+				return true;
+			
+			}
+			else return false; 
+		
+		}
+
+		void clear() { 
+			
+			DListNode<T>* dummy=_head->_prev;
+			_head=_head->_next;
+			while(_head!=dummy){
+			
+				delete _head->_prev;
+				_head=_head->_next;
+			
+			}
+			delete _head->_prev;
+			_head->_prev=_head;
+			_head->_next=_head;
+		
+		} // delete all nodes except for the dummy node
+
+	private:
+		DListNode<T>*  _head;  // = dummy node if list is empty
+
+		// [OPTIONAL TODO] helper functions;
+		// return 0 if not found
+		iterator sequentialSearch(const T& x){
+		
+			DListNode<T>* node=_head;
+			while(!(node->_data==x) && node!=_head->_prev){
+			
+				node=node->_next;
+			
+			}
+			if(node!=_head->_prev) return iterator(node);
+			else return 0;
+
+		}
+
 };
 
 #endif // DLIST_H
