@@ -1,0 +1,22 @@
+adt> adta -s hello
+
+adt> adtp
+=== ADT (bst) ===
+[  0] = hello   
+
+adt> adta -s hello
+
+adt> adtp
+=== ADT (bst) ===
+[  0] = hello   
+
+adt> adta -s hellow
+
+adt> adtp
+=== ADT (bst) ===
+[  0] = hello   
+
+adt> adtd -s helloo
+
+adt> adtp
+=== ADT (bst) ===

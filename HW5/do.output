@@ -1,0 +1,32 @@
+adt> #! /bin/csh
+
+adt> 
+adt> echo "Usage: do.all <adtTest.xxx>"
+
+adt> 
+adt> echo "==="
+
+adt> echo do1
+
+adt> echo "==="
+
+adt> $1 -f tests/do1
+
+adt> echo "==="
+
+adt> echo do2
+
+adt> echo "==="
+
+adt> $1 -f tests/do2
+
+adt> echo "==="
+
+adt> echo do3
+
+adt> echo "==="
+
+adt> $1 -f tests/do3
+
+adt> 
+adt> 
