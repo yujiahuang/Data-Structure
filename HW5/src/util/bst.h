@@ -131,26 +131,22 @@ public:
 		}
 
 		iterator& operator -- ()  { 
-				
-			if(_node->_left!=0) _node=findMax(_node->_left);
-			else if(_node->_parent!=0){
-				
-				if(_node==_node->_parent->_right) _node=_node->_parent;
-				else{
 		
-					BSTreeNode<T>* tmp=_node->_parent;
-					while(  ( (tmp->_parent)!=0 ) && !( (tmp)==(tmp->_parent->_right) )  ){
+			if(_isEnd==true) _isEnd=false;
+			else if(_node->_left!=0) _node=findMax(_node->_left);
+			else {
+		
+				BSTreeNode<T>* tmp=_node;
+				while(tmp->_parent!=0 && (tmp->_data < tmp->_parent->_data) ){
 				
-						tmp=tmp->_parent;
-
-					}
-					if(tmp->_parent!=0) _node=tmp->_parent;
-					else{
+					tmp=tmp->_parent;
 				
-						// then something's wrong
+				}
+				if(tmp->_parent!=0) _node=tmp->_parent;
+				else{
+			
+					//then something's wrong
 					
-					}
-
 				}
 
 			}
@@ -257,32 +253,7 @@ public:
 				iterator max = findMax(pos._node->_left);
 				pos._node->_data = max._node->_data;	
 				erase(max);
-/*
-				if(pos._node->_parent!=0){
-				
-					if(pos._node->_parent->_left==pos._node){
-					
-						pos._node->_parent->_left=pos._node->_left;
-						pos._node->_left->_parent=pos._node->_parent;
-						delete pos._node;
 
-					}
-					if(pos._node->_parent->_right==pos._node){
-					
-						pos._node->_parent->_right=pos._node->_left;
-						pos._node->_left->_parent=pos._node->_parent;
-						delete pos._node;
-
-					}
-
-				}
-				else{
-					
-					_root=pos._node->_left;
-					delete pos._node;
-
-				}
-*/
 			}
 			else{ //no child
 
@@ -291,11 +262,24 @@ public:
 				else if(pos._node==pos._node->_parent->_left) isRight='0';
 				else isRight='1';
 
-				if(isRight=='1') pos._node->_parent->_right=0;
-				else if(isRight=='0') pos._node->_parent->_left=0;
-				BSTreeNode<T>* tmp=pos._node;
-				delete tmp;
-				pos._node=0;
+				if(isRight=='1'){
+				
+					pos._node->_parent->_right=0;
+					delete pos._node;
+				
+				}
+				else if(isRight=='0'){
+				
+					pos._node->_parent->_left=0;
+					delete pos._node;
+				
+				}
+				else{
+				
+					delete pos._node;
+					_root=0;
+				
+				} 
 
 			}
 			return true;
@@ -308,7 +292,11 @@ public:
 	bool erase(const T& x) { 
 	
 		iterator i=binarySearch(_root, x);	
-		if(i==0) return false;
+		if(i._node==0){
+		
+			return false;
+
+		}
 		else{
 	
 			erase(i);	
@@ -360,9 +348,9 @@ private:
 	
 	}
 
-	iterator binarySearch(BSTreeNode<T>* root, const T& x){ // return 0 if not found
+	iterator binarySearch(BSTreeNode<T>* root, const T& x){ // return iterator(0) if not found
 		
-		if(root==0) return 0;
+		if(root==0) return iterator(0);
 		else if(root->_data==x) return iterator(root);
 		else if(root->_data<x){
 	
