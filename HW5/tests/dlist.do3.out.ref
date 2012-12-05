@@ -1,0 +1,80 @@
+adt> adta -s hello
+
+adt> adtp
+=== ADT (dlist) ===
+[  0] = hello   
+
+adt> adta -s hello
+
+adt> adtp
+=== ADT (dlist) ===
+[  0] = hello   
+
+adt> adta -s hellow
+
+adt> adtp
+=== ADT (dlist) ===
+[  0] = hello   
+
+adt> adtd -s helloo
+
+adt> adtp
+=== ADT (dlist) ===
+
+
+adt> adtd -s hello
+
+adt> adtp
+=== ADT (dlist) ===
+
+
+adt> adta -r 30
+
+adt> adtp
+=== ADT (dlist) ===
+[  0] = agdue   [  1] = bybne   [  2] = cdmtz   [  3] = fitho   [  4] = gutrz   
+[  5] = gzxwg   [  6] = hgpgd   [  7] = hokex   [  8] = ifxjr   [  9] = jbalb   
+[ 10] = jvxby   [ 11] = kdczf   [ 12] = mfyxd   [ 13] = mqjny   [ 14] = nblyy   
+[ 15] = ncerx   [ 16] = nmzhu   [ 17] = nukxh   [ 18] = nvphq   [ 19] = ojtnr   
+[ 20] = qtcdn   [ 21] = relwv   [ 22] = shtqj   [ 23] = tduet   [ 24] = uhlfe   
+[ 25] = wqlqh   [ 26] = xqsdp   [ 27] = ykvrx   [ 28] = yprwl   [ 29] = yrjtj   
+
+
+adt> adtd -min 5
+
+adt> adtp
+=== ADT (dlist) ===
+[  0] = gzxwg   [  1] = hgpgd   [  2] = hokex   [  3] = ifxjr   [  4] = jbalb   
+[  5] = jvxby   [  6] = kdczf   [  7] = mfyxd   [  8] = mqjny   [  9] = nblyy   
+[ 10] = ncerx   [ 11] = nmzhu   [ 12] = nukxh   [ 13] = nvphq   [ 14] = ojtnr   
+[ 15] = qtcdn   [ 16] = relwv   [ 17] = shtqj   [ 18] = tduet   [ 19] = uhlfe   
+[ 20] = wqlqh   [ 21] = xqsdp   [ 22] = ykvrx   [ 23] = yprwl   [ 24] = yrjtj   
+
+
+adt> adtd -max 5
+
+adt> adtp
+=== ADT (dlist) ===
+[  0] = gzxwg   [  1] = hgpgd   [  2] = hokex   [  3] = ifxjr   [  4] = jbalb   
+[  5] = jvxby   [  6] = kdczf   [  7] = mfyxd   [  8] = mqjny   [  9] = nblyy   
+[ 10] = ncerx   [ 11] = nmzhu   [ 12] = nukxh   [ 13] = nvphq   [ 14] = ojtnr   
+[ 15] = qtcdn   [ 16] = relwv   [ 17] = shtqj   [ 18] = tduet   [ 19] = uhlfe   
+
+
+adt> adtd -r 5
+
+adt> adtp
+=== ADT (dlist) ===
+[  0] = gzxwg   [  1] = ifxjr   [  2] = jbalb   [  3] = kdczf   [  4] = mfyxd   
+[  5] = mqjny   [  6] = nblyy   [  7] = nmzhu   [  8] = nukxh   [  9] = nvphq   
+[ 10] = ojtnr   [ 11] = qtcdn   [ 12] = relwv   [ 13] = tduet   [ 14] = uhlfe   
+
+
+adt> adtd -all
+
+adt> adtp
+=== ADT (dlist) ===
+
+
+adt> q -f
+

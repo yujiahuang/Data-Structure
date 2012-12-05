@@ -84,14 +84,15 @@ class DList
 
 		}
 
-		bool empty() const { return (_head==_head->_next); }
+		bool empty() const { return (_head==_head->_next)&&(_head==_head->_prev); }
 		size_t size() const { 
 		
 			size_t count=0;
-			DListNode<T>* _node=_head->_next;
-			while(_node!=_head){
+			DListNode<T>* node=_head->_next;
+			while(node!=_head){
 			
 				count++;
+				node=node->_next;
 			
 			}
 		
@@ -103,16 +104,18 @@ class DList
 		
 			DListNode<T>* tmp=_head->_next;
 			DListNode<T>* dummy=_head->_prev;
-			erase(iterator(begin()));
+			erase(begin());
 			_head=tmp;
 			_head->_prev=dummy;
-		
+			dummy->_next=_head;	
+	
 		}
 		void pop_back() {
 		
 			DListNode<T>* tmp=_head->_prev->_prev->_prev;
 			erase(iterator(_head->_prev->_prev));
 			_head->_prev->_prev=tmp;
+			tmp->_next=_head->_prev;
 		
 		}
 
@@ -121,11 +124,25 @@ class DList
 		
 			if(!empty()){
 
-				DListNode<T>* next=pos._node->_next;
-				DListNode<T>* prev=pos._node->_prev;
-				next->_prev=prev;
-				prev->_next=next;
-				delete pos._node;
+				if(pos._node==_head){
+
+					_head->_next->_prev=_head->_prev;
+					_head->_prev->_next=_head->_next;
+					DListNode<T>* tmp=_head->_next;
+					delete _head;	
+					_head=tmp;
+
+				}
+				else{
+
+					DListNode<T>* next=pos._node->_next;
+					DListNode<T>* prev=pos._node->_prev;
+					next->_prev=prev;
+					prev->_next=next;
+					delete pos._node;
+
+				}
+
 				return true;
 
 			}
@@ -136,7 +153,7 @@ class DList
 		bool erase(const T& x) { 
 		
 			iterator pos=sequentialSearch(x);
-			if(pos!=0){
+			if(pos._node!=0){
 			
 				erase(pos);
 				return true;
@@ -150,7 +167,7 @@ class DList
 		bool insert(const T& x) {
 		
 			iterator pos=sequentialSearch(x);
-			if(pos==0){
+			if(pos._node==0){
 			
 				DListNode<T>* node=_head;
 				while(node->_data<x && node!=_head->_prev){
@@ -159,11 +176,25 @@ class DList
 			
 				}
 
-				DListNode<T>* newNode = new DListNode<T>(x);
-				newNode->_prev=node->_prev;
-				node->_prev->_next=newNode;
-				newNode->_next=node;
-				node->_prev=newNode;
+				if(node==_head || empty()){
+
+					DListNode<T>* newNode = new DListNode<T>(x);
+					newNode->_prev=_head->_prev;
+					_head->_prev=newNode;
+					newNode->_next=_head;
+					_head=newNode;
+					_head->_prev->_next=_head;
+
+				}
+				else{
+
+					DListNode<T>* newNode = new DListNode<T>(x);
+					newNode->_prev=node->_prev;
+					node->_prev->_next=newNode;
+					newNode->_next=node;
+					node->_prev=newNode;
+
+				}
 
 				return true;
 			
@@ -173,16 +204,17 @@ class DList
 		}
 
 		void clear() { 
-			
+		
 			DListNode<T>* dummy=_head->_prev;
-			_head=_head->_next;
-			while(_head!=dummy){
+			DListNode<T>* node=_head->_next;
+			while(node!=dummy){
 			
-				delete _head->_prev;
-				_head=_head->_next;
+				erase(iterator(node->_prev));
+				node=node->_next;
 			
 			}
-			delete _head->_prev;
+			erase(iterator(dummy->_prev));
+			_head=dummy;
 			_head->_prev=_head;
 			_head->_next=_head;
 		
@@ -192,7 +224,7 @@ class DList
 		DListNode<T>*  _head;  // = dummy node if list is empty
 
 		// [OPTIONAL TODO] helper functions;
-		// return 0 if not found
+		// return iterator(0) if not found
 		iterator sequentialSearch(const T& x){
 		
 			DListNode<T>* node=_head;
@@ -201,9 +233,12 @@ class DList
 				node=node->_next;
 			
 			}
-			if(node!=_head->_prev) return iterator(node);
-			else return 0;
+			if(node!=_head->_prev){
 
+				return iterator(node);
+			
+			}
+			else return iterator(0);
 		}
 
 };
