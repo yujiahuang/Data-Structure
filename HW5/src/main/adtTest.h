@@ -136,15 +136,16 @@ private:
 /*
 			for (int i=0; li != _container.end()&&i<50; ++li, ++i){
 
-				cout << "//" << li._isEnd << "//" << _container.end()._isEnd << "//";
+				//cout << "//" << *li << "//\n";
 				printData(idx++, li, 4);
 
 			}
-*/
-	
+
+*/	
 	
 			for (; li != _container.end(); ++li)
 				printData(idx++, li, 4);
+
 	 }
    void printBackward() {
       if (_container.empty()) return;

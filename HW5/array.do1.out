@@ -1,0 +1,36 @@
+adt> adta -r 20
+
+adt> adtp
+=== ADT (array) ===
+[  0] = blzsf   [  1] = cjopr   [  2] = dfyae   [  3] = eekxv   [  4] = gdcpn   
+[  5] = gzxwg   [  6] = herfg   [  7] = kdczf   [  8] = klpvo   [  9] = kplxi   
+[ 10] = laqdm   [ 11] = mqjny   [ 12] = qbbbw   [ 13] = qbrkc   [ 14] = rbsdk   
+[ 15] = swoty   [ 16] = vkitn   [ 17] = vkuux   [ 18] = weizk   [ 19] = wqlqh   
+
+
+adt> adtd -min 3
+
+adt> adtp
+=== ADT (array) ===
+[  0] = herfg   [  1] = kdczf   [  2] = klpvo   [  3] = kplxi   [  4] = laqdm   
+[  5] = mqjny   [  6] = qbbbw   [  7] = qbrkc   [  8] = rbsdk   [  9] = swoty   
+[ 10] = vkitn   [ 11] = vkuux   [ 12] = weizk   [ 13] = weizk   [ 14] = weizk   
+[ 15] = weizk   [ 16] = wqlqh   
+
+adt> adtd -max 5
+
+adt> adtp
+=== ADT (array) ===
+[  0] = herfg   [  1] = kdczf   [  2] = klpvo   [  3] = kplxi   [  4] = laqdm   
+[  5] = mqjny   [  6] = qbbbw   [  7] = qbrkc   [  8] = rbsdk   [  9] = swoty   
+[ 10] = vkitn   [ 11] = vkuux   
+
+adt> adtd -rand 4
+
+adt> adtp
+=== ADT (array) ===
+[  0] = klpvo   [  1] = kplxi   [  2] = laqdm   [  3] = mqjny   [  4] = qbrkc   
+[  5] = rbsdk   [  6] = swoty   [  7] = vkitn   
+
+adt> q -f
+

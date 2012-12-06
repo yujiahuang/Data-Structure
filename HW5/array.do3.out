@@ -1,0 +1,80 @@
+adt> adta -s hello
+
+adt> adtp
+=== ADT (array) ===
+[  0] = hello   
+
+adt> adta -s hello
+
+adt> adtp
+=== ADT (array) ===
+[  0] = hello   
+
+adt> adta -s hellow
+
+adt> adtp
+=== ADT (array) ===
+[  0] = hello   
+
+adt> adtd -s helloo
+
+adt> adtp
+=== ADT (array) ===
+
+
+adt> adtd -s hello
+
+adt> adtp
+=== ADT (array) ===
+
+
+adt> adta -r 30
+
+adt> adtp
+=== ADT (array) ===
+[  0] = aetjs   [  1] = aexde   [  2] = aywys   [  3] = bvtmr   [  4] = cuurx   
+[  5] = dmqxc   [  6] = eqdop   [  7] = etdnh   [  8] = fitho   [  9] = furbz   
+[ 10] = gyoym   [ 11] = hjvpj   [ 12] = huhie   [ 13] = hxwqf   [ 14] = jmnhg   
+[ 15] = joplr   [ 16] = llcye   [ 17] = majnc   [ 18] = mwccj   [ 19] = nvphq   
+[ 20] = ojtnr   [ 21] = pdhjd   [ 22] = pnjzo   [ 23] = uhlfe   [ 24] = vmcoe   
+[ 25] = vmylv   [ 26] = vwkmk   [ 27] = wygfi   [ 28] = xqsdp   [ 29] = yicpp   
+
+
+adt> adtd -min 5
+
+adt> adtp
+=== ADT (array) ===
+[  0] = gyoym   [  1] = hjvpj   [  2] = huhie   [  3] = hxwqf   [  4] = jmnhg   
+[  5] = joplr   [  6] = llcye   [  7] = majnc   [  8] = mwccj   [  9] = nvphq   
+[ 10] = ojtnr   [ 11] = pdhjd   [ 12] = pnjzo   [ 13] = uhlfe   [ 14] = vmcoe   
+[ 15] = vmylv   [ 16] = vwkmk   [ 17] = wygfi   [ 18] = xqsdp   [ 19] = xqsdp   
+[ 20] = xqsdp   [ 21] = xqsdp   [ 22] = xqsdp   [ 23] = xqsdp   [ 24] = yicpp   
+
+
+adt> adtd -max 5
+
+adt> adtp
+=== ADT (array) ===
+[  0] = gyoym   [  1] = hjvpj   [  2] = huhie   [  3] = hxwqf   [  4] = jmnhg   
+[  5] = joplr   [  6] = llcye   [  7] = majnc   [  8] = mwccj   [  9] = nvphq   
+[ 10] = ojtnr   [ 11] = pdhjd   [ 12] = pnjzo   [ 13] = uhlfe   [ 14] = vmcoe   
+[ 15] = vmylv   [ 16] = vwkmk   [ 17] = wygfi   [ 18] = xqsdp   [ 19] = xqsdp   
+
+
+adt> adtd -r 5
+
+adt> adtp
+=== ADT (array) ===
+[  0] = gyoym   [  1] = hjvpj   [  2] = hxwqf   [  3] = jmnhg   [  4] = llcye   
+[  5] = majnc   [  6] = mwccj   [  7] = ojtnr   [  8] = pdhjd   [  9] = pnjzo   
+[ 10] = uhlfe   [ 11] = vmylv   [ 12] = vwkmk   [ 13] = xqsdp   [ 14] = xqsdp   
+
+
+adt> adtd -all
+
+adt> adtp
+=== ADT (array) ===
+
+
+adt> q -f
+

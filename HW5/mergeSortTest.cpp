@@ -3,17 +3,20 @@ using namespace std;
 
 void mergeSort(int* data, size_t size);
 
+int size=11;
+typedef int T;
+
 int main(){
 
-int testArray[]={125, 456, 1, 0, -48, 66, 66};
-for(int i=0; i<7; i++){
+int testArray[]={5, 10, 11, 125, 456, 1, 0, -48, 66, 120};
+for(int i=0; i<size; i++){
 
 cout << testArray[i] << " ";
 
 }
 cout << endl;
-mergeSort(testArray, 7);
-for(int i=0; i<7; i++){
+mergeSort(testArray, size);
+for(int i=0; i<size; i++){
 
 cout << testArray[i] << " ";
 
@@ -23,61 +26,82 @@ return 0;
 
 }
 
-void mergeSort(int* data, size_t size){
-		
-if(size>1){
-			size_t leftS=size/2, rightS=size/2;
-			if(size%2==1) ++leftS;
-			int left[leftS], right[rightS];
+		//swap
+		void swap(T& a, T& b){
 
-			//copy
-			size_t i=0;
-			for(; i<leftS; i++){
-			
-				left[i]=data[i];
-			
+			T tmp = a;
+			a=b;
+			b=tmp;
+
+		}
+
+		// merge sort TODO
+		void mergeSort(T* data, size_t size){
+			if(size<2);	
+			else if(size==2){
+
+				if(data[1]<data[0]) swap(data[0], data[1]);
+
 			}
-			for(size_t j=0; j<rightS; j++){
-			
-				right[j]=data[i];
-				i++;
-			
-			}
+			else{
 
-			//recursive
-			mergeSort(left, leftS);
-			mergeSort(right, rightS);
+				size_t leftS=size/2;
+				size_t rightS=size-leftS;
+				T left[leftS], right[rightS];
 
-			//merge
-			size_t leftI=0, rightI=0;
-			i=0;
-			for(; i<size && leftI<leftS && rightI<rightS; i++){
-			
-				if(left[leftI]<right[rightI]){
-				
-					data[i]=left[leftI];
-					++leftI;
-				
+				//copy
+				for(size_t i=0; i<leftS; i++){
+
+					left[i]=data[i];
+
 				}
-				else{
-				
-					data[i]=right[rightI];
-					++rightI;
-				
+				for(size_t j=0; j<rightS; j++){
+
+					right[j]=data[j+leftS];
+
 				}
-			
-			}
-			for(; i<size && leftI<leftS; i++){
-				
+
+				//recursive
+				mergeSort(left, leftS);
+				mergeSort(right, rightS);
+
+				//merge
+				size_t leftI=0, rightI=0, i=0;
+				while(i<size && leftI<leftS && rightI<rightS){
+
+					if(left[leftI]<right[rightI]){
+
+						data[i]=left[leftI];
+						leftI++;
+
+					}
+					else{
+
+						data[i]=right[rightI];
+						rightI++;
+
+					}
+					i++;
+
+				}
+				while(i<size && leftI<leftS){
+	
 					data[i]=left[leftI];
 					leftI++;
-			
-			}
-			for(; i<size && rightI<rightI; i++){
-				
+					i++;
+
+				}
+				while(i<size && rightI<rightS){
+
 					data[i]=right[rightI];
 					rightI++;
-			
-			}}
-		
+					i++;
+
+				}
+
+			}
+	
+			for(size_t mm=0; mm<size; mm++) cout << data[mm] << " ";
+			cout << endl;	
 		}
+		

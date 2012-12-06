@@ -1,0 +1,36 @@
+adt> adta -r 20
+
+adt> adtp
+=== ADT (array) ===
+[  0] = aipvg   [  1] = dppnp   [  2] = fqnzh   [  3] = hokex   [  4] = iigbq   
+[  5] = jbalb   [  6] = jhxme   [  7] = kdczf   [  8] = mevxc   [  9] = mfyxd   
+[ 10] = mqjny   [ 11] = ncerx   [ 12] = oscmp   [ 13] = pnqpg   [ 14] = qgqfs   
+[ 15] = uhlfe   [ 16] = vkuux   [ 17] = wqlqh   [ 18] = yliwl   [ 19] = ztxzr   
+
+
+adt> adtd -min 3
+
+adt> adtp
+=== ADT (array) ===
+[  0] = hokex   [  1] = iigbq   [  2] = jbalb   [  3] = jhxme   [  4] = kdczf   
+[  5] = mevxc   [  6] = mfyxd   [  7] = mqjny   [  8] = ncerx   [  9] = oscmp   
+[ 10] = pnqpg   [ 11] = qgqfs   [ 12] = uhlfe   [ 13] = vkuux   [ 14] = wqlqh   
+[ 15] = yliwl   [ 16] = ztxzr   
+
+adt> adtd -max 5
+
+adt> adtp
+=== ADT (array) ===
+[  0] = hokex   [  1] = iigbq   [  2] = jbalb   [  3] = jhxme   [  4] = kdczf   
+[  5] = mevxc   [  6] = mfyxd   [  7] = mqjny   [  8] = ncerx   [  9] = oscmp   
+[ 10] = pnqpg   [ 11] = qgqfs   
+
+adt> adtd -rand 4
+
+adt> adtp
+=== ADT (array) ===
+[  0] = jbalb   [  1] = jhxme   [  2] = kdczf   [  3] = mevxc   [  4] = mfyxd   
+[  5] = mqjny   [  6] = ncerx   [  7] = pnqpg   
+
+adt> q -f
+
