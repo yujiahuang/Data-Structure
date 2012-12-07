@@ -1,0 +1,25 @@
+adta -r 1000
+usage
+adtd -r 500
+usage
+
+adta -r 10000
+usage 
+adtd -r 5000
+usage
+
+adta -r 100000
+usage
+adtd -r 50000
+usage
+
+adta -r 1000000
+usage 
+adtd -r 500000
+usage
+
+adtr 5
+usage
+
+q -f
+
