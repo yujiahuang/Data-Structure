@@ -1,0 +1,168 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ADT	main/adtTest.h	28;"	d
+ADT_TEST_H	main/adtTest.h	9;"	d
+ARRAY_H	util/array.h	10;"	d
+AdtAddCmd	main/adtTest.h	/^CmdClass(AdtAddCmd);$/;"	v
+AdtDeleteCmd	main/adtTest.h	/^CmdClass(AdtDeleteCmd);$/;"	v
+AdtPrintCmd	main/adtTest.h	/^CmdClass(AdtPrintCmd);$/;"	v
+AdtResetCmd	main/adtTest.h	/^CmdClass(AdtResetCmd);$/;"	v
+AdtTest	main/adtTest.h	/^class AdtTest$/;"	c
+AdtTestObj	main/adtTest.cpp	/^AdtTestObj::AdtTestObj()$/;"	f	class:AdtTestObj
+AdtTestObj	main/adtTest.h	/^   AdtTestObj(const AdtTestObj& o) : _str(o._str) {}$/;"	f	class:AdtTestObj
+AdtTestObj	main/adtTest.h	/^   AdtTestObj(const string& s)$/;"	f	class:AdtTestObj
+AdtTestObj	main/adtTest.h	/^class AdtTestObj$/;"	c
+AdtType	main/adtTest.h	29;"	d
+Array	util/array.h	/^		Array() : _data(0), _size(0), _capacity(0) {}$/;"	f	class:Array
+Array	util/array.h	/^class Array$/;"	c
+BST_H	util/bst.h	10;"	d
+BSTree	util/bst.h	/^class BSTree$/;"	c
+BSTreeNode	util/bst.h	/^class BSTreeNode$/;"	c
+DLIST_H	util/dlist.h	10;"	d
+DList	util/dlist.h	/^   DList() {$/;"	f	class:DList
+DList	util/dlist.h	/^class DList$/;"	c
+DListNode	util/dlist.h	/^   DListNode(const T& d, DListNode<T>* p = 0, DListNode<T>* n = 0):$/;"	f	class:DListNode
+DListNode	util/dlist.h	/^class DListNode$/;"	c
+MYCLK_TCK	util/myUsage.h	21;"	d
+MYCLK_TCK	util/myUsage.h	22;"	d
+MY_USAGE_H	util/myUsage.h	10;"	d
+MyUsage	util/myUsage.h	/^   MyUsage() { reset(); }$/;"	f	class:MyUsage
+MyUsage	util/myUsage.h	/^class MyUsage$/;"	c
+RANDOM_ACCESS	main/adtTest.h	26;"	d
+RN_GEN_H	util/rnGen.h	9;"	d
+RandomNumGen	util/rnGen.h	/^      RandomNumGen() { my_srandom(getpid()); }$/;"	f	class:RandomNumGen
+RandomNumGen	util/rnGen.h	/^      RandomNumGen(unsigned seed) { my_srandom(seed); }$/;"	f	class:RandomNumGen
+RandomNumGen	util/rnGen.h	/^class RandomNumGen$/;"	c
+TEST_ARRAY	main/adtTest.h	24;"	d
+TEST_BST	main/adtTest.h	25;"	d
+UTIL_H	util/util.h	9;"	d
+_capacity	util/array.h	/^		size_t       _capacity;   \/\/ max number of elements$/;"	m	class:Array
+_container	main/adtTest.h	/^   AdtType<AdtTestObj>   _container;$/;"	m	class:AdtTest
+_currentMem	util/myUsage.h	/^   double     _currentMem;$/;"	m	class:MyUsage
+_currentTick	util/myUsage.h	/^   double     _currentTick;$/;"	m	class:MyUsage
+_data	util/array.h	/^		T*           _data;$/;"	m	class:Array
+_data	util/dlist.h	/^   T              _data;$/;"	m	class:DListNode
+_head	util/dlist.h	/^   DListNode<T>*  _head;  \/\/ = dummy node if list is empty$/;"	m	class:DList
+_initMem	util/myUsage.h	/^   double     _initMem;$/;"	m	class:MyUsage
+_next	util/dlist.h	/^   DListNode<T>*  _next;$/;"	m	class:DListNode
+_node	util/array.h	/^			T*    _node;$/;"	m	class:Array::iterator
+_node	util/dlist.h	/^      DListNode<T>* _node;$/;"	m	class:DList::iterator
+_periodUsedTime	util/myUsage.h	/^   double     _periodUsedTime;$/;"	m	class:MyUsage
+_prev	util/dlist.h	/^   DListNode<T>*  _prev;$/;"	m	class:DListNode
+_size	util/array.h	/^		size_t       _size;       \/\/ number of valid elements$/;"	m	class:Array
+_str	main/adtTest.h	/^   string      _str;  \/\/ _data should alywas be between [0, _dataRange - 1]$/;"	m	class:AdtTestObj
+_strLen	main/adtTest.cpp	/^int AdtTestObj::_strLen = 5;$/;"	m	class:AdtTestObj	file:
+_strLen	main/adtTest.h	/^   static int  _strLen;$/;"	m	class:AdtTestObj
+_totalUsedTime	util/myUsage.h	/^   double     _totalUsedTime;$/;"	m	class:MyUsage
+add	main/adtTest.h	/^   bool add() { return insert(AdtTestObj()); }  \/\/ insert random number$/;"	f	class:AdtTest
+adtTest	main/adtTest.cpp	/^AdtTest adtTest;$/;"	v
+begin	util/array.h	/^		iterator begin() const { $/;"	f	class:Array
+begin	util/dlist.h	/^   iterator begin() const { return 0; }$/;"	f	class:DList
+binarySearch	util/array.h	/^		int binarySearch(const T& x){$/;"	f	class:Array
+checkMem	util/myUsage.h	/^   double checkMem() const {$/;"	f	class:MyUsage
+checkTick	util/myUsage.h	/^   double checkTick() const {$/;"	f	class:MyUsage
+clear	util/array.h	/^		void clear() {$/;"	f	class:Array
+clear	util/dlist.h	/^   void clear() { } \/\/ delete all nodes except for the dummy node$/;"	f	class:DList
+deleteAll	main/adtTest.h	/^   void deleteAll() { _container.clear(); }$/;"	f	class:AdtTest
+deleteBack	main/adtTest.h	/^   void deleteBack(size_t repeat = 1) {$/;"	f	class:AdtTest
+deleteFront	main/adtTest.h	/^   void deleteFront(size_t repeat = 1) {$/;"	f	class:AdtTest
+deleteObj	main/adtTest.h	/^   bool deleteObj(const AdtTestObj& o) { return _container.erase(o); }$/;"	f	class:AdtTest
+deleteRandom	main/adtTest.h	/^   void deleteRandom(size_t repeat = 1) {$/;"	f	class:AdtTest
+empty	util/array.h	/^		bool empty() const { return !_size; }$/;"	f	class:Array
+empty	util/dlist.h	/^   bool empty() const { return false; }$/;"	f	class:DList
+end	util/array.h	/^		iterator end() const {$/;"	f	class:Array
+end	util/dlist.h	/^   iterator end() const { return 0; }$/;"	f	class:DList
+erase	util/array.h	/^		bool erase(const T&x) {$/;"	f	class:Array
+erase	util/array.h	/^		bool erase(iterator pos) {$/;"	f	class:Array
+erase	util/dlist.h	/^   bool erase(const T& x) { return false; }$/;"	f	class:DList
+erase	util/dlist.h	/^   bool erase(iterator pos) { return false; }$/;"	f	class:DList
+exec	main/adtTest.cpp	/^AdtAddCmd::exec(const string& option)$/;"	f	class:AdtAddCmd
+exec	main/adtTest.cpp	/^AdtDeleteCmd::exec(const string& option)$/;"	f	class:AdtDeleteCmd
+exec	main/adtTest.cpp	/^AdtPrintCmd::exec(const string& option)$/;"	f	class:AdtPrintCmd
+exec	main/adtTest.cpp	/^AdtResetCmd::exec(const string& option)$/;"	f	class:AdtResetCmd
+getPos	main/adtTest.h	/^   AdtType<AdtTestObj>::iterator getPos(size_t pos) {$/;"	f	class:AdtTest
+help	main/adtTest.cpp	/^AdtAddCmd::help() const$/;"	f	class:AdtAddCmd
+help	main/adtTest.cpp	/^AdtDeleteCmd::help() const$/;"	f	class:AdtDeleteCmd
+help	main/adtTest.cpp	/^AdtPrintCmd::help() const$/;"	f	class:AdtPrintCmd
+help	main/adtTest.cpp	/^AdtResetCmd::help() const$/;"	f	class:AdtResetCmd
+initAdtCmd	main/adtTest.cpp	/^initAdtCmd()$/;"	f
+insert	main/adtTest.h	/^   bool insert(const AdtTestObj& o) { return _container.insert(o); }$/;"	f	class:AdtTest
+insert	util/array.h	/^		bool insert(const T& x) {$/;"	f	class:Array
+insert	util/dlist.h	/^   bool insert(const T& x) { return false; }$/;"	f	class:DList
+isValidVarName	util/myString.cpp	/^isValidVarName(const string& str)$/;"	f
+iterator	util/array.h	/^			iterator(T* n= 0): _node(n) {}$/;"	f	class:Array::iterator
+iterator	util/array.h	/^			iterator(const iterator& i): _node(i._node) {}$/;"	f	class:Array::iterator
+iterator	util/array.h	/^		class iterator$/;"	c	class:Array
+iterator	util/bst.h	/^   class iterator {};$/;"	c	class:BSTree
+iterator	util/dlist.h	/^      iterator(DListNode<T>* n= 0): _node(n) {}$/;"	f	class:DList::iterator
+iterator	util/dlist.h	/^      iterator(const iterator& i) : _node(i._node) {}$/;"	f	class:DList::iterator
+iterator	util/dlist.h	/^   class iterator$/;"	c	class:DList
+main	main/main.cpp	/^main(int argc, char** argv)$/;"	f
+mergeSort	util/array.h	/^		void mergeSort(T* data, size_t size){$/;"	f	class:Array
+myGetChar	util/myGetChar.cpp	/^char myGetChar()$/;"	f
+myGetChar	util/myGetChar.cpp	/^char myGetChar(istream& istr)$/;"	f
+myStr2Int	util/myString.cpp	/^myStr2Int(const string& str, int& num)$/;"	f
+myStrGetTok	util/myString.cpp	/^myStrGetTok(const string& str, string& tok, size_t pos = 0,$/;"	f
+myStrNCmp	util/myString.cpp	/^myStrNCmp(const string& s1, const string& s2, unsigned n)$/;"	f
+myUsage	util/util.cpp	/^MyUsage       myUsage;$/;"	v
+my_random	util/rnGen.h	17;"	d
+my_srandom	util/rnGen.h	16;"	d
+myexit	main/main.cpp	/^myexit()$/;"	f	file:
+operator !=	util/array.h	/^			bool operator != (const iterator& i) const { return (this->_node)!=(i._node); }$/;"	f	class:Array::iterator
+operator !=	util/dlist.h	/^      bool operator != (const iterator& i) const { return false; }$/;"	f	class:DList::iterator
+operator ()	util/rnGen.h	/^      const int operator() (const int range) const {$/;"	f	class:RandomNumGen
+operator *	util/array.h	/^			T& operator * () { return (*_node); }$/;"	f	class:Array::iterator
+operator *	util/array.h	/^			const T& operator * () const { return (*this); }$/;"	f	class:Array::iterator
+operator *	util/dlist.h	/^      T& operator * () { return _node->_data; }$/;"	f	class:DList::iterator
+operator *	util/dlist.h	/^      const T& operator * () const { return *(this); }$/;"	f	class:DList::iterator
+operator +	util/array.h	/^			iterator operator + (int i) const { iterator copied((*this)); copied._node+=i; return copied; }$/;"	f	class:Array::iterator
+operator ++	util/array.h	/^			iterator operator ++ (int) { iterator copied((*this)); this->_node+=1; return copied; }$/;"	f	class:Array::iterator
+operator ++	util/array.h	/^			iterator& operator ++ () { _node+=1; return (*this); }$/;"	f	class:Array::iterator
+operator ++	util/dlist.h	/^      iterator operator ++ (int) { return *(this); }$/;"	f	class:DList::iterator
+operator ++	util/dlist.h	/^      iterator& operator ++ () { return *(this); }$/;"	f	class:DList::iterator
+operator +=	util/array.h	/^			iterator& operator += (int i) { this->_node+=i; return (*this); }$/;"	f	class:Array::iterator
+operator --	util/array.h	/^			iterator operator -- (int) { iterator copied((*this)); this->_node-=1; return copied; }$/;"	f	class:Array::iterator
+operator --	util/array.h	/^			iterator& operator -- () { this->_node-=1; return (*this); }$/;"	f	class:Array::iterator
+operator --	util/dlist.h	/^      iterator operator -- (int) { return *(this); }$/;"	f	class:DList::iterator
+operator --	util/dlist.h	/^      iterator& operator -- () { return *(this); }$/;"	f	class:DList::iterator
+operator <	main/adtTest.h	/^   bool operator < (const AdtTestObj& o) const { return (_str < o._str); }$/;"	f	class:AdtTestObj
+operator <<	main/adtTest.cpp	/^ostream& operator << (ostream& os, const AdtTestObj& o)$/;"	f
+operator =	util/array.h	/^			iterator& operator = (const iterator& i) { this->_node=i._node; return (*this); }$/;"	f	class:Array::iterator
+operator =	util/dlist.h	/^      iterator& operator = (const iterator& i) { return *(this); }$/;"	f	class:DList::iterator
+operator ==	main/adtTest.h	/^   bool operator == (const AdtTestObj& o) const { return (_str == o._str); }$/;"	f	class:AdtTestObj
+operator ==	util/array.h	/^			bool operator == (const iterator& i) const { return (this->_node)==(i._node); }$/;"	f	class:Array::iterator
+operator ==	util/dlist.h	/^      bool operator == (const iterator& i) const { return false; }$/;"	f	class:DList::iterator
+operator []	util/array.h	/^		T& operator [] (size_t i) { return _data[i]; }$/;"	f	class:Array
+operator []	util/array.h	/^		const T& operator [] (size_t i) const { return _data[i]; }$/;"	f	class:Array
+pop_back	util/array.h	/^		void pop_back() {$/;"	f	class:Array
+pop_back	util/dlist.h	/^   void pop_back() { }$/;"	f	class:DList
+pop_front	util/array.h	/^		void pop_front() {$/;"	f	class:Array
+pop_front	util/dlist.h	/^   void pop_front() { }$/;"	f	class:DList
+print	main/adtTest.h	/^   void print(bool reverse = false, bool verbose = false) {$/;"	f	class:AdtTest
+printBackward	main/adtTest.h	/^   void printBackward() {$/;"	f	class:AdtTest
+printData	main/adtTest.h	/^   void printData(size_t idx, AdtType<AdtTestObj>::iterator li, size_t r) {$/;"	f	class:AdtTest
+printForward	main/adtTest.h	/^   void printForward() {$/;"	f	class:AdtTest
+report	util/myUsage.h	/^   void report(bool repTime, bool repMem) {$/;"	f	class:MyUsage
+reset	main/adtTest.h	/^   void reset(int len) { deleteAll(); AdtTestObj::setLen(len); }$/;"	f	class:AdtTest
+reset	util/myUsage.h	/^   void reset() {$/;"	f	class:MyUsage
+reset_keypress	util/myGetChar.cpp	/^static void reset_keypress(void)$/;"	f	file:
+setLen	main/adtTest.h	/^   static void setLen(int len) { _strLen = len; }$/;"	f	class:AdtTestObj
+setMemUsage	util/myUsage.h	/^   void setMemUsage() { _currentMem = checkMem() - _initMem; }$/;"	f	class:MyUsage
+setTimeUsage	util/myUsage.h	/^   void setTimeUsage() {$/;"	f	class:MyUsage
+set_keypress	util/myGetChar.cpp	/^static void set_keypress(void)$/;"	f	file:
+size	util/array.h	/^		size_t size() const { return _size; }$/;"	f	class:Array
+size	util/dlist.h	/^   size_t size() const {  return 0; }$/;"	f	class:DList
+stored_settings	util/myGetChar.cpp	/^static struct termios stored_settings;$/;"	v	typeref:struct:termios	file:
+usage	main/adtTest.cpp	/^AdtAddCmd::usage(ostream& os) const$/;"	f	class:AdtAddCmd
+usage	main/adtTest.cpp	/^AdtDeleteCmd::usage(ostream& os) const$/;"	f	class:AdtDeleteCmd
+usage	main/adtTest.cpp	/^AdtPrintCmd::usage(ostream& os) const$/;"	f	class:AdtPrintCmd
+usage	main/adtTest.cpp	/^AdtResetCmd::usage(ostream& os) const$/;"	f	class:AdtResetCmd
+usage	main/main.cpp	/^usage()$/;"	f	file:
+~Array	util/array.h	/^		~Array() { delete []_data; }$/;"	f	class:Array
+~DList	util/dlist.h	/^   ~DList() { clear(); delete _head; }$/;"	f	class:DList
+~iterator	util/array.h	/^			~iterator() {} \/\/ Should NOT delete _node$/;"	f	class:Array::iterator
+~iterator	util/dlist.h	/^      ~iterator() {} \/\/ Should NOT delete _node$/;"	f	class:DList::iterator
