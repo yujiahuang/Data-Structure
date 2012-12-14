@@ -54,6 +54,7 @@ class CirGateV {
 		CirGateV(CirGate* g, size_t phase):
 			_gateV(size_t(g) + phase) { }
 
+		//TODO consider 64bit 
 		CirGate* gate() const { return (CirGate*)(_gateV & 0xFFFFFFFC); }
 
 		bool isInv() const { return (_gateV & 0x1); }
@@ -71,8 +72,8 @@ class CirAigGate : CirGate {
 		~CirAigGate(){}
 
 	private:
-		vector<CirGateV> _faninList;
-		vector<CirGateV> _fanoutList;
+		vector<CirGateV*> _faninList;
+		vector<CirGateV*> _fanoutList;
 
 };
 
@@ -83,7 +84,7 @@ class CirPiGate {
 		~CirPiGate(){}
 
 	private:
-		vector<CirGateV> _fanoutList;
+		vector<CirGateV*> _fanoutList;
 		char *_name;
 
 };
@@ -94,7 +95,7 @@ class CirPoGate {
 		CirPoGate(){}
 
 	private:
-		vector<CirGateV> _faninList;
+		CirGateV* _fanin;
 		char *_name;
 
 };

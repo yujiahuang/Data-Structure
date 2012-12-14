@@ -150,6 +150,7 @@ parseError(CirParseError err)
 /**************************************************************/
 bool CirMgr::readCircuit(const string& fileName){
 
+	_fileName=fileName;
 	ifstream circuitF(fileName.c_str());
 	string line;
 	size_t lineNum=1;
@@ -188,18 +189,97 @@ void processLine(vector<string> tokens, size_t lineNum){
 		else; // error	
 
 	}	
-	else if(lineNum>1 && lineNum<1+I){
+	else if(lineNum>1 && lineNum<=1+I){ // input
 	
 		if(tokens.size()==1){
 		
-		//TODO: decide how to connect all gates
-		//i dont think using 3 vectors is a good idea
-			CirPiGate CirPiGate();
-		
+			int literal = atoi(tokens[0].c_str);
+			CirPiGate *pi = new CirPiGate(literal/2);
+			CirGateV *gatePtr = new CirGateV(pi, literal%2);
+			input.push_back(gatePtr);
+
 		}
 		else; // error
 	
 	}
+	else if(lineNum>1+I && lineNum<=1+I+L+O){ // output
+	
+		if(tokens.size()==1){
+		
+			int literal = atoi(tokens[0].c_str);
+			CirAigGate *aig = new CirAigGate(literal/2);
+			CirGateV *aigGatePtr = new CirGateV(aig, literal%2);
+			aig.push_back(aigGatePtr);
+
+			CirPoGate *po = new CirPoGate( M+(lineNum-I-1) );
+			po->_fanin=*(aig.end()-1);
+
+			CirGateV *poGatePtr = new CirGateV(po, 0);
+			output.push_back(poGatePtr);
+
+		}
+		else; //error
+	
+	}
+	else if(lineNum>1+I+L+O && lineNum<=1+I+L+O+A){ // aig
+	
+		if(tokens.size()==3){
+		
+			int lhs = atoi(tokens[0].c_str);
+			int rhs1 = atoi(tokens[1].c_str);
+			int rhs2 = atoi(tokens[2].c_str);
+
+			vector<CirGateV*>::iterator it = searchInList(3, literal);
+			if(it==0){
+
+				CirAigGate *aig = new CirAigGate(literal/2);
+				CirGateV *aigGatePtr = new CirGateV(aig, literal%2);
+
+				aig.push_back(aigGatePtr);
+
+				//TODO connect aig
+
+			}else{
+			
+				
+			
+			}
+
+		
+		}
+		else; //error
+	
+	}
+
+}
+
+vector<CirGateV *>::iterator searchInList(const int type, const int literal){
+
+	vector<CirGateV *> *toBeSearched;
+	if(type==1){ // input
+
+		toBeSearched=&input;
+
+	}
+	else if(type==2){ // output
+	
+		toBeSearched=&output;
+	
+	}
+	else if(type==3){ // aig
+	
+		toBeSearched=&aigput;
+	
+	}
+	else; //error
+
+	for(vector<CirGateV *>::iterator it = toBeSearched->begin(); it!=toBeSearched->end(); it++){
+
+		if((*it)->gate()->_id*2+(*it)->isInv() == literal) return it;
+
+	}
+
+	return 0;
 
 }
 

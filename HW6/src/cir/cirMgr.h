@@ -44,10 +44,12 @@ class CirMgr{
 
 	private:
 		void processLine(vector<string>, size_t);
+		vector<CirGateV *>::iterator searchInList(const int, const int); // type: 1 input, 2 output, 3 aig 
 		size_t M, I, L, O, A;
-		vector<CirPiGate> input;
-		vector<CirPoGate> output;
-		vector<CirAigGate> aig;
+		vector<CirGateV*> input;
+		vector<CirGateV*> output;
+		vector<CirGateV*> aig;
+		string _fileName;
 
 };
 
