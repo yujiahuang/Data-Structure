@@ -39,3 +39,32 @@ CirGate::reportFanout(int level) const
    assert (level >= 0);
 }
 
+void CirAigGate::printGate() const{
+
+	cout << "AIG\t" << _id; 
+	for(int i=0; i<=1; i++){
+
+		//TODO need to consider undef
+		cout << (_faninList[i]->isInv() ? "\t!" : "\t");
+		cout << _faninList[i]->gate()->getId();
+
+	}
+
+}
+
+void CirPiGate::printGate() const{
+
+	cout << "PI\t" << _id; 
+	//TODO need to consider undef
+
+}
+
+void CirPoGate::printGate() const{
+
+	//TODO need to consider undef
+	cout << "PO\t" << _id; 
+	cout << (_faninList[0]->isInv() ? "\t!" : "\t");
+	cout << _faninList[0]->gate()->getId();
+
+
+}

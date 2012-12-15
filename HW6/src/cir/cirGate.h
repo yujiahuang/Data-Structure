@@ -23,11 +23,15 @@ class CirGate;
 //------------------------------------------------------------------------
 
 // Base Class
+class CirGateV;
+
 class CirGate{
+
+friend class CirMgr;
 
 	public:
 		CirGate() {}
-		CirGate(size_t i) : _id(i);
+		CirGate(size_t i) : _id(i){};
 		virtual ~CirGate() {}
 
 		// Basic access methods
@@ -40,10 +44,15 @@ class CirGate{
 		void reportFanin(int level) const;
 		void reportFanout(int level) const;
 
+		size_t getId(){return _id;}
+
 	private:
 
 	protected:
 		size_t _id;
+		vector<CirGateV*> _faninList;
+		vector<CirGateV*> _fanoutList;
+
 
 };
 
@@ -54,8 +63,12 @@ class CirGateV {
 		CirGateV(CirGate* g, size_t phase):
 			_gateV(size_t(g) + phase) { }
 
-		//TODO consider 64bit 
-		CirGate* gate() const { return (CirGate*)(_gateV & 0xFFFFFFFC); }
+		CirGate* gate() const { 
+	
+			size_t i = (~0x0)-(0x3);
+			return (CirGate*)(_gateV & i); 
+			
+		}
 
 		bool isInv() const { return (_gateV & 0x1); }
 
@@ -65,37 +78,40 @@ class CirGateV {
 };
 
 // Derived Class
-class CirAigGate : CirGate {
+class CirAigGate : public CirGate {
 
 	public:
 		CirAigGate(){}
+		CirAigGate(size_t i) : CirGate(i){};
 		~CirAigGate(){}
-
+		void printGate() const;
+	
 	private:
-		vector<CirGateV*> _faninList;
-		vector<CirGateV*> _fanoutList;
 
 };
 
-class CirPiGate {
+class CirPiGate : public CirGate {
 
 	public:
 		CirPiGate(){}
+		CirPiGate(size_t i) : CirGate(i){};
 		~CirPiGate(){}
+		void printGate() const;
 
 	private:
-		vector<CirGateV*> _fanoutList;
 		char *_name;
 
 };
 
-class CirPoGate {
+class CirPoGate : public CirGate {
 
 	public:
 		CirPoGate(){}
+		CirPoGate(size_t i) : CirGate(i){};
+		~CirPoGate(){}
+		void printGate() const;
 
 	private:
-		CirGateV* _fanin;
 		char *_name;
 
 };

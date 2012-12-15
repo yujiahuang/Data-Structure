@@ -13,6 +13,7 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include "cirGate.h"
 
 using namespace std;
 
@@ -44,11 +45,16 @@ class CirMgr{
 
 	private:
 		void processLine(vector<string>, size_t);
-		vector<CirGateV *>::iterator searchInList(const int, const int); // type: 1 input, 2 output, 3 aig 
+		CirGateV* searchInList(const int, const int); // type: 1 input, 2 output, 3 aig, 4 undef
+		void deepFirstSearch(CirGateV*);
+		
 		size_t M, I, L, O, A;
+		bool *flag;
 		vector<CirGateV*> input;
 		vector<CirGateV*> output;
 		vector<CirGateV*> aig;
+		vector<CirGateV*> undef;
+		vector<CirGateV*> totalList;
 		string _fileName;
 
 };

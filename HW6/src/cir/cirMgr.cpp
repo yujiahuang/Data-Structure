@@ -156,9 +156,11 @@ bool CirMgr::readCircuit(const string& fileName){
 	size_t lineNum=1;
 	while(getline(circuitF, line)){
 
+		char *lineArr = new char[line.size()];
+		strcpy(lineArr, line.c_str());
 		vector<string> tokens;
-		char *tok = strtok (line.c_str()," ");
-		while (pch != NULL){
+		char *tok = strtok (lineArr," ");
+		while (tok != NULL){
 
 			tokens.push_back(string(tok));
 			tok = strtok (NULL, " ,.-");
@@ -169,21 +171,28 @@ bool CirMgr::readCircuit(const string& fileName){
 
 	}
 
+	flag=new bool[M+O];
+	for(vector<CirGateV*>::iterator it=output.begin(); it!=output.end(); it++){
+
+		deepFirstSearch((*it));
+
+	}
+
 	return true;
 
 }
 
-void processLine(vector<string> tokens, size_t lineNum){
+void CirMgr::processLine(vector<string> tokens, size_t lineNum){
 
 	if(lineNum==1 && tokens[0].compare("aag")==0){
 	
 		if(tokens.size()==6){
 		
-			M=tokens[1];
-			I=tokens[2];
-			L=tokens[3];
-			O=tokens[4];
-			A=tokens[5];
+			M=atoi(tokens[1].c_str());
+			I=atoi(tokens[2].c_str());
+			L=atoi(tokens[3].c_str());
+			O=atoi(tokens[4].c_str());
+			A=atoi(tokens[5].c_str());
 		
 		}
 		else; // error	
@@ -193,10 +202,16 @@ void processLine(vector<string> tokens, size_t lineNum){
 	
 		if(tokens.size()==1){
 		
-			int literal = atoi(tokens[0].c_str);
-			CirPiGate *pi = new CirPiGate(literal/2);
-			CirGateV *gatePtr = new CirGateV(pi, literal%2);
-			input.push_back(gatePtr);
+			int literal = atoi(tokens[0].c_str());
+			CirPiGate *pi;
+			CirGateV *gatePtr;
+			if(searchInList(1, literal)==0){
+			
+				pi = new CirPiGate(literal/2);
+				gatePtr = new CirGateV(pi, literal%2);
+				input.push_back(gatePtr);
+
+			}
 
 		}
 		else; // error
@@ -206,13 +221,32 @@ void processLine(vector<string> tokens, size_t lineNum){
 	
 		if(tokens.size()==1){
 		
-			int literal = atoi(tokens[0].c_str);
-			CirAigGate *aig = new CirAigGate(literal/2);
-			CirGateV *aigGatePtr = new CirGateV(aig, literal%2);
-			aig.push_back(aigGatePtr);
+			int literal = atoi(tokens[0].c_str());
+			CirAigGate *aigGate;
+			CirGateV *aigGatePtr;
+			CirGateV* searchResult = searchInList(3, literal);
+			if(searchResult==0) searchResult = searchInList(4, literal);
+
+			if(searchResult==0){
+			
+					aigGate = new CirAigGate(literal/2);
+					aigGatePtr = new CirGateV(aigGate, literal%2);
+					undef.push_back(aigGatePtr);
+	
+			}
+			else if(searchResult->isInv() != literal%2){
+			
+				aigGatePtr = new CirGateV(searchResult->gate(), literal%2);
+			
+			}
+			else{
+			
+				aigGatePtr = searchResult;
+			
+			}
 
 			CirPoGate *po = new CirPoGate( M+(lineNum-I-1) );
-			po->_fanin=*(aig.end()-1);
+			po->_faninList.push_back(aigGatePtr);
 
 			CirGateV *poGatePtr = new CirGateV(po, 0);
 			output.push_back(poGatePtr);
@@ -225,26 +259,88 @@ void processLine(vector<string> tokens, size_t lineNum){
 	
 		if(tokens.size()==3){
 		
-			int lhs = atoi(tokens[0].c_str);
-			int rhs1 = atoi(tokens[1].c_str);
-			int rhs2 = atoi(tokens[2].c_str);
+			// declaration
+			int lhs = atoi(tokens[0].c_str());
+			int rhs[2];
+			rhs[0] = atoi(tokens[1].c_str());
+			rhs[1] = atoi(tokens[2].c_str());
 
-			vector<CirGateV*>::iterator it = searchInList(3, literal);
-			if(it==0){
+			// check if lhs already exists
+			CirGateV* gateL = searchInList(3, lhs);
+			CirAigGate *aigGate;
+			CirGateV *aigGatePtr;
 
-				CirAigGate *aig = new CirAigGate(literal/2);
-				CirGateV *aigGatePtr = new CirGateV(aig, literal%2);
+			if(gateL==0){
 
-				aig.push_back(aigGatePtr);
-
-				//TODO connect aig
-
-			}else{
-			
+				gateL=searchInList(4, lhs);
+				if(gateL==0) aigGate = new CirAigGate(lhs/2);
+				else{
 				
+					aigGate = (CirAigGate*)gateL->gate();
+					for(vector<CirGateV *>::iterator it = undef.begin(); it!=undef.end(); it++){ // erase from undef
+						if((*it)->gate()->_id == (size_t)lhs/2){
+							undef.erase(it);
+							break;
+						}
+					}
+
+				}
+
+			}
+			else {
+			
+				aigGate = (CirAigGate*)gateL->gate();
 			
 			}
 
+			aigGatePtr = new CirGateV(aigGate, 0);
+
+			// check if rhs already exists
+			CirGateV* gateR[2];
+			gateR[0] = searchInList(1, rhs[0]); // in input
+			gateR[1] = searchInList(1, rhs[1]);
+			if(gateR[0]==0) gateR[0] = searchInList(3, rhs[0]); // in aig
+			if(gateR[1]==0) gateR[1] = searchInList(3, rhs[1]);
+
+			for(int i=0; i<=1; i++){
+
+				if(gateR[i]==0) { // if not exists
+
+					gateR[i]=searchInList(4, rhs[i]); // search if in undef
+					if(gateR[i]==0){ // no then create one and push into undef
+
+						CirAigGate *aigR = new CirAigGate(rhs[i]/2);
+						CirGateV *aigGatePtrR = new CirGateV(aigR, rhs[i]%2);
+						aigR->_fanoutList.push_back(aigGatePtr);
+						aigGate->_faninList.push_back(aigGatePtrR);
+						undef.push_back(aigGatePtrR);
+
+					}
+					else{ // yes then connect. stay in undef
+
+						gateR[i]->gate()->_fanoutList.push_back(aigGatePtr);
+						aigGate->_faninList.push_back(gateR[i]);
+
+					}
+
+				}
+				else if(gateR[i]->isInv() != rhs[i]%2) { // exist but inverted
+				
+					CirGateV *aigGatePtrR = new CirGateV(gateR[i]->gate(), rhs[i]%2);
+					aigGate->_faninList.push_back(aigGatePtrR);
+					gateR[i]->gate()->_fanoutList.push_back(aigGatePtr);
+
+				}
+				else{ // in aig then connect
+
+					gateR[i]->gate()->_fanoutList.push_back(aigGatePtr);
+					aigGate->_faninList.push_back(gateR[i]);
+
+				}
+
+			}
+
+			aig.push_back(aigGatePtr);
 		
 		}
 		else; //error
@@ -253,7 +349,7 @@ void processLine(vector<string> tokens, size_t lineNum){
 
 }
 
-vector<CirGateV *>::iterator searchInList(const int type, const int literal){
+CirGateV* CirMgr::searchInList(const int type, const int literal){
 
 	vector<CirGateV *> *toBeSearched;
 	if(type==1){ // input
@@ -268,14 +364,19 @@ vector<CirGateV *>::iterator searchInList(const int type, const int literal){
 	}
 	else if(type==3){ // aig
 	
-		toBeSearched=&aigput;
+		toBeSearched=&aig;
 	
+	}
+	else if(type==4){ //undef
+
+		toBeSearched=&undef;
+
 	}
 	else; //error
 
 	for(vector<CirGateV *>::iterator it = toBeSearched->begin(); it!=toBeSearched->end(); it++){
 
-		if((*it)->gate()->_id*2+(*it)->isInv() == literal) return it;
+		if((*it)->gate()->_id == (size_t)literal/2) return *it;
 
 	}
 
@@ -297,14 +398,31 @@ vector<CirGateV *>::iterator searchInList(const int type, const int literal){
 	------------------
 	Total      167
  *********************/
-void
-CirMgr::printSummary() const
-{
+void CirMgr::printSummary() const{
+
+	size_t i=input.size(), o=output.size(), a=aig.size();
+	cout << "Circuit Statistics\n==================\nPI\t" << i 
+	<< "\nPO\t" << o
+	<< "\nAIG\t" << a 
+	<< "\n------------------\nTotal\t" << i+o+a << endl;
+
 }
 
-void
-CirMgr::printNetlist() const
-{
+void CirMgr::printNetlist() const{
+
+	int i=0;
+	for(vector<CirGateV*>::const_iterator it=totalList.begin(); it!=totalList.end(); it++){
+
+		cout << "[" << i << "]" << " ";
+	
+		if((*it)->gate()->_id==0) cout << ( (*it)->isInv() ? "CONST1" : "CONST0" );
+		else (*it)->gate()->printGate();
+
+		cout << endl;
+		i++;
+
+	}	
+
 }
 
 void
@@ -329,4 +447,27 @@ CirMgr::printFloatGates() const
 void
 CirMgr::writeAag(ostream& outfile) const
 {
+}
+
+void CirMgr::deepFirstSearch(CirGateV* x){
+
+	if (!flag[x->gate()->_id]){
+	
+		flag[x->gate()->_id]=true;
+		totalList.push_back(x);
+
+	}
+	else return;
+
+	vector<CirGateV*> *v=&(x->gate()->_faninList);
+	if(v->size()!=0){
+	
+		for(vector<CirGateV*>::iterator it=v->begin(); it!=v->end(); it++){
+		
+			deepFirstSearch(*it);
+		
+		}
+	
+	}
+
 }
