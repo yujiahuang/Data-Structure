@@ -45,14 +45,19 @@ friend class CirMgr;
 		void reportFanout(int level) const;
 
 		size_t getId(){return _id;}
+		size_t getLineNum(){return _lineNum;}
+		void setLineNum(size_t newLN){_lineNum=newLN;}
+		const string& getName(){return _name;}
+		void setName(const string& name){_name=name;}
 
 	private:
 
 	protected:
 		size_t _id;
+		size_t _lineNum;
+		string _name;
 		vector<CirGateV*> _faninList;
 		vector<CirGateV*> _fanoutList;
-
 
 };
 
@@ -99,7 +104,6 @@ class CirPiGate : public CirGate {
 		void printGate() const;
 
 	private:
-		char *_name;
 
 };
 
@@ -112,7 +116,6 @@ class CirPoGate : public CirGate {
 		void printGate() const;
 
 	private:
-		char *_name;
 
 };
 

@@ -184,7 +184,7 @@ bool CirMgr::readCircuit(const string& fileName){
 
 void CirMgr::processLine(vector<string> tokens, size_t lineNum){
 
-	if(lineNum==1 && tokens[0].compare("aag")==0){
+	if(lineNum==1 && tokens[0].compare("aag")==0){ // header
 	
 		if(tokens.size()==6){
 		
@@ -208,6 +208,7 @@ void CirMgr::processLine(vector<string> tokens, size_t lineNum){
 			if(searchInList(1, literal)==0){
 			
 				pi = new CirPiGate(literal/2);
+				pi->setLineNum(lineNum);
 				gatePtr = new CirGateV(pi, literal%2);
 				input.push_back(gatePtr);
 
@@ -229,9 +230,9 @@ void CirMgr::processLine(vector<string> tokens, size_t lineNum){
 
 			if(searchResult==0){
 			
-					aigGate = new CirAigGate(literal/2);
-					aigGatePtr = new CirGateV(aigGate, literal%2);
-					undef.push_back(aigGatePtr);
+				aigGate = new CirAigGate(literal/2);
+				aigGatePtr = new CirGateV(aigGate, literal%2);
+				undef.push_back(aigGatePtr);
 	
 			}
 			else if(searchResult->isInv() != literal%2){
@@ -246,6 +247,7 @@ void CirMgr::processLine(vector<string> tokens, size_t lineNum){
 			}
 
 			CirPoGate *po = new CirPoGate( M+(lineNum-I-1) );
+			po->setLineNum(lineNum);
 			po->_faninList.push_back(aigGatePtr);
 
 			CirGateV *poGatePtr = new CirGateV(po, 0);
@@ -301,31 +303,22 @@ void CirMgr::processLine(vector<string> tokens, size_t lineNum){
 			gateR[1] = searchInList(1, rhs[1]);
 			if(gateR[0]==0) gateR[0] = searchInList(3, rhs[0]); // in aig
 			if(gateR[1]==0) gateR[1] = searchInList(3, rhs[1]);
+			if(gateR[0]==0) gateR[0] = searchInList(4, rhs[0]); // in undef
+			if(gateR[1]==0) gateR[1] = searchInList(4, rhs[1]);
 
 			for(int i=0; i<=1; i++){
 
-				if(gateR[i]==0) { // if not exists
+				if(gateR[i]==0){ // not found then create one and push into undef
 
-					gateR[i]=searchInList(4, rhs[i]); // search if in undef
-					if(gateR[i]==0){ // no then create one and push into undef
-
-						CirAigGate *aigR = new CirAigGate(rhs[i]/2);
-						CirGateV *aigGatePtrR = new CirGateV(aigR, rhs[i]%2);
-						aigR->_fanoutList.push_back(aigGatePtr);
-						aigGate->_faninList.push_back(aigGatePtrR);
-						undef.push_back(aigGatePtrR);
-
-					}
-					else{ // yes then connect. stay in undef
-
-						gateR[i]->gate()->_fanoutList.push_back(aigGatePtr);
-						aigGate->_faninList.push_back(gateR[i]);
-
-					}
+					CirAigGate *aigR = new CirAigGate(rhs[i]/2);
+					CirGateV *aigGatePtrR = new CirGateV(aigR, rhs[i]%2);
+					aigR->_fanoutList.push_back(aigGatePtr);
+					aigGate->_faninList.push_back(aigGatePtrR);
+					undef.push_back(aigGatePtrR);
 
 				}
 				else if(gateR[i]->isInv() != rhs[i]%2) { // exist but inverted
-				
+
 					CirGateV *aigGatePtrR = new CirGateV(gateR[i]->gate(), rhs[i]%2);
 					aigGate->_faninList.push_back(aigGatePtrR);
 					gateR[i]->gate()->_fanoutList.push_back(aigGatePtr);
@@ -337,13 +330,59 @@ void CirMgr::processLine(vector<string> tokens, size_t lineNum){
 					aigGate->_faninList.push_back(gateR[i]);
 
 				}
-
+		
 			}
-
+			
+			aigGate->setLineNum(lineNum);
 			aig.push_back(aigGatePtr);
 		
 		}
 		else; //error
+
+	
+	}
+	else{ // symbol and comment
+	
+		if(tokens[0].compare("c")!=0){ // not comment
+		
+			if(tokens.size()==2){
+			
+				string type=tokens[0].substr(0, 1);
+				string lineNumStr=tokens[0].substr(1, string::npos);
+				size_t fix = 0;
+				vector<CirGateV*> *v=0;
+				if(type.compare("i")==0){ // input
+				
+					v=&input;
+					fix = 2;
+
+				}	
+				else if(type.compare("o")==0){ // output
+			
+					v=&output;
+					fix = I + 2;
+
+				}
+				else; //error
+
+				if(v!=0){
+
+					size_t n=atoi(lineNumStr.c_str())+fix;
+					for(vector<CirGateV*>::iterator it=v->begin(); it!=v->end(); it++){
+
+						CirGate *gate=(*it)->gate();
+						if( gate->getLineNum()==n && gate->getName().size()==0 )
+							gate->setName(tokens[1]);
+						else; //error, either no line or set twice
+
+					}
+
+				}
+			
+			}
+			else; // error
+		
+		}
 	
 	}
 
@@ -415,7 +454,7 @@ void CirMgr::printNetlist() const{
 
 		cout << "[" << i << "]" << " ";
 	
-		if((*it)->gate()->_id==0) cout << ( (*it)->isInv() ? "CONST1" : "CONST0" );
+		if((*it)->gate()->_id==0) cout << ( (*it)->isInv() ? "CONST0" : "CONST1" );
 		else (*it)->gate()->printGate();
 
 		cout << endl;
@@ -452,22 +491,21 @@ CirMgr::writeAag(ostream& outfile) const
 void CirMgr::deepFirstSearch(CirGateV* x){
 
 	if (!flag[x->gate()->_id]){
-	
+
+		vector<CirGateV*> *v=&(x->gate()->_faninList);
+		if(v->size()!=0){
+
+			for(vector<CirGateV*>::iterator it=v->begin(); it!=v->end(); it++){
+
+				deepFirstSearch(*it);
+
+			}
+
+		}
+
 		flag[x->gate()->_id]=true;
 		totalList.push_back(x);
 
-	}
-	else return;
-
-	vector<CirGateV*> *v=&(x->gate()->_faninList);
-	if(v->size()!=0){
-	
-		for(vector<CirGateV*>::iterator it=v->begin(); it!=v->end(); it++){
-		
-			deepFirstSearch(*it);
-		
-		}
-	
 	}
 
 }
