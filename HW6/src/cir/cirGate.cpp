@@ -1,10 +1,10 @@
 /****************************************************************************
-  FileName     [ cirGate.cpp ]
-  PackageName  [ cir ]
-  Synopsis     [ Define class CirAigGate member functions ]
-  Author       [ Chung-Yang (Ric) Huang ]
-  Copyright    [ Copyleft(c) 2008-2012 LaDs(III), GIEE, NTU, Taiwan ]
-****************************************************************************/
+	FileName     [ cirGate.cpp ]
+	PackageName  [ cir ]
+	Synopsis     [ Define class CirAigGate member functions ]
+	Author       [ Chung-Yang (Ric) Huang ]
+	Copyright    [ Copyleft(c) 2008-2012 LaDs(III), GIEE, NTU, Taiwan ]
+ ****************************************************************************/
 
 #include <iostream>
 #include <iomanip>
@@ -23,29 +23,118 @@ extern CirMgr *cirMgr;
 /*   class CirGate member functions   */
 /**************************************/
 
+void CirGate::reportFanin(int level) {
 
-void
-CirGate::reportFanin(int level) const
-{
-   assert (level >= 0);
+	assert (level >= 0);	
+	printSelfForReport();
+	cout << "\n  ";		
+	
+	for(vector<CirGateV*>::const_iterator it=_faninList.begin(); it!=_faninList.end(); it++){
+	
+		if((*it)->isUndef()) cout << "UNDEF " << (*it)->gate()->getId() << endl;
+		else{
+
+			if((*it)->isInv()) cout << "!";
+			(*it)->gate()->reportAndRecord(level-1, 1, 1);
+		
+		}
+
+	}
+	cout << endl;
+	resetFlag();
+
 }
 
-void
-CirGate::reportFanout(int level) const
-{
-   assert (level >= 0);
+void CirGate::reportFanout(int level) {
+
+	assert (level >= 0);	
+	printSelfForReport();
+	cout << "\n  ";		
+	
+	for(vector<CirGateV*>::const_iterator it=_fanoutList.begin(); it!=_fanoutList.end(); it++){
+	
+		if((*it)->isUndef()) cout << "UNDEF " << (*it)->gate()->getId() << endl;
+		else{
+
+			if((*it)->isInv()) cout << "!";
+			(*it)->gate()->reportAndRecord(level-1, 1, 2);
+		
+		}
+
+	}
+	cout << endl;
+	resetFlag();
+
+}
+void CirGate::reportAndRecord(int level, int recurseN, int type){ // 1 fanin, 2 fanout
+
+	if(level >= 0){
+	
+		printSelfForReport();
+		if(level >= 1){ 
+
+			vector<CirGateV*> *v;
+			if(type==1) v=&_faninList;
+			else if(type==2) v=&_fanoutList;
+			for(vector<CirGateV*>::iterator it=v->begin(); it!=v->end(); it++){ // print fanin
+			
+				cout << endl;
+				cout << setw(2*(recurseN+1)) << " ";
+				CirGate *gate = (*it)->gate();
+				if((*it)->isUndef()){
+				
+					cout << "UNDEF " << gate->getId();
+					cout.flush();
+
+				}
+				else if(gate->getFlag()==true){
+				
+					gate->printSelfForReport();
+					cout << " (*)";
+					cout.flush();
+
+				}
+				else{
+
+					if((*it)->isInv()) cout << "!";
+					gate->reportAndRecord(level-1, recurseN+1, type);
+					cout.flush();
+				
+				}
+
+			}	
+
+			_flag=true;
+
+		}
+
+	}
+
 }
 
-// aig
+void CirGate::resetFlag(){
+
+	_flag=false;
+	for(vector<CirGateV*>::iterator it=_faninList.begin(); it!=_faninList.end(); it++){
+	
+		(*it)->gate()->resetFlag();
+	
+	}
+
+}
+
+/********************/
+/******* aig ********/
+/********************/
 
 void CirAigGate::printGate() const{
 
-	cout << "AIG " << _id; 
-	for(int i=0; i<=1; i++){
+	cout << "AIG " << _id;
+	for(vector<CirGateV*>::const_iterator it=_faninList.begin(); it!=_faninList.end(); it++){
 
-		//TODO need to consider undef
-		cout << (_faninList[i]->isInv() ? " !" : " ");
-		cout << _faninList[i]->gate()->getId();
+		cout << ((*it)->isUndef() ? " *" : " ");
+		cout << ((*it)->isInv() ? "!" : "");
+		cout << (*it)->gate()->getId();
 
 	}
 
@@ -53,43 +142,70 @@ void CirAigGate::printGate() const{
 
 void CirAigGate::reportGate() const{
 
-	cout << "= ";
-	cout << left << setw(47) << "AIG";
+	bool name=false;
+	cout << "==================================================\n";
 
-	cout << "(" << _id << ")";
-	if(_name.size()==0) cout << ", line " << _lineNum;
-	else cout << "\"" << _name << "\", line " << _lineNum;
-	cout << setw(1) << "=";
+	if(_name.size()==0) name=false; 
+	else name=true;
+
+	int printed=0;
+
+	if(!name) printed=printf("= AIG(%d), line %d", _id, _lineNum);
+	else printed=printf("= AIG(%d)\"%s\", line %d", _id, _name.c_str(), _lineNum);
+	for(int i=0; i<50-printed-1; i++) cout << " ";
+	cout << "=\n==================================================\n";
 
 }
 
-// pi
+void CirAigGate::printSelfForReport() const {
+
+	if(_id==0) cout << "CONST0";
+	else cout << "AIG " << _id;
+	cout.flush();
+
+}
+
+/********************/
+/******** pi ********/
+/********************/
 
 void CirPiGate::printGate() const{
 
 	cout << "PI  " << _id;
 	if(_name.size()!=0) cout << " (" << _name << ")";
-	//TODO need to consider undef
 
 }
 
 void CirPiGate::reportGate() const{
 
-	cout << "= ";
-	cout << left << setw(47) << "PI";
+	bool name=false;
+	cout << "==================================================\n";
 
-	cout << "(" << _id << ")";
-	if(_name.size()==0) cout << ", line " << _lineNum;
-	else cout << "\"" << _name << "\", line " << _lineNum;
-	cout << setw(1) << "=";
+	if(_name.size()==0) name=false; 
+	else name=true;
+
+	int printed=0;
+
+	if(!name) printed=printf("= PI(%d), line %d", _id, _lineNum);
+	else printed=printf("= PI(%d)\"%s\", line %d", _id, _name.c_str(), _lineNum);
+	for(int i=0; i<50-printed-1; i++) cout << " ";
+	cout << "=\n==================================================\n";
 
 }
 
-// po
+void CirPiGate::printSelfForReport() const {
+
+	cout << "PI " << _id;
+	cout.flush();
+
+}
+
+/********************/
+/******** po ********/
+/********************/
 
 void CirPoGate::printGate() const{
 
-	//TODO need to consider undef
 	cout << "PO  " << _id; 
 	cout << (_faninList[0]->isInv() ? " !" : " ");
 	cout << _faninList[0]->gate()->getId();
@@ -99,14 +215,24 @@ void CirPoGate::printGate() const{
 
 void CirPoGate::reportGate() const{
 
-	cout << "= ";
-	cout << left << setw(47) << "PO";
+	bool name=false;
+	cout << "==================================================\n";
 
-	cout << "(" << _id << ")";
-	if(_name.size()==0) cout << ", line " << _lineNum;
-	else cout << "\"" << _name << "\", line " << _lineNum;
-	cout << setw(1) << "=";
+	if(_name.size()==0) name=false; 
+	else name=true;
+
+	int printed=0;
+
+	if(!name) printed=printf("= PO(%d), line %d", _id, _lineNum);
+	else printed=printf("= PO(%d)\"%s\", line %d", _id, _name.c_str(), _lineNum);
+	for(int i=0; i<50-printed-1; i++) cout << " ";
+	cout << "=\n==================================================\n";
 
 }
 
+void CirPoGate::printSelfForReport() const{
 
+	cout << "PO " << _id;
+	cout.flush();
+
+}

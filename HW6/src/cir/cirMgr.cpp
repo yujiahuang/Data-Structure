@@ -184,19 +184,19 @@ bool CirMgr::readCircuit(const string& fileName){
 		lineNum++;
 
 	}
+	
+	// set undef
+	for(vector<CirGateV*>::iterator it=undef.begin(); it!=undef.end(); it++){
+
+		(*it)->setUndef();
+
+	}
 
 	// dfs
 	flag=new bool[M+O];
 	for(vector<CirGateV*>::iterator it=output.begin(); it!=output.end(); it++){
 
 		deepFirstSearch((*it));
-
-	}
-	
-	// set undef
-	for(vector<CirGateV*>::iterator it=undef.begin(); it!=undef.end(); it++){
-
-		(*it)->setUndef();
 
 	}
 
@@ -564,7 +564,8 @@ void CirMgr::deepFirstSearch(CirGateV* x){
 
 			for(vector<CirGateV*>::iterator it=v->begin(); it!=v->end(); it++){
 
-				deepFirstSearch(*it);
+				if(!((*it)->isUndef())) deepFirstSearch(*it);
+				else flag[(*it)->gate()->getId()]=true;
 
 			}
 

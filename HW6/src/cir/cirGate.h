@@ -30,8 +30,8 @@ class CirGate{
 friend class CirMgr;
 
 	public:
-		CirGate() {}
-		CirGate(size_t i) : _id(i){};
+		CirGate() {_flag=false;}
+		CirGate(size_t i) : _id(i){_flag=false;};
 		virtual ~CirGate() {}
 
 		// Basic access methods
@@ -41,14 +41,19 @@ friend class CirMgr;
 		// Printing functions
 		virtual void printGate() const = 0;
 		virtual void reportGate() const = 0;
-		void reportFanin(int level) const;
-		void reportFanout(int level) const;
+		virtual void printSelfForReport() const = 0;
+		void reportFanin(int level);
+		void reportFanout(int level);
+		void reportAndRecord(int, int, int);
+		void resetFlag();
 
+		//getter and setter
 		size_t getId(){return _id;}
 		size_t getLineNum(){return _lineNum;}
 		void setLineNum(size_t newLN){_lineNum=newLN;}
 		const string& getName(){return _name;}
 		void setName(const string& name){_name=name;}
+		bool getFlag(){return _flag;}
 
 	private:
 
@@ -56,8 +61,10 @@ friend class CirMgr;
 		size_t _id;
 		size_t _lineNum;
 		string _name;
+		bool _flag;
 		vector<CirGateV*> _faninList;
 		vector<CirGateV*> _fanoutList;
+		
 
 };
 
@@ -88,11 +95,12 @@ class CirGateV {
 class CirAigGate : public CirGate {
 
 	public:
-		CirAigGate(){}
+		CirAigGate():CirGate(){}
 		CirAigGate(size_t i) : CirGate(i){};
 		~CirAigGate(){}
 		void printGate() const;
 		void reportGate() const;
+		void printSelfForReport() const;
 	
 	private:
 
@@ -101,11 +109,12 @@ class CirAigGate : public CirGate {
 class CirPiGate : public CirGate {
 
 	public:
-		CirPiGate(){}
+		CirPiGate():CirGate(){}
 		CirPiGate(size_t i) : CirGate(i){};
 		~CirPiGate(){}
 		void printGate() const;
 		void reportGate() const;
+		void printSelfForReport() const;
 
 	private:
 
@@ -114,11 +123,12 @@ class CirPiGate : public CirGate {
 class CirPoGate : public CirGate {
 
 	public:
-		CirPoGate(){}
+		CirPoGate():CirGate(){}
 		CirPoGate(size_t i) : CirGate(i){};
 		~CirPoGate(){}
 		void printGate() const;
 		void reportGate() const;
+		void printSelfForReport() const;
 
 	private:
 
