@@ -145,6 +145,20 @@ parseError(CirParseError err)
 	return false;
 }
 
+CirGate* CirMgr::getGate(unsigned gid) const{
+
+	CirGate *gate=0;
+	for(size_t i=1; i<=3 && gate==0; i++){
+
+		CirGateV *gateV=searchInList(i, 2*gid);
+		if(gateV!=0) gate = gateV->gate();	
+
+	}
+
+	return gate;
+
+}
+
 /**************************************************************/
 /*   class CirMgr member functions for circuit construction   */
 /**************************************************************/
@@ -171,10 +185,18 @@ bool CirMgr::readCircuit(const string& fileName){
 
 	}
 
+	// dfs
 	flag=new bool[M+O];
 	for(vector<CirGateV*>::iterator it=output.begin(); it!=output.end(); it++){
 
 		deepFirstSearch((*it));
+
+	}
+	
+	// set undef
+	for(vector<CirGateV*>::iterator it=undef.begin(); it!=undef.end(); it++){
+
+		(*it)->setUndef();
 
 	}
 
@@ -252,7 +274,8 @@ void CirMgr::processLine(vector<string> tokens, size_t lineNum){
 
 			CirGateV *poGatePtr = new CirGateV(po, 0);
 			output.push_back(poGatePtr);
-
+			aigGate->_fanoutList.push_back(poGatePtr);
+		
 		}
 		else; //error
 	
@@ -280,10 +303,13 @@ void CirMgr::processLine(vector<string> tokens, size_t lineNum){
 				
 					aigGate = (CirAigGate*)gateL->gate();
 					for(vector<CirGateV *>::iterator it = undef.begin(); it!=undef.end(); it++){ // erase from undef
+						
 						if((*it)->gate()->_id == (size_t)lhs/2){
+							(*it)->resetUndef();
 							undef.erase(it);
 							break;
 						}
+
 					}
 
 				}
@@ -388,9 +414,9 @@ void CirMgr::processLine(vector<string> tokens, size_t lineNum){
 
 }
 
-CirGateV* CirMgr::searchInList(const int type, const int literal){
+CirGateV* CirMgr::searchInList(const int type, const int literal) const{
 
-	vector<CirGateV *> *toBeSearched;
+	const vector<CirGateV *> *toBeSearched;
 	if(type==1){ // input
 
 		toBeSearched=&input;
@@ -413,7 +439,7 @@ CirGateV* CirMgr::searchInList(const int type, const int literal){
 	}
 	else; //error
 
-	for(vector<CirGateV *>::iterator it = toBeSearched->begin(); it!=toBeSearched->end(); it++){
+	for(vector<CirGateV *>::const_iterator it = toBeSearched->begin(); it!=toBeSearched->end(); it++){
 
 		if((*it)->gate()->_id == (size_t)literal/2) return *it;
 
@@ -464,23 +490,64 @@ void CirMgr::printNetlist() const{
 
 }
 
-void
-CirMgr::printPIs() const
-{
+void CirMgr::printPIs() const{
+
 	cout << "PIs of the circuit:";
+	for(vector<CirGateV*>::const_iterator it=input.begin(); it!=input.end(); it++) cout << " " << ((*it)->gate()->getId());
 	cout << endl;
+
 }
 
-void
-CirMgr::printPOs() const
-{
+void CirMgr::printPOs() const{ 
+
 	cout << "POs of the circuit:";
+	for(vector<CirGateV*>::const_iterator it=output.begin(); it!=output.end(); it++) cout << " " << ((*it)->gate()->getId());
 	cout << endl;
 }
 
-void
-CirMgr::printFloatGates() const
-{
+void CirMgr::printFloatGates() const{
+
+	vector<int> v1;
+	vector<int> v2;
+
+	for(vector<CirGateV*>::const_iterator it = aig.begin(); it!=aig.end(); it++){
+	
+		CirGate *gate = (*it)->gate();
+		bool missingFanin = gate->_faninList.size()<2;
+		bool faninUndef = gate->_faninList[0]->isUndef() || gate->_faninList[1]->isUndef();
+		if(missingFanin || faninUndef) v1.push_back(gate->getId());
+	
+	}		
+
+	if(v1.size()!=0){
+
+		cout << "Gates with floating fanin(s):";
+		for(vector<int>::iterator it=v1.begin(); it!=v1.end(); it++) cout << " " << (*it);
+
+	}
+
+	for(vector<CirGateV*>::const_iterator it = input.begin(); it!=input.end(); it++){
+		
+		CirGate *gate = (*it)->gate();
+		bool missingFanout = gate->_fanoutList.size()==0;
+		if(missingFanout) v2.push_back(gate->getId());
+
+	}
+	for(vector<CirGateV*>::const_iterator it = aig.begin(); it!=aig.end(); it++){
+	
+		CirGate *gate = (*it)->gate();
+		bool missingFanout = gate->_fanoutList.size()==0;
+		if(missingFanout) v2.push_back(gate->getId());
+	
+	}	
+
+	if(v2.size()!=0){
+
+		cout << "\nGates defined but not used :";
+		for(vector<int>::iterator it=v2.begin(); it!=v2.end(); it++) cout << " " << (*it);
+
+	}
+
 }
 
 void

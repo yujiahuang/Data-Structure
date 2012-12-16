@@ -30,7 +30,7 @@ class CirMgr{
 
 		// Access functions
 		// return '0' if "gid" corresponds to an undefined gate.
-		CirGate* getGate(unsigned gid) const { return 0; }
+		CirGate* getGate(unsigned gid) const;
 
 		// Member functions about circuit construction
 		bool readCircuit(const string&);
@@ -45,7 +45,7 @@ class CirMgr{
 
 	private:
 		void processLine(vector<string>, size_t);
-		CirGateV* searchInList(const int, const int); // type: 1 input, 2 output, 3 aig, 4 undef
+		CirGateV* searchInList(const int, const int) const; // type: 1 input, 2 output, 3 aig, 4 undef
 		void deepFirstSearch(CirGateV*);
 		
 		size_t M, I, L, O, A;

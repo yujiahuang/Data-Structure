@@ -40,7 +40,7 @@ friend class CirMgr;
 
 		// Printing functions
 		virtual void printGate() const = 0;
-		void reportGate() const;
+		virtual void reportGate() const = 0;
 		void reportFanin(int level) const;
 		void reportFanout(int level) const;
 
@@ -65,8 +65,8 @@ friend class CirMgr;
 class CirGateV {
 
 	public:
-		CirGateV(CirGate* g, size_t phase):
-			_gateV(size_t(g) + phase) { }
+		CirGateV(CirGate* g, size_t phase, size_t undef=0):
+			_gateV(size_t(g) + phase + 2*undef) { }
 
 		CirGate* gate() const { 
 	
@@ -76,7 +76,9 @@ class CirGateV {
 		}
 
 		bool isInv() const { return (_gateV & 0x1); }
-
+		bool isUndef() const { return (_gateV & 0x2); }
+		void setUndef() { if(!isUndef()) _gateV+=2; }
+		void resetUndef() { if(isUndef()) _gateV-=2; }
 	private:
 		size_t _gateV;
 
@@ -90,6 +92,7 @@ class CirAigGate : public CirGate {
 		CirAigGate(size_t i) : CirGate(i){};
 		~CirAigGate(){}
 		void printGate() const;
+		void reportGate() const;
 	
 	private:
 
@@ -102,6 +105,7 @@ class CirPiGate : public CirGate {
 		CirPiGate(size_t i) : CirGate(i){};
 		~CirPiGate(){}
 		void printGate() const;
+		void reportGate() const;
 
 	private:
 
@@ -114,6 +118,7 @@ class CirPoGate : public CirGate {
 		CirPoGate(size_t i) : CirGate(i){};
 		~CirPoGate(){}
 		void printGate() const;
+		void reportGate() const;
 
 	private:
 
