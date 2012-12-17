@@ -166,6 +166,9 @@ bool CirMgr::readCircuit(const string& fileName){
 
 	_fileName=fileName;
 	ifstream circuitF(fileName.c_str());
+	
+	if(circuitF.fail()) return false;
+	
 	string line;
 	size_t lineNum=1;
 	while(getline(circuitF, line)){
@@ -193,12 +196,17 @@ bool CirMgr::readCircuit(const string& fileName){
 	}
 
 	// dfs
+	A=0;
 	flag=new bool[M+O];
 	for(vector<CirGateV*>::iterator it=output.begin(); it!=output.end(); it++){
 
 		deepFirstSearch((*it));
 
 	}
+
+	// close file
+	circuitF.clear();
+	circuitF.close();
 
 	return true;
 
@@ -550,9 +558,75 @@ void CirMgr::printFloatGates() const{
 
 }
 
-void
-CirMgr::writeAag(ostream& outfile) const
-{
+void CirMgr::writeAag(ostream& outfile) const{
+
+	// header
+	outfile << "aag "
+					<< M << " "
+				  << I << " "
+					<< L << " "
+					<< O << " "
+					<< A << endl;
+	
+	// PI
+	for(vector<CirGateV*>::const_iterator it=input.begin(); it!=input.end(); it++){
+	
+		outfile << (*it)->gate()->getId()*2 << endl;
+	
+	}	
+
+	// PO
+	for(vector<CirGateV*>::const_iterator it=output.begin(); it!=output.end(); it++){
+	
+		CirGateV* gateV=(*it)->gate()->_faninList[0];
+		outfile << gateV->gate()->getId()*2 + gateV->isInv() << endl;
+	
+	}
+
+	// AIG
+	for(vector<CirGateV*>::const_iterator it=totalList.begin(); it!=totalList.end(); it++){
+	
+		CirGate *gate=(*it)->gate();
+		if(dynamic_cast<CirAigGate*>(gate) && gate->getId()!=0){
+			
+			outfile << gate->getId()*2;
+			for(vector<CirGateV*>::const_iterator itf=gate->_faninList.begin(); itf!=gate->_faninList.end(); itf++){
+			
+				outfile << " " << (*itf)->gate()->getId()*2 + (*itf)->isInv();
+			
+			}
+			outfile << endl;
+
+		}
+
+	}
+
+	// symbol
+	int i=0;
+	for(vector<CirGateV*>::const_iterator it=input.begin(); it!=input.end(); it++){
+	
+		CirGate* gate=(*it)->gate();
+		if(gate->getName().size()!=0){
+			
+			outfile << "i" << i << " " << gate->getName() << endl;
+			i++;
+
+		}
+
+	}	
+	i=0;
+	for(vector<CirGateV*>::const_iterator it=output.begin(); it!=output.end(); it++){
+		
+		CirGate* gate=(*it)->gate();
+		if(gate->getName().size()!=0){
+			
+			outfile << "o" << i << " " << gate->getName() << endl;
+			i++;
+
+		}
+	
+	}
+
 }
 
 void CirMgr::deepFirstSearch(CirGateV* x){
@@ -572,6 +646,7 @@ void CirMgr::deepFirstSearch(CirGateV* x){
 		}
 
 		flag[x->gate()->_id]=true;
+		if(dynamic_cast<CirAigGate*>((x->gate()))) ++A;
 		totalList.push_back(x);
 
 	}
