@@ -32,15 +32,16 @@ Gates defined but not used : 1
 cir> cirr flt05.aag -replace
 
 cir> cirp -n
-[0] PO  3 2
+[0] PO  3 *2
 
 cir> cirp -fl
-
+Gates with floating fanin(s): 3
 Gates defined but not used : 1
 cir> cirr flt06.aag -replace
 
 cir> cirp -n
-[0] PO  2 !0
+[0] CONST0
+[1] PO  2 !0
 
 cir> cirp -fl
 
@@ -54,7 +55,7 @@ cir> cirp -n
 [3] PO  11 3
 
 cir> cirp -fl
-Gates with floating fanin(s): 5 7
+Gates with floating fanin(s): 7
 Gates defined but not used : 9 10
 cir> 
 cir> 
