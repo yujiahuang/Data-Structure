@@ -1,0 +1,26 @@
+cir> cirr ok01.aag -replace
+
+cir> cirr ok02.aag -replace
+
+cir> cirr ok03.aag -replace
+
+cir> cirr ok04.aag -replace
+
+cir> cirr ok05.aag -replace
+
+cir> cirr ok06.aag -replace
+
+cir> cirr ok07.aag -replace
+
+cir> cirr ok08.aag -replace
+
+cir> cirr ok09.aag -replace
+
+cir> cirr ok10.aag -replace
+
+cir> cirr ok11.aag -replace
+
+cir> cirr good.aag -replace
+
+cir> 
+cir> 

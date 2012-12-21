@@ -183,7 +183,9 @@ bool CirMgr::readCircuit(const string& fileName){
 			tok = strtok (NULL, " ,.-");
 		
 		}
-		processLine(tokens, lineNum);
+		if(tokens[0].compare("c")!=0) // not comment
+			processLine(tokens, lineNum, line);
+		else break;
 		lineNum++;
 
 	}
@@ -212,7 +214,7 @@ bool CirMgr::readCircuit(const string& fileName){
 
 }
 
-void CirMgr::processLine(vector<string> tokens, size_t lineNum){
+void CirMgr::processLine(vector<string> tokens, size_t lineNum, string origin){
 
 	if(lineNum==1 && tokens[0].compare("aag")==0){ // header
 	
@@ -313,7 +315,6 @@ void CirMgr::processLine(vector<string> tokens, size_t lineNum){
 					for(vector<CirGateV *>::iterator it = undef.begin(); it!=undef.end(); it++){ // erase from undef
 						
 						if((*it)->gate()->_id == (size_t)lhs/2){
-							(*it)->resetUndef();
 							undef.erase(it);
 							break;
 						}
@@ -376,48 +377,44 @@ void CirMgr::processLine(vector<string> tokens, size_t lineNum){
 	
 	}
 	else{ // symbol and comment
-	
-		if(tokens[0].compare("c")!=0){ // not comment
-		
-			if(tokens.size()==2){
-			
-				string type=tokens[0].substr(0, 1);
-				string lineNumStr=tokens[0].substr(1, string::npos);
-				size_t fix = 0;
-				vector<CirGateV*> *v=0;
-				if(type.compare("i")==0){ // input
-				
-					v=&input;
-					fix = 2;
 
-				}	
-				else if(type.compare("o")==0){ // output
-			
-					v=&output;
-					fix = I + 2;
+		if(tokens.size()>=2){
 
-				}
-				else; //error
+			string type=tokens[0].substr(0, 1);
+			string lineNumStr=tokens[0].substr(1, string::npos);
+			size_t fix = 0;
+			vector<CirGateV*> *v=0;
+			if(type.compare("i")==0){ // input
 
-				if(v!=0){
+				v=&input;
+				fix = 2;
 
-					size_t n=atoi(lineNumStr.c_str())+fix;
-					for(vector<CirGateV*>::iterator it=v->begin(); it!=v->end(); it++){
+			}	
+			else if(type.compare("o")==0){ // output
 
-						CirGate *gate=(*it)->gate();
-						if( gate->getLineNum()==n && gate->getName().size()==0 )
-							gate->setName(tokens[1]);
-						else; //error, either no line or set twice
+				v=&output;
+				fix = I + 2;
 
-					}
-
-				}
-			
 			}
-			else; // error
-		
+			else; //error
+
+			if(v!=0){
+
+				size_t n=atoi(lineNumStr.c_str())+fix;
+				for(vector<CirGateV*>::iterator it=v->begin(); it!=v->end(); it++){
+
+					CirGate *gate=(*it)->gate();
+					if( gate->getLineNum()==n && gate->getName().size()==0 )
+						gate->setName( origin.substr(    strchr(origin.c_str(),' ')-origin.c_str()+1, string::npos  )   );
+					else; //error, either no line or set twice
+
+				}
+
+			}
+
 		}
-	
+		else; // error
+
 	}
 
 }
