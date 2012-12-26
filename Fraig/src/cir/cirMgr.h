@@ -13,6 +13,7 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include "cirGate.h"
 
 using namespace std;
 
@@ -29,7 +30,7 @@ public:
 
    // Access functions
    // return '0' if "gid" corresponds to an undefined gate.
-   CirGate* getGate(unsigned gid) const { return 0; }
+   CirGate* getGate(unsigned gid) const;
 
    // Member functions about circuit construction
    bool readCircuit(const string&);
@@ -58,7 +59,19 @@ public:
    void writeAag(ostream&) const;
 
 private:
-   ofstream           *_simLog;
+	 void processLine(vector<string>, size_t, string);
+	 CirGateV* searchInList(const int, const int) const; // type: 1 input, 2 output, 3 aig, 4 undef
+	 void deepFirstSearch(CirGateV*);
+
+   ofstream *_simLog;
+	 size_t M, I, L, O, A;
+	 bool *flag;
+	 vector<CirGateV*> input;
+	 vector<CirGateV*> output;
+	 vector<CirGateV*> aig;
+	 vector<CirGateV*> undef;
+	 vector<CirGateV*> totalList;
+	 string _fileName;
 
 };
 
