@@ -199,11 +199,13 @@ bool CirMgr::readCircuit(const string& fileName){
 
 	// dfs
 	A=0;
-	flag=new bool[M+O];
+	flag=new bool[M+O+1];
+	for(size_t i=0; i<M+O+1; i++) flag[i]=0;
+	
 	for(vector<CirGateV*>::iterator it=output.begin(); it!=output.end(); it++){
 
 		deepFirstSearch((*it));
-
+		
 	}
 
 	// close file
@@ -636,7 +638,7 @@ void CirMgr::writeAag(ostream& outfile) const{
 
 void CirMgr::deepFirstSearch(CirGateV* x){
 
-	if (!flag[x->gate()->_id]){
+	if (flag[x->gate()->_id]==false){
 
 		vector<CirGateV*> *v=&(x->gate()->_faninList);
 		if(v->size()!=0){
@@ -657,9 +659,4 @@ void CirMgr::deepFirstSearch(CirGateV* x){
 	}
 
 }
-
-
-
-
-
 
