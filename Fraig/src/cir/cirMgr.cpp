@@ -199,7 +199,9 @@ bool CirMgr::readCircuit(const string& fileName){
 
 	// dfs
 	A=0;
+	if(flag!=0) delete []flag;
 	flag=new bool[M+O+1];
+
 	for(size_t i=0; i<M+O+1; i++) flag[i]=0;
 	
 	for(vector<CirGateV*>::iterator it=output.begin(); it!=output.end(); it++){
@@ -207,6 +209,7 @@ bool CirMgr::readCircuit(const string& fileName){
 		deepFirstSearch((*it));
 		
 	}
+	needToUpdate=false;
 
 	// close file
 	circuitF.clear();

@@ -77,6 +77,7 @@ class CirMgr{
 			totalList.clear();
 		
 		}
+		void checkRedundent(CirGateV* x);
 
 		ofstream *_simLog;
 		size_t M, I, L, O, A;
@@ -86,6 +87,7 @@ class CirMgr{
 		vector<CirGateV*> aig;
 		vector<CirGateV*> undef;
 		vector<CirGateV*> totalList;
+		bool needToUpdate;
 		string _fileName;
 
 };
