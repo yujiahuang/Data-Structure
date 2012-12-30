@@ -29,8 +29,9 @@ using namespace std;
 void CirMgr::strash(){
 
 	// create hash
-	for(vector<CirGateV*>::iterator it=_totalList.begin(); it!=_totalList.end(); it++){
+	for(vector<CirGateV*>::iterator it=totalList.begin(); it!=totalList.end(); it++){
 	
+		// define type
 		GateType t;
 		if(dynamic_cast<CirPiGate*>((*it)->gate())) t=PI_GATE;
 		else if(dynamic_cast<CirPoGate*>((*it)->gate())) t=PO_GATE;
@@ -41,13 +42,33 @@ void CirMgr::strash(){
 
 		}
 
-		HashKey* key = new HashKey((it*)->gate(), t);
-		_hash.insert(key, (*it));
+		// merge / insert
+		CirGateV gateV=*(*it);
+		HashKey* key = new HashKey((*it)->gate(), t);
+		if(_hash->check(*key, gateV)){ // if exists
+
+			CirGate* gate = (*it)->gate();
+			for(size_t i=0; i<gateV.gate()->_fanoutList.size(); i++){ // merge output (move from gateV to (*it))
+
+				CirGateV* newFO=gateV.gate()->_fanoutList[i];
+				gate->_fanoutList.push_back(newFO);
+				for(vector<CirGateV*>::iterator it2=newFO->gate()->_faninList.begin();
+						it2!=newFO->gate()->_faninList.end(); it2++){ // relink fanins
+
+					if((*it2)->getGateV()==gateV.getGateV()) (*it2)=(*it);
+
+				}
+							
+			}			
+			
+		}
+		else{
+
+			_hash->insert(*key, gateV);
+
+		}
 	
 	}
-
-	// merge
-
 
 }
 

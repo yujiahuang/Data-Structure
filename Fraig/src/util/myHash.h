@@ -19,8 +19,11 @@ using namespace std;
 // To use Hash ADT, you should define your own HashKey class.
 // It should at least overload the "()" and "==" operators.
 
+template <class HashKey, class HashData> class Hash;
+
 class HashKey{
 
+	template <class HashKey, class HashData> friend class Hash;
 	public:
 		
 		HashKey() {}
@@ -54,7 +57,7 @@ class HashKey{
 
 		}
 		
-		bool operator == (const HashKey& k) {
+		bool operator == (const HashKey& k) const {
 	
 			if(_fanins.size()==2 && k._fanins.size()==2){
 
@@ -129,8 +132,8 @@ class Hash{
 
 		iterator& operator = (const iterator& i)  { this->_node=i._node; return (*this); }
 
-		bool operator != (const iterator& i)  { return (this->_node)!=(i._node); }
-		bool operator == (const iterator& i)  { return (this->_node)==(i._node); }
+		bool operator != (const iterator& i) { return (this->_node)!=(i._node); }
+		bool operator == (const iterator& i) { return (this->_node)==(i._node); }
 
 		private:
 		HashNode* _node;
@@ -152,7 +155,7 @@ class Hash{
 		for(size_t i=0; i<_numBuckets; i++){
 		
 			s+=_buckets[i].size();
-		
+	
 		}
 		return s;
 		
@@ -163,16 +166,17 @@ class Hash{
 	const vector<HashNode>& operator [](size_t i) const { return _buckets[i]; }
 
 	void init(size_t b) {
-	
+
+		_numBuckets=b;	
 		_buckets=new vector<HashNode>[_numBuckets];
 		_first=_dummyEnd=new HashKey();
 
 	}
 	void reset() { 
 	
-		delete [] _buckets;
-		delete _first;
-		delete _dummyEnd;
+		if(_buckets!=0) delete [] _buckets;
+		if(_first!=0) delete _first;
+		if(_dummyEnd!=0) delete _dummyEnd;
 
 	}
 
@@ -186,7 +190,7 @@ class Hash{
 		
 			if(k==(*it).first){
 			
-				(*it).second=n;
+				n=(*it).second;
 				return true;
 
 			}
@@ -225,9 +229,18 @@ class Hash{
 		if(insert(k,d)) return true;
 		else{
 
-			check(k,d);
-			return false; 
-		
+			size_t bucketN = bucketNum(k);
+			for(typename vector<HashNode>::iterator it=(_buckets[bucketN]).begin(); it!=(_buckets[bucketN]).end(); it++){
+
+				if(k==(*it).first){
+
+					(*it).second=d;
+					return false;
+
+				}
+
+			}
+
 		}
 
 	}
@@ -236,22 +249,24 @@ class Hash{
 	void forceInsert(const HashKey& k, const HashData& d) {
 	
 		size_t bucketN = bucketNum(k);
-		_buckets[bucketN].push_back(HashNode(k,d));
 
+		HashKey kCopy=HashKey(k);
 		if(!empty()){
 
-			_dummyEnd->_prev->_next=&k;
-			_dummyEnd->_prev=&k;
+			_dummyEnd->_prev->_next=&kCopy;
+			_dummyEnd->_prev=&kCopy;
 
 		}
 		else{
 		
-			_first=&k;
+			_first=&kCopy;
 			_first->_next=_dummyEnd;
 			_dummyEnd->_prev=_first;
 		
 		}
 
+		_buckets[bucketN].push_back(HashNode(k,d));
+	
 	}
 
 	private:

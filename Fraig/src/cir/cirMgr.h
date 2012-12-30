@@ -14,6 +14,7 @@
 #include <fstream>
 #include <iostream>
 #include "cirGate.h"
+#include "myHash.h"
 
 using namespace std;
 
@@ -25,7 +26,12 @@ extern CirMgr *cirMgr;
 class CirMgr{
 
 	public:
-		CirMgr(){}
+		CirMgr(){
+
+			size_t size=5113;
+			_hash=new Hash<HashKey, CirGateV>(size);
+
+		}
 		~CirMgr() {
 
 			reset();
@@ -89,7 +95,7 @@ class CirMgr{
 		vector<CirGateV*> totalList;
 		bool needToUpdate;
 		string _fileName;
-		Hash<HashKey*, CirGateV*> _hash;
+		Hash<HashKey, CirGateV>* _hash;
 
 };
 

@@ -1,16 +1,17 @@
-cirCmd.o: cirCmd.cpp cirMgr.h cirGate.h cirDef.h cirCmd.h \
- ../../include/cmdParser.h ../../include/cmdCharDef.h \
+cirCmd.o: cirCmd.cpp cirMgr.h cirGate.h cirDef.h ../../include/myHash.h \
+ cirCmd.h ../../include/cmdParser.h ../../include/cmdCharDef.h \
  ../../include/util.h ../../include/rnGen.h ../../include/myUsage.h
-cirFraig.o: cirFraig.cpp cirMgr.h cirGate.h cirDef.h ../../include/sat.h \
- ../../include/Solver.h ../../include/SolverTypes.h \
- ../../include/Global.h ../../include/VarOrder.h ../../include/Heap.h \
- ../../include/Proof.h ../../include/File.h ../../include/myHash.h \
+cirFraig.o: cirFraig.cpp cirMgr.h cirGate.h cirDef.h \
+ ../../include/myHash.h ../../include/sat.h ../../include/Solver.h \
+ ../../include/SolverTypes.h ../../include/Global.h \
+ ../../include/VarOrder.h ../../include/Heap.h ../../include/Proof.h \
+ ../../include/File.h ../../include/util.h ../../include/rnGen.h \
+ ../../include/myUsage.h
+cirGate.o: cirGate.cpp cirGate.h cirDef.h cirMgr.h ../../include/myHash.h \
  ../../include/util.h ../../include/rnGen.h ../../include/myUsage.h
-cirGate.o: cirGate.cpp cirGate.h cirDef.h cirMgr.h ../../include/util.h \
- ../../include/rnGen.h ../../include/myUsage.h
-cirMgr.o: cirMgr.cpp cirMgr.h cirGate.h cirDef.h ../../include/util.h \
- ../../include/rnGen.h ../../include/myUsage.h
-cirOpt.o: cirOpt.cpp cirMgr.h cirGate.h cirDef.h ../../include/util.h \
- ../../include/rnGen.h ../../include/myUsage.h
-cirSim.o: cirSim.cpp cirMgr.h cirGate.h cirDef.h ../../include/util.h \
- ../../include/rnGen.h ../../include/myUsage.h
+cirMgr.o: cirMgr.cpp cirMgr.h cirGate.h cirDef.h ../../include/myHash.h \
+ ../../include/util.h ../../include/rnGen.h ../../include/myUsage.h
+cirOpt.o: cirOpt.cpp cirMgr.h cirGate.h cirDef.h ../../include/myHash.h \
+ ../../include/util.h ../../include/rnGen.h ../../include/myUsage.h
+cirSim.o: cirSim.cpp cirMgr.h cirGate.h cirDef.h ../../include/myHash.h \
+ ../../include/util.h ../../include/rnGen.h ../../include/myUsage.h
