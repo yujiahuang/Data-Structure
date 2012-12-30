@@ -89,6 +89,7 @@ class CirMgr{
 		vector<CirGateV*> totalList;
 		bool needToUpdate;
 		string _fileName;
+		Hash<HashKey*, CirGateV*> _hash;
 
 };
 

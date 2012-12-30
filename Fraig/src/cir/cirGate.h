@@ -54,6 +54,7 @@ friend class CirMgr;
 		const string& getName(){return _name;}
 		void setName(const string& name){_name=name;}
 		bool getFlag(){return _flag;}
+		const vector<CirGateV*>& getFaninList() const { return _faninList;}
 
 	private:
 
@@ -81,7 +82,7 @@ class CirGateV {
 			return (CirGate*)(_gateV & i); 
 			
 		}
-
+		size_t getGateV() const { return _gateV; }
 		bool isInv() const { return (_gateV & 0x1); }
 		bool isUndef() const { return (_gateV & 0x2); }
 		void setUndef() { if(!isUndef()) _gateV+=2; }
