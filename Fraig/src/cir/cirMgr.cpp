@@ -644,7 +644,7 @@ void CirMgr::deepFirstSearch(CirGateV* x){
 	if (flag[x->gate()->_id]==false){
 
 		vector<CirGateV*> *v=&(x->gate()->_faninList);
-		if(v->size()!=0){
+		//if(v->size()!=0){
 
 			for(vector<CirGateV*>::iterator it=v->begin(); it!=v->end(); it++){
 
@@ -653,7 +653,7 @@ void CirMgr::deepFirstSearch(CirGateV* x){
 
 			}
 
-		}
+		//}
 
 		flag[x->gate()->_id]=true;
 		if(dynamic_cast<CirAigGate*>((x->gate()))) ++A;

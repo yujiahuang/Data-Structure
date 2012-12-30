@@ -28,7 +28,7 @@ using namespace std;
 /*******************************************/
 void CirMgr::strash(){
 
-	// create hash
+	// create hash and do merging at the same time
 	for(vector<CirGateV*>::iterator it=totalList.begin(); it!=totalList.end(); it++){
 	
 		// define type
@@ -42,32 +42,64 @@ void CirMgr::strash(){
 
 		}
 
-		// merge / insert
-		CirGateV gateV=*(*it);
-		HashKey* key = new HashKey((*it)->gate(), t);
-		if(_hash->check(*key, gateV)){ // if exists
+		if(t==AIG_GATE){
 
-			CirGate* gate = (*it)->gate();
-			for(size_t i=0; i<gateV.gate()->_fanoutList.size(); i++){ // merge output (move from gateV to (*it))
+			// merge / insert
+			CirGateV gateV=*(*it);
+			HashKey* key = new HashKey((*it)->gate(), t);
+			if(_hash->check(*key, gateV)){ // if exists
 
-				CirGateV* newFO=gateV.gate()->_fanoutList[i];
-				gate->_fanoutList.push_back(newFO);
-				for(vector<CirGateV*>::iterator it2=newFO->gate()->_faninList.begin();
-						it2!=newFO->gate()->_faninList.end(); it2++){ // relink fanins
+				needToUpdate=true;
+				CirGate* gate = (*it)->gate();
+				size_t s = gateV.gate()->_fanoutList.size();
+				for(size_t i=0; i < s; i++){ // merge output (move from gateV to (*it))
 
-					if((*it2)->getGateV()==gateV.getGateV()) (*it2)=(*it);
+					CirGateV* newFO=gateV.gate()->_fanoutList[i];
+					gate->_fanoutList.push_back(newFO);
+					for(vector<CirGateV*>::iterator it2=newFO->gate()->_faninList.begin();
+							it2!=newFO->gate()->_faninList.end(); it2++){ // relink fanins
+
+						if((*it2)->gate()->getId()==gateV.gate()->getId()){
+						
+							*(*it2)=*(*it);
+			
+						}
+
+					}
 
 				}
-							
-			}			
-			
-		}
-		else{
 
-			_hash->insert(*key, gateV);
+				removeFromList(3, 2*gateV.gate()->getId() + gateV.isInv());
+				delete gateV.gate();
+
+			}
+			else{
+
+				_hash->insert(*key, gateV);
+
+			}
 
 		}
-	
+		
+	}
+
+	// update totalList
+	if(needToUpdate){
+
+		totalList.clear();
+		// dfs
+		A=0;
+		if(flag!=0) delete [] flag;
+		flag=new bool[M+O+1];
+		for(size_t i=0; i<M+O+1; i++) flag[i]=0;
+
+		for(vector<CirGateV*>::iterator it=output.begin(); it!=output.end(); it++){
+
+			deepFirstSearch((*it));
+
+		}
+		needToUpdate=false;
+
 	}
 
 }
