@@ -72,7 +72,8 @@ class CirMgr{
 	private:
 		void processLine(vector<string>, size_t, string);
 		CirGateV* searchInList(const int, const int) const; // type: 1 input, 2 output, 3 aig, 4 undef
-		bool removeFromList(const int, const int) ;         // type: 1 input, 2 output, 3 aig, 4 undef ; defined in cirOpt.cpp
+		bool removeFromList(const int, const int, bool deleteIt=false) ;
+			// type: 1 input, 2 output, 3 aig, 4 undef ; defined in cirOpt.cpp
 		void deepFirstSearch(CirGateV*);
 		void reset(){
 		

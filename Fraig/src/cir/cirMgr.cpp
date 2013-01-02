@@ -476,21 +476,23 @@ CirGateV* CirMgr::searchInList(const int type, const int literal) const{
 void CirMgr::printSummary() const{
 
 	size_t i=input.size(), o=output.size(), a=aig.size();
-	cout << "Circuit Statistics\n==================\nPI\t" << i 
-	<< "\nPO\t" << o
-	<< "\nAIG\t" << a 
-	<< "\n------------------\nTotal\t" << i+o+a << endl;
+	cout << "\nCircuit Statistics\n==================\n  PI" << setw(12) << i 
+	<< "\n  PO" << setw(12) << o
+	<< "\n  AIG" << setw(11) << a 
+	<< "\n------------------\n  Total" << setw(9) << i+o+a << endl;
 
 }
 
 void CirMgr::printNetlist() const{
 
+	cout << endl;
 	int i=0;
 	for(vector<CirGateV*>::const_iterator it=totalList.begin(); it!=totalList.end(); it++){
 
 		cout << "[" << i << "]" << " ";
 	
-		if((*it)->gate()->_id==0) cout << ( (*it)->isInv() ? "CONST0" : "CONST1" );
+		if((*it)->gate()->getId()==0) cout << "CONST0";
+		//if((*it)->gate()->_id==0) cout << ( (*it)->isInv() ? "CONST1" : "CONST0" );
 		else (*it)->gate()->printGate();
 
 		cout << endl;
@@ -513,6 +515,7 @@ void CirMgr::printPOs() const{
 	cout << "POs of the circuit:";
 	for(vector<CirGateV*>::const_iterator it=output.begin(); it!=output.end(); it++) cout << " " << ((*it)->gate()->getId());
 	cout << endl;
+
 }
 
 void CirMgr::printFloatGates() const{
@@ -541,6 +544,7 @@ void CirMgr::printFloatGates() const{
 
 		cout << "Gates with floating fanin(s):";
 		for(vector<int>::iterator it=v1.begin(); it!=v1.end(); it++) cout << " " << (*it);
+		cout << endl;
 
 	}
 
@@ -561,8 +565,9 @@ void CirMgr::printFloatGates() const{
 
 	if(v2.size()!=0){
 
-		cout << "\nGates defined but not used :";
+		cout << "Gates defined but not used  :";
 		for(vector<int>::iterator it=v2.begin(); it!=v2.end(); it++) cout << " " << (*it);
+		cout << endl;
 
 	}
 
@@ -644,16 +649,13 @@ void CirMgr::deepFirstSearch(CirGateV* x){
 	if (flag[x->gate()->_id]==false){
 
 		vector<CirGateV*> *v=&(x->gate()->_faninList);
-		//if(v->size()!=0){
 
-			for(vector<CirGateV*>::iterator it=v->begin(); it!=v->end(); it++){
+		for(vector<CirGateV*>::iterator it=v->begin(); it!=v->end(); it++){
 
-				if(!((*it)->isUndef())) deepFirstSearch(*it);
-				else flag[(*it)->gate()->getId()]=true;
+			if(!((*it)->isUndef())) deepFirstSearch(*it);
+			else flag[(*it)->gate()->getId()]=true;
 
-			}
-
-		//}
+		}
 
 		flag[x->gate()->_id]=true;
 		if(dynamic_cast<CirAigGate*>((x->gate()))) ++A;
