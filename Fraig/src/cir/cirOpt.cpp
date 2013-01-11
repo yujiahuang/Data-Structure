@@ -99,7 +99,6 @@ bool CirMgr::removeFromList(const int type, const int literal, bool deleteIt){
 
 }
 
-// Recursively simplifying from POs;
 // _dfsList needs to be reconstructed afterwards
 void CirMgr::optimize(){
 	
@@ -154,12 +153,15 @@ void CirMgr::checkRedundent(CirGateV* x){
 	if(dynamic_cast<CirAigGate*>(gate) && fanin){
 	
 		// find or create const 0
+		bool created=false;
 		CirGateV* const0 = searchInList(4, 0);
 		if(const0==0 || const0->isInv()==true){
-		
+	
+			cout.flush();	
 			CirAigGate *const0G = new CirAigGate( 0 );
 			const0 = new CirGateV(const0G, 0);
 			undef.push_back(const0);
+			created=true;
 
 		}
 
@@ -178,7 +180,7 @@ void CirMgr::checkRedundent(CirGateV* x){
 				
 				CirGateV* g = gate->_faninList[i];
 				if(g->gate()->getId()==0 && g->isInv()==0) result = const0;
-				else if(g->gate()->getId()==0 && g->isInv()==1) 
+				else if(g->gate()->getId()==0 && g->isInv()==1)
 					result = ((i==0) ? gate->_faninList[1] : gate->_faninList[0]);
 
 			}
@@ -191,8 +193,8 @@ void CirMgr::checkRedundent(CirGateV* x){
 			needToUpdate=true;
 			cout << "Simplifying: " << result->gate()->getId()
 					 << " merging " << (result->isInv() ? "!" : "") <<  gate->getId() << "..." << endl;				
-			
-			// erase fanout of fanins
+
+			// erase fanout from fanins
 			for(size_t i=0; i<2; i++){
 				
 				CirGateV* g = gate->_faninList[i];
@@ -212,19 +214,32 @@ void CirMgr::checkRedundent(CirGateV* x){
 
 			// update fanout list
 			int whichOne;
+			CirGateV* resultI=new CirGateV(result->gate(), !(result->isInv()));
 			for(size_t i=0; i<gate->_fanoutList.size(); i++){
 			
+				bool inv=false;
+
 				// find out the one to add/replace
 				CirGateV* fanout = gate->_fanoutList[i];
 				if(fanout->gate()->_faninList[0]->gate()==gate) whichOne=0;
 				else if(fanout->gate()->_faninList[1]->gate()==gate) whichOne=1;
 				
 				// replace
-				fanout->gate()->_faninList[whichOne]=result; // replace fanin
-				result->gate()->_fanoutList.push_back(fanout); // add fanout
+				if(fanout->gate()->_faninList[whichOne]->isInv()==true){
+					
+					fanout->gate()->_faninList[whichOne]=resultI; // replace fanin
+					resultI->gate()->_fanoutList.push_back(fanout); // add fanout
+			
+				}
+				else{
 
+					fanout->gate()->_faninList[whichOne]=result; // replace fanin
+					result->gate()->_fanoutList.push_back(fanout); // add fanout
+
+				}
+			
 			}
-
+		
 			// erase gate
 			removeFromList(3, gate->getId()*2+x->isInv(), true);
 			

@@ -86,6 +86,7 @@ class CirGateV {
 		bool isInv() const { return (_gateV & 0x1); }
 		bool isUndef() const { return (_gateV & 0x2); }
 		void setUndef() { if(!isUndef()) _gateV+=2; }
+		void setInv() { if(!isInv()) _gateV = _gateV | 1; }
 		void resetUndef() { if(isUndef()) _gateV-=2; }
 	private:
 		size_t _gateV;

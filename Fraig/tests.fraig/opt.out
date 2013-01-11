@@ -280,8 +280,7 @@ Simplifying: 1 merging !6...
 Simplifying: 0 merging 8...
 Simplifying: 0 merging 9...
 Simplifying: 7 merging !11...
-Simplifying: 0 merging 10...
-Simplifying: 0 merging 12...
+Simplifying: 4 merging 10...
 
 fraig> cirstrash
 
@@ -291,9 +290,9 @@ Circuit Statistics
 ==================
   PI           5
   PO           3
-  AIG          1
+  AIG          2
 ------------------
-  Total        9
+  Total       10
 
 fraig> cirp -pi
 PIs of the circuit: 1 2 3 4 5
@@ -308,11 +307,14 @@ fraig> cirp -n
 [2] PI  2
 [3] PI  3
 [4] AIG 7 2 3
-[5] PO  14 !7
-[6] PO  15 0
+[5] PO  14 7
+[6] PI  5
+[7] PI  4
+[8] AIG 12 5 4
+[9] PO  15 12
 
 fraig> cirp -fl
-Gates defined but not used  : 1 4 5
+Gates defined but not used  : 1
 
 fraig> q -f
 
@@ -362,13 +364,13 @@ Simplifying: 0 merging 3...
 Simplifying: 0 merging 4...
 Simplifying: 0 merging 5...
 Simplifying: 7 merging !8...
-Simplifying: 0 merging 6...
-Simplifying: 0 merging 11...
+Simplifying: 7 merging !6...
+Simplifying: 7 merging !11...
 Simplifying: 0 merging 10...
 Simplifying: 7 merging 9...
 Simplifying: 0 merging 12...
 Simplifying: 0 merging 13...
-Simplifying: 0 merging 14...
+Simplifying: 7 merging !14...
 
 fraig> cirstrash
 
@@ -390,11 +392,12 @@ POs of the circuit: 15
 
 fraig> cirp -n
 
-[0] CONST0
-[1] PO  15 0
+[0] PI  1
+[1] PI  2
+[2] AIG 7 1 !2
+[3] PO  15 !7
 
 fraig> cirp -fl
-Gates defined but not used  : 7
 
 fraig> q -f
 
