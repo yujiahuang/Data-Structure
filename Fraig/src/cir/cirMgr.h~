@@ -96,7 +96,6 @@ class CirMgr{
 		void writeLogFile(unsigned int* input, size_t inputSize,
    		unsigned int* output, size_t outputSize, size_t length);
 		void printErrorMsg(string, size_t, size_t);
-		void cleanFecGroups();
 
 		ofstream *_simLog;
 		size_t M, I, L, O, A;

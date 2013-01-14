@@ -62,24 +62,16 @@ bool CirMgr::removeFromList(const int type, const int literal, bool deleteIt){
 
 	vector<CirGateV *> *toBeSearched;
 	if(type==1){ // input
-
 		toBeSearched=&input;
-
 	}
 	else if(type==2){ // output
-	
 		toBeSearched=&output;
-	
 	}
 	else if(type==3){ // aig
-	
 		toBeSearched=&aig;
-	
 	}
 	else if(type==4){ //undef
-
 		toBeSearched=&undef;
-
 	}
 	else; //error
 
@@ -92,7 +84,6 @@ bool CirMgr::removeFromList(const int type, const int literal, bool deleteIt){
 			return true;
 
 		}
-
 	}
 
 	return false;
@@ -108,30 +99,9 @@ void CirMgr::optimize(){
 	
 	}
 
-	/*
-	for(vector<CirGateV*>::iterator it=output.begin(); it!=output.end(); it++){
-	
-		checkRedundent((*it)->gate()->_faninList[0]);
-		
-	}
-	*/
-
 	// update totalList
 	if(needToUpdate){
-
-		totalList.clear();
-		// dfs
-		A=0;
-		if(flag!=0) delete [] flag;
-		flag=new bool[M+O+1];
-		for(size_t i=0; i<M+O+1; i++) flag[i]=0;
-
-		for(vector<CirGateV*>::iterator it=output.begin(); it!=output.end(); it++){
-
-			deepFirstSearch((*it));
-
-		}
-		needToUpdate=false;
+		updateTotalList();
 
 	}
 
@@ -153,15 +123,12 @@ void CirMgr::checkRedundent(CirGateV* x){
 	if(dynamic_cast<CirAigGate*>(gate) && fanin){
 	
 		// find or create const 0
-		bool created=false;
 		CirGateV* const0 = searchInList(4, 0);
 		if(const0==0 || const0->isInv()==true){
 	
-			cout.flush();	
 			CirAigGate *const0G = new CirAigGate( 0 );
 			const0 = new CirGateV(const0G, 0);
 			undef.push_back(const0);
-			created=true;
 
 		}
 
@@ -184,7 +151,6 @@ void CirMgr::checkRedundent(CirGateV* x){
 					result = ((i==0) ? gate->_faninList[1] : gate->_faninList[0]);
 
 			}
-
 		}
 		
 		// if need to change
@@ -193,73 +159,75 @@ void CirMgr::checkRedundent(CirGateV* x){
 			needToUpdate=true;
 			cout << "Simplifying: " << result->gate()->getId()
 					 << " merging " << (result->isInv() ? "!" : "") <<  gate->getId() << "..." << endl;				
+			merge(*x, *result);
+		}
+	}
+}
 
-			// erase fanout from fanins
-			for(size_t i=0; i<2; i++){
-				
-				CirGateV* g = gate->_faninList[i];
-				for(vector<CirGateV*>::iterator it=(g->gate()->_fanoutList).begin();
-						it!=(g->gate()->_fanoutList).end(); it++){
+void CirMgr::merge(CirGateV oldOne, CirGateV newOne){
 
-					if((*it)->gate()==gate){
+	// remove
+	removeFromList(3, 2*(oldOne.gate()->getId()));
 
-						(g->gate()->_fanoutList).erase(it);	
-						break;
+	// erase fanout from fanins
+	for(size_t i=0; i<2; i++){
 
-					}
+		CirGateV* g = oldOne.gate()->_faninList[i];
+		for(vector<CirGateV*>::iterator it=(g->gate()->_fanoutList).begin();
+				it!=(g->gate()->_fanoutList).end(); it++){
 
-				}
+			if((*it)->gate()==oldOne.gate()){
+
+				(g->gate()->_fanoutList).erase(it);	
+				break;
 
 			}
+		}
+	}
 
-			// update fanout list
-			int whichOne;
-			CirGateV* resultI=new CirGateV(result->gate(), !(result->isInv()));
-			for(size_t i=0; i<gate->_fanoutList.size(); i++){
-			
-				bool inv=false;
+	// merge fanouts
+	size_t s = oldOne.gate()->_fanoutList.size();
+	CirGateV newOneI=CirGateV(newOne.gate(), !newOne.isInv());
+	for(size_t i=0; i < s; i++){
 
-				// find out the one to add/replace
-				CirGateV* fanout = gate->_fanoutList[i];
-				if(fanout->gate()->_faninList[0]->gate()==gate) whichOne=0;
-				else if(fanout->gate()->_faninList[1]->gate()==gate) whichOne=1;
+		CirGateV* oldFO=oldOne.gate()->_fanoutList[i];
+		for(vector<CirGateV*>::iterator it=oldFO->gate()->_faninList.begin();
+				it!=oldFO->gate()->_faninList.end(); it++){ // relink fanins
+
+			if((*it)->gate()->getId()==oldOne.gate()->getId()){
+
+				if((*it)->isInv()){
 				
-				// replace
-				if(fanout->gate()->_faninList[whichOne]->isInv()==true){
-					
-					fanout->gate()->_faninList[whichOne]=resultI; // replace fanin
-					resultI->gate()->_fanoutList.push_back(fanout); // add fanout
-			
+					*(*it)=newOneI;
+					newOneI.gate()->_fanoutList.push_back(oldFO);
+
 				}
 				else{
-
-					fanout->gate()->_faninList[whichOne]=result; // replace fanin
-					result->gate()->_fanoutList.push_back(fanout); // add fanout
+				
+				  *(*it)=newOne;
+					newOne.gate()->_fanoutList.push_back(oldFO);
 
 				}
-			
 			}
-		
-			// erase gate
-			removeFromList(3, gate->getId()*2+x->isInv(), true);
-			
-			/*	
-			// recursive
-			if(result->gate()->getId()!=0) checkRedundent(result);
-			*/
-
 		}
-		else{
-		
-			/*
-			// recursive
-			checkRedundent(gate->_faninList[0]);
-			checkRedundent(gate->_faninList[1]);
-			*/
+	}	
+}
 
-		}
+void CirMgr::updateTotalList(){
+
+	totalList.clear();
+	// dfs
+	A=0;
+	if(flag!=0) delete [] flag;
+	flag=new bool[M+O+1];
+	for(size_t i=0; i<M+O+1; i++) flag[i]=0;
+
+	for(vector<CirGateV*>::iterator it=output.begin(); it!=output.end(); it++){
+
+		deepFirstSearch((*it));
 
 	}
+	needToUpdate=false;
 
 }
 

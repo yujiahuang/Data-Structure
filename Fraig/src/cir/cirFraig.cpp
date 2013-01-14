@@ -49,28 +49,13 @@ void CirMgr::strash(){
 			HashKey* key = new HashKey((*it)->gate(), t);
 			if(_hash->check(*key, gateV)){ // if exists
 
+				// print	
+				cout << "Strashing: " << gateV.gate()->getId()
+						 << " merging " << (*it)->gate()->getId() 
+						 << "..." << endl;
+
 				needToUpdate=true;
-				CirGate* gate = (*it)->gate();
-				size_t s = gateV.gate()->_fanoutList.size();
-				for(size_t i=0; i < s; i++){ // merge output (move from gateV to (*it))
-
-					CirGateV* newFO=gateV.gate()->_fanoutList[i];
-					gate->_fanoutList.push_back(newFO);
-					for(vector<CirGateV*>::iterator it2=newFO->gate()->_faninList.begin();
-							it2!=newFO->gate()->_faninList.end(); it2++){ // relink fanins
-
-						if((*it2)->gate()->getId()==gateV.gate()->getId()){
-						
-							*(*it2)=*(*it);
-			
-						}
-
-					}
-
-				}
-
-				removeFromList(3, 2*gateV.gate()->getId() + gateV.isInv());
-				delete gateV.gate();
+				merge(*(*it), gateV);
 
 			}
 			else{
@@ -78,27 +63,13 @@ void CirMgr::strash(){
 				_hash->insert(*key, gateV);
 
 			}
-
 		}
-		
 	}
 
 	// update totalList
 	if(needToUpdate){
 
-		totalList.clear();
-		// dfs
-		A=0;
-		if(flag!=0) delete [] flag;
-		flag=new bool[M+O+1];
-		for(size_t i=0; i<M+O+1; i++) flag[i]=0;
-
-		for(vector<CirGateV*>::iterator it=output.begin(); it!=output.end(); it++){
-
-			deepFirstSearch((*it));
-
-		}
-		needToUpdate=false;
+		updateTotalList();
 
 	}
 
