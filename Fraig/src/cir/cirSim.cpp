@@ -30,6 +30,37 @@ using namespace std;
 /************************************************/
 void CirMgr::randomSim(){
 
+	srand(1);
+
+	size_t s=input.size();
+	size_t noChange=0;
+	size_t lastFecN=0;
+	size_t num=0;
+
+	while(noChange < log10(input.size())/0.3 ){
+
+		unsigned int* sequenceI = new unsigned int [s];
+		for(size_t i=0; i<s; i++){
+
+			sequenceI[i] = rand();
+
+		}
+
+		simulation(sequenceI, s, 32);	
+		if(_fecGroup==0) createFecGroup(32);
+		else continueGroup(32);
+
+		size_t thisFecN = _fecGroup->size();
+		if(lastFecN==thisFecN) ++noChange;
+		else noChange=0;
+		lastFecN=thisFecN;
+		if(_fecGroup!=0 && lastFecN!=0) cout << "\nTotal #FEC Group = " << lastFecN/2 << endl;
+		
+		num++;
+
+	}
+	cout << "\n" << 32*num << " patterns simulated." << endl;
+
 }
 
 size_t CirMgr::trimStr(string& line){
@@ -110,7 +141,7 @@ void CirMgr::fileSim(ifstream& patternFile){
 			simulation(sequenceI, s, k-i);	
 			if(_fecGroup==0) createFecGroup(k-i);
 			else continueGroup(k-i);
-			cleanFecGroups();
+			if(_fecGroup!=0 && _fecGroup->size()!=0) cout << "\nTotal #FEC Group = " << _fecGroup->size()/2;
 		}
 
 	}
@@ -120,7 +151,6 @@ void CirMgr::fileSim(ifstream& patternFile){
 
 	}
 
-	if(_fecGroup->size()!=0) cout << "\nTotal #FEC Group = " << _fecGroup->size()/2;
 	cout << "\n" << _simNum << " patterns simulated." << endl;
 
 }
@@ -169,6 +199,7 @@ void CirMgr::simulation(unsigned int* sequence, size_t size, size_t length){
 			if(dynamic_cast<CirAigGate*>(gate)){
 
 				size_t id = gate->getId();
+				if(id==0)continue;
 				int faninValue[2]={0, 0};
 				for(int i=0; i<2; i++){
 
@@ -212,7 +243,7 @@ void CirMgr::writeLogFile(unsigned int* inputSeq, size_t inputSize,
 
 void CirMgr::createFecGroup(size_t maxSimNum){
 
-	_fecGroup = new vector< vector<CirGateV> >;
+	_fecGroup = new vector< vector<CirGateV>* >;
 	vector<CirGateV>* aGroup=new vector<CirGateV>;
 	for(vector<CirGateV*>::iterator it=totalList.begin();
 			it!=totalList.end(); it++){
@@ -228,26 +259,43 @@ void CirMgr::createFecGroup(size_t maxSimNum){
 
 		}
 	}
-	
+
+	// create const 0
+	CirAigGate *const0G = new CirAigGate( 0 );
+	CirGateV *const0 = new CirGateV(const0G, 0);
+	CirGateV *const1 = new CirGateV(const0G, 1);
+	aGroup->push_back(*const0);
+	aGroup->push_back(*const1);
+
 	group(aGroup, 0, maxSimNum);
 
 }
 
 void CirMgr::continueGroup(size_t maxSimNum){
 
-	for(vector< vector<CirGateV> >::iterator it = _fecGroup->begin();
+	size_t i=0;
+	size_t s=_fecGroup->size();
+	vector<CirGateV>** oldFec = new vector<CirGateV>* [s];
+	for(vector< vector<CirGateV>* >::iterator it = _fecGroup->begin();
 			it!=_fecGroup->end(); it++){
+	
+		oldFec[i]=(*it);
+		i++;
+			
+	}
 
-		vector<CirGateV> *v = &(*it);
+	for(size_t j=0; j<s; j++){
+
+		vector<CirGateV> *v = oldFec[j];
 		group(v, 0, maxSimNum);
 
 	}
-	cout << "continueing..." << endl;
 
 }
 
-void CirMgr::group(vector<CirGateV>* const &aGroup, size_t depth, size_t maxSimNum){
+void CirMgr::group(vector<CirGateV>* &aGroup, size_t depth, size_t maxSimNum){
 
+	//cout << "depth: " << depth << endl << "  ";
 	if(_fecGroup==0) return;
 	if(depth < maxSimNum){
 
@@ -259,13 +307,15 @@ void CirMgr::group(vector<CirGateV>* const &aGroup, size_t depth, size_t maxSimN
 			unsigned int enzyme=pow(2, depth);
 			if((*it).isInv()){
 
-				if((simulationValue[(*it).gate()->getId()]/enzyme)%2==0){ ones->push_back(*it);}
+				if((*it).gate()->getId()==0) ones->push_back((*it));
+				else if((simulationValue[(*it).gate()->getId()]/enzyme)%2==0){ ones->push_back(*it);}
 				else{ zeros->push_back(*it);}
 
 			}
 			else{
 			
-				if((simulationValue[(*it).gate()->getId()]/enzyme)%2==0){ zeros->push_back(*it);}
+				if((*it).gate()->getId()==0) zeros->push_back((*it));
+				else if((simulationValue[(*it).gate()->getId()]/enzyme)%2==0){ zeros->push_back(*it);}
 				else{ ones->push_back(*it);}
 
 			}
@@ -273,7 +323,8 @@ void CirMgr::group(vector<CirGateV>* const &aGroup, size_t depth, size_t maxSimN
 
 		bool onesAlive = (ones->size()>1);
 		bool zerosAlive = (zeros->size()>1);	
-/*
+		
+		/*
 		cout << "depth: " << depth << endl << "  ";
 		for(vector<CirGateV>::iterator it = (*zeros).begin(); it!=(*zeros).end(); it++)
 			cout << (*it).gate()->getId() << " ";
@@ -281,46 +332,49 @@ void CirMgr::group(vector<CirGateV>* const &aGroup, size_t depth, size_t maxSimN
 		for(vector<CirGateV>::iterator it = (*ones).begin(); it!=(*ones).end(); it++)
 			cout << (*it).gate()->getId() << " ";
 		cout << endl;
-*/
+		*/
 
 		if(zerosAlive && onesAlive){
 
 			delete aGroup;
-
+			removeFromFecGroup(aGroup);
 			group(zeros, depth+1, maxSimNum);
 			group(ones, depth+1, maxSimNum);
 
 		}else if(zerosAlive && !onesAlive){		
 
 			delete aGroup;
-			//aGroup=zeros;
+			removeFromFecGroup(aGroup);
 			group(zeros, depth+1, maxSimNum);
 
 		}else if(!zerosAlive && onesAlive){
 
 			delete aGroup;
-			//aGroup=ones;
+			removeFromFecGroup(aGroup);
 			group(ones, depth+1, maxSimNum);
 
 		}else{
 
 			delete aGroup;
+			removeFromFecGroup(aGroup);
 
 		}
 	}
 	else {
 
-		_fecGroup->push_back(*aGroup);
+		_fecGroup->push_back(aGroup);
 
 	}
 }
 
-void CirMgr::cleanFecGroups(){
+void CirMgr::removeFromFecGroup(vector<CirGateV>* aGroup){
 
-	for(vector< vector<CirGateV> >::iterator it = _fecGroup->begin();
+	for(vector< vector<CirGateV>* >::iterator it = _fecGroup->begin();
 			it!=_fecGroup->end(); it++){
 
-		if((*it)==0) erase(it);
+		if((*it)==aGroup) _fecGroup->erase(it);
 
 	}
+
 }
+

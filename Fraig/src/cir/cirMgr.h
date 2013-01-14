@@ -91,12 +91,14 @@ class CirMgr{
 		void simulation(unsigned int*, size_t, size_t);
 		void createFecGroup(size_t);
 		void continueGroup(size_t);
-		void group(vector<CirGateV>*const&, size_t, size_t);	
+		void group(vector<CirGateV>*&, size_t, size_t);	
 		size_t trimStr(string&);
 		void writeLogFile(unsigned int* input, size_t inputSize,
    		unsigned int* output, size_t outputSize, size_t length);
 		void printErrorMsg(string, size_t, size_t);
 		void cleanFecGroups();
+		void removeFromFecGroup(vector<CirGateV>*);
+		void genProofModel(SatSolver&);
 
 		ofstream *_simLog;
 		size_t M, I, L, O, A;
@@ -111,7 +113,7 @@ class CirMgr{
 		string _fileName;
 		Hash<HashKey, CirGateV>* _hash;
 		unsigned int* simulationValue;
-		vector< vector<CirGateV> >* _fecGroup;
+		vector< vector<CirGateV>* >* _fecGroup;
 		size_t _simNum;
 
 };

@@ -30,13 +30,13 @@ void CirMgr::strash(){
 
 	// create hash and do merging at the same time
 	for(vector<CirGateV*>::iterator it=totalList.begin(); it!=totalList.end(); it++){
-	
+
 		// define type
 		GateType t;
 		if(dynamic_cast<CirPiGate*>((*it)->gate())) t=PI_GATE;
 		else if(dynamic_cast<CirPoGate*>((*it)->gate())) t=PO_GATE;
 		else if(dynamic_cast<CirAigGate*>((*it)->gate())){
-		
+
 			if((*it)->isUndef()) t=UNDEF_GATE;
 			else t=AIG_GATE;
 
@@ -51,8 +51,8 @@ void CirMgr::strash(){
 
 				// print	
 				cout << "Strashing: " << gateV.gate()->getId()
-						 << " merging " << (*it)->gate()->getId() 
-						 << "..." << endl;
+					<< " merging " << (*it)->gate()->getId() 
+					<< "..." << endl;
 
 				needToUpdate=true;
 				merge(*(*it), gateV);
@@ -75,11 +75,106 @@ void CirMgr::strash(){
 
 }
 
-	void
-CirMgr::fraig()
-{
+void CirMgr::fraig(){
+
+	SatSolver solver;
+	solver.initialize();
+
+	genProofModel(solver);
+
+	// Solve all FEC pairs
+	bool result;
+
+	bool *tmpFlag=new bool[M+1];
+	for(size_t k=0; k<M+1; k++) tmpFlag[k]=0;
+
+	for(vector< vector<CirGateV>* >::iterator it=_fecGroup->begin();
+			it!=_fecGroup->end(); it++){
+
+		if(tmpFlag[(*((*it)->begin())).gate()->getId()]==true) continue;
+		else{
+
+			vector<CirGateV> v = *(*it);
+			for(size_t i=0; i<(*it)->size()-1; i++){
+			
+				if(v[i].isUndef()) continue;
+				for(size_t j=i; j<(*it)->size(); j++){
+
+					if(v[j].isUndef()) continue;
+
+					CirAigGate xorGate;
+					Var var = solver.newVar();
+					xorGate.setVar(var);
+
+					solver.addXorCNF(xorGate.getVar(), v[i].gate()->getVar(), v[i].isInv(),
+							v[j].gate()->getVar(), v[j].isInv());
+
+					solver.assumeRelease();  // Clear assumptions
+					solver.assumeProperty(xorGate.getVar(), true);
+					result = solver.assumpSolve();
+					if(result==0){
+						
+						merge(v[j], v[i]);
+						delete v[j].gate();
+						v[j].setUndef();
+
+					}
+
+					tmpFlag[v[i].gate()->getId()]=true;
+					tmpFlag[v[j].gate()->getId()]=true;
+
+				}	
+			}
+		}
+	}
+	delete _fecGroup;
+	_fecGroup=0;
+
 }
 
 /********************************************/
 /*   Private member functions about fraig   */
 /********************************************/
+
+void CirMgr::genProofModel(SatSolver& s){
+
+	// Allocate and record variables; No Var ID for POs
+	for(vector<CirGateV*>::iterator it=totalList.begin();
+			it!=totalList.end(); it++){
+
+		if(dynamic_cast<CirAigGate*>((*it)->gate())){
+
+			Var v = s.newVar();
+			(*it)->gate()->setVar(v);
+
+		}
+	}
+
+	// Hard code the model construction here...
+	for(vector<CirGateV*>::iterator it=totalList.begin();
+			it!=totalList.end(); it++){
+
+		if(dynamic_cast<CirAigGate*>((*it)->gate())){
+		
+			CirGate* lhs = (*it)->gate();
+			CirGateV* rhs0 = (*it)->gate()->_faninList[0];
+			CirGateV* rhs1 = (*it)->gate()->_faninList[1];
+			s.addAigCNF(lhs->getVar(), rhs0->gate()->getVar(), rhs0->isInv(),
+				rhs1->gate()->getVar(), rhs1->isInv());
+
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

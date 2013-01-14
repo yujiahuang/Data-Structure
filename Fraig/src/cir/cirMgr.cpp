@@ -333,11 +333,10 @@ void CirMgr::processLine(vector<string> tokens, size_t lineNum, string origin){
 
 			// check if rhs already exists
 			CirGateV* gateR[2];
-			gateR[0] = _idList[rhs[0]/2];
-			gateR[1] = _idList[rhs[1]/2];
 
 			for(int i=0; i<=1; i++){
 
+				gateR[i] = _idList[rhs[i]/2];
 				if(gateR[i]==0){ // not found then create one and push into undef
 
 					CirAigGate *aigR = new CirAigGate(rhs[i]/2);
@@ -570,22 +569,24 @@ void CirMgr::printFloatGates() const{
 
 void CirMgr::printFECPairs() const{
 
+	if(_fecGroup==0) return;
+
 	int i=0;
 	bool *tmpFlag=new bool[M+1];
 	for(size_t i=0; i<M+1; i++) tmpFlag[i]=0;
 
-	for(vector< vector<CirGateV> >::const_iterator it=_fecGroup->begin();
+	for(vector< vector<CirGateV>* >::const_iterator it=_fecGroup->begin();
 			it!=_fecGroup->end(); it++){
 
-		if(tmpFlag[(*((*it).begin())).gate()->getId()]==true) continue;
+		if(tmpFlag[(*((*it)->begin())).gate()->getId()]==true) continue;
 		else{
 
 			cout << "[" << i << "] ";
 			cout.flush();
 			i++;
 
-			for(vector<CirGateV>::const_iterator it2=(*it).begin();
-					it2!=(*it).end(); it2++){
+			for(vector<CirGateV>::const_iterator it2=(*it)->begin();
+					it2!=(*it)->end(); it2++){
 
 				cout << ((*it2).isInv() ? "!" : ""); 
 				cout << (*it2).gate()->getId() << " ";
@@ -593,9 +594,9 @@ void CirMgr::printFECPairs() const{
 				tmpFlag[(*it2).gate()->getId()]=true;	
 
 			}
+			cout << endl;
 		}
 	}
-	cout << endl;
 
 }
 

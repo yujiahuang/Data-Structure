@@ -92,7 +92,9 @@ bool CirMgr::removeFromList(const int type, const int literal, bool deleteIt){
 
 // _dfsList needs to be reconstructed afterwards
 void CirMgr::optimize(){
-	
+
+	if(_fecGroup!=0) return;
+
 	for(vector<CirGateV*>::iterator it=totalList.begin(); it!=totalList.end(); it++){
 
 		checkRedundent((*it));

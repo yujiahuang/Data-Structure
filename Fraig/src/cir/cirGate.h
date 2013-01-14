@@ -13,6 +13,7 @@
 #include <vector>
 #include <iostream>
 #include "cirDef.h"
+#include "sat.h"
 
 using namespace std;
 
@@ -50,23 +51,28 @@ friend class CirMgr;
 		//getter and setter
 		size_t getId(){return _id;}
 		size_t getLineNum(){return _lineNum;}
-		void setLineNum(size_t newLN){_lineNum=newLN;}
-		const string& getName(){return _name;}
-		void setName(const string& name){_name=name;}
-		bool getFlag(){return _flag;}
-		const vector<CirGateV*>& getFaninList() const { return _faninList;}
+		void   setLineNum(size_t newLN){_lineNum=newLN;}
+		const  string& getName(){return _name;}
+		void   setName(const string& name){_name=name;}
+		bool   getFlag(){return _flag;}
+		const  vector<CirGateV*>& getFaninList() const { return _faninList;}
+
+		// sat
+		Var  getVar() const { return _var; } 
+		void setVar(const Var& v) { _var = v; }  
 
 	private:
+		unsigned   _gid;
+		Var        _var;    
 
 	protected:
-		size_t _id;
-		size_t _lineNum;
-		string _name;
-		bool _flag;
-		vector<CirGateV*> _faninList;
-		vector<CirGateV*> _fanoutList;
+		size_t               _id;
+		size_t              _lineNum;
+		string              _name;
+		bool                _flag;
+		vector<CirGateV*>   _faninList;
+		vector<CirGateV*>   _fanoutList;
 		
-
 };
 
 // Pointer Wrapper
