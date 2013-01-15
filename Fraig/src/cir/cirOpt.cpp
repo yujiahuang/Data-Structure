@@ -198,7 +198,11 @@ void CirMgr::merge(CirGateV oldOne, CirGateV newOne){
 
 			if((*it)->gate()->getId()==oldOne.gate()->getId()){
 
-				if((*it)->isInv()){
+				bool inv1 = (*it)->isInv();
+				bool inv2 = oldOne.isInv();
+				bool inv = inv1 ^ inv2;
+
+				if(inv){
 				
 					*(*it)=newOneI;
 					newOneI.gate()->_fanoutList.push_back(oldFO);

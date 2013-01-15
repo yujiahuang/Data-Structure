@@ -77,6 +77,8 @@ void CirMgr::strash(){
 
 void CirMgr::fraig(){
 
+	if(_fecGroup==0) return;
+
 	SatSolver solver;
 	solver.initialize();
 
@@ -91,14 +93,13 @@ void CirMgr::fraig(){
 	for(vector< vector<CirGateV>* >::iterator it=_fecGroup->begin();
 			it!=_fecGroup->end(); it++){
 
-		if(tmpFlag[(*((*it)->begin())).gate()->getId()]==true) continue;
-		else{
+		if(tmpFlag[(*((*it)->begin())).gate()->getId()]==false){
 
 			vector<CirGateV> v = *(*it);
 			for(size_t i=0; i<(*it)->size()-1; i++){
 			
 				if(v[i].isUndef()) continue;
-				for(size_t j=i; j<(*it)->size(); j++){
+				for(size_t j=i+1; j<(*it)->size(); j++){
 
 					if(v[j].isUndef()) continue;
 
@@ -114,8 +115,8 @@ void CirMgr::fraig(){
 					result = solver.assumpSolve();
 					if(result==0){
 						
+						needToUpdate=true;
 						merge(v[j], v[i]);
-						delete v[j].gate();
 						v[j].setUndef();
 
 					}
@@ -130,6 +131,10 @@ void CirMgr::fraig(){
 	delete _fecGroup;
 	_fecGroup=0;
 
+	// update totalList
+	if(needToUpdate){
+		updateTotalList();
+	}
 }
 
 /********************************************/

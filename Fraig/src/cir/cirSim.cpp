@@ -249,7 +249,7 @@ void CirMgr::createFecGroup(size_t maxSimNum){
 			it!=totalList.end(); it++){
 
 		CirGate* gate = (*it)->gate();
-		if(dynamic_cast<CirAigGate*>(gate)){
+		if(dynamic_cast<CirAigGate*>(gate) && gate->getId()!=0){
 
 			CirGateV gv=*(*it);
 			if(gv.isInv()) gv.resetInv();
