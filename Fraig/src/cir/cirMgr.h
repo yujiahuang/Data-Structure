@@ -68,6 +68,7 @@ class CirMgr{
 		void printFloatGates() const;
 		void printFECPairs() const;
 		void writeAag(ostream&) const;
+		void printSimValue(size_t gid);
 
 	private:
 		void processLine(vector<string>, size_t, string);
@@ -86,7 +87,7 @@ class CirMgr{
 
 		}
 		void checkRedundent(CirGateV* x);
-		void merge(CirGateV, CirGateV);
+		void merge(CirGateV, CirGateV, bool oldInv=false);
 		void updateTotalList();
 		void simulation(unsigned int*, size_t, size_t);
 		void createFecGroup(size_t);

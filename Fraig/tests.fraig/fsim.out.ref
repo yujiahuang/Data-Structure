@@ -3673,8 +3673,8 @@ fraig> cirp -n
 fraig> cirp -fl
 
 fraig> usage
-Period time used : 0.01 seconds
-Total time used  : 0.01 seconds
+Period time used : 0 seconds
+Total time used  : 0 seconds
 Total memory used: 0.3984 M Bytes
 
 fraig> cirstrash
@@ -4599,7 +4599,7 @@ Strashing: 3408 merging 3438...
 
 fraig> usage
 Period time used : 0 seconds
-Total time used  : 0.01 seconds
+Total time used  : 0 seconds
 Total memory used: 0.3984 M Bytes
 
 fraig> cirsim -file pattern.09
@@ -4607,7 +4607,7 @@ fraig> cirsim -file pattern.09
 
 fraig> usage
 Period time used : 0.02 seconds
-Total time used  : 0.03 seconds
+Total time used  : 0.02 seconds
 Total memory used: 0.3984 M Bytes
 
 fraig> cirp -fec
@@ -4899,7 +4899,7 @@ fraig> cirp -fec
 
 fraig> usage
 Period time used : 0 seconds
-Total time used  : 0.03 seconds
+Total time used  : 0.02 seconds
 Total memory used: 0.3984 M Bytes
 
 fraig> q -f

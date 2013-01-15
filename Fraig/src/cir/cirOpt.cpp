@@ -49,8 +49,8 @@ void CirMgr::sweep(){
 	
 		if(flag[i]==false){ // not in totalList
 		
-			if(removeFromList(3, 2*i, true)) cout << "Sweeping: AIG" << "(" << i << ") removed...\n";
-			if(removeFromList(4, 2*i, true)) cout << "Sweeping: UNDEF" << "(" << i << ") removed...\n";	
+			if(removeFromList(3, 2*i, false)) cout << "Sweeping: AIG" << "(" << i << ") removed...\n";
+			if(removeFromList(4, 2*i, false)) cout << "Sweeping: UNDEF" << "(" << i << ") removed...\n";	
 	
 		}
 	
@@ -166,7 +166,7 @@ void CirMgr::checkRedundent(CirGateV* x){
 	}
 }
 
-void CirMgr::merge(CirGateV oldOne, CirGateV newOne){
+void CirMgr::merge(CirGateV oldOne, CirGateV newOne, bool oldInv){
 
 	// remove
 	removeFromList(3, 2*(oldOne.gate()->getId()));
@@ -199,8 +199,7 @@ void CirMgr::merge(CirGateV oldOne, CirGateV newOne){
 			if((*it)->gate()->getId()==oldOne.gate()->getId()){
 
 				bool inv1 = (*it)->isInv();
-				bool inv2 = oldOne.isInv();
-				bool inv = inv1 ^ inv2;
+				bool inv = inv1 ^ oldInv;
 
 				if(inv){
 				

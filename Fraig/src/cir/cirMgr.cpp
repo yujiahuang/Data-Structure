@@ -163,7 +163,6 @@ bool CirMgr::readCircuit(const string& fileName){
 	
 	if(circuitF.fail()) return false;
 
-
 	string line;
 	size_t lineNum=1;
 	while(getline(circuitF, line)){

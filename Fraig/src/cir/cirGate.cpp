@@ -153,7 +153,9 @@ void CirAigGate::reportGate() const{
 	if(!name) printed=printf("= AIG(%d), line %d", _id, _lineNum);
 	else printed=printf("= AIG(%d)\"%s\", line %d", _id, _name.c_str(), _lineNum);
 	for(int i=0; i<50-printed-1; i++) cout << " ";
-	cout << "=\n==================================================\n";
+	cout << "=";
+	cirMgr->printSimValue(_id);
+	cout << "\n==================================================\n";
 
 }
 
@@ -189,7 +191,9 @@ void CirPiGate::reportGate() const{
 	if(!name) printed=printf("= PI(%d), line %d", _id, _lineNum);
 	else printed=printf("= PI(%d)\"%s\", line %d", _id, _name.c_str(), _lineNum);
 	for(int i=0; i<50-printed-1; i++) cout << " ";
-	cout << "=\n==================================================\n";
+	cout << "=";
+	cirMgr->printSimValue(_id);
+	cout << "\n==================================================\n";
 
 }
 
@@ -227,7 +231,9 @@ void CirPoGate::reportGate() const{
 	if(!name) printed=printf("= PO(%d), line %d", _id, _lineNum);
 	else printed=printf("= PO(%d)\"%s\", line %d", _id, _name.c_str(), _lineNum);
 	for(int i=0; i<50-printed-1; i++) cout << " ";
-	cout << "=\n==================================================\n";
+	cout << "=";
+	cirMgr->printSimValue(_faninList[0]->gate()->getId());
+	cout << "\n==================================================\n";
 
 }
 

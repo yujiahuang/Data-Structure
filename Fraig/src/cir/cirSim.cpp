@@ -37,7 +37,7 @@ void CirMgr::randomSim(){
 	size_t lastFecN=0;
 	size_t num=0;
 
-	while(noChange < log10(input.size())/0.3 ){
+	while(noChange < log10(input.size())*10){
 
 		unsigned int* sequenceI = new unsigned int [s];
 		for(size_t i=0; i<s; i++){
@@ -155,6 +155,23 @@ void CirMgr::fileSim(ifstream& patternFile){
 
 }
 
+void CirMgr::printSimValue(size_t gid){
+
+	if(simulationValue==0) return;
+	cout << "\n= Value: ";
+	for(size_t i=0; i<32; i++){
+	
+		if(i%4==0 && i!=0) cout << "_";
+		unsigned int v = simulationValue[gid];
+		unsigned int enzyme = pow(2, i);
+		cout << (v/enzyme)%2;
+		cout.flush();
+
+	}
+
+	cout << " =" << endl;
+}
+
 /*************************************************/
 /*   Private member functions about Simulation   */
 /*************************************************/
@@ -243,29 +260,35 @@ void CirMgr::writeLogFile(unsigned int* inputSeq, size_t inputSize,
 
 void CirMgr::createFecGroup(size_t maxSimNum){
 
+	bool need0=true;
 	_fecGroup = new vector< vector<CirGateV>* >;
 	vector<CirGateV>* aGroup=new vector<CirGateV>;
 	for(vector<CirGateV*>::iterator it=totalList.begin();
 			it!=totalList.end(); it++){
 
 		CirGate* gate = (*it)->gate();
-		if(dynamic_cast<CirAigGate*>(gate) && gate->getId()!=0){
+		if(dynamic_cast<CirAigGate*>(gate)){
 
 			CirGateV gv=*(*it);
 			if(gv.isInv()) gv.resetInv();
 			else gv.setInv();
 			aGroup->push_back(*(*it));
 			aGroup->push_back(gv);
+			if(gate->getId()==0) need0=false;
 
 		}
 	}
 
 	// create const 0
-	CirAigGate *const0G = new CirAigGate( 0 );
-	CirGateV *const0 = new CirGateV(const0G, 0);
-	CirGateV *const1 = new CirGateV(const0G, 1);
-	aGroup->push_back(*const0);
-	aGroup->push_back(*const1);
+	if(need0){
+
+		CirAigGate *const0G = new CirAigGate( 0 );
+		CirGateV *const0 = new CirGateV(const0G, 0);
+		CirGateV *const1 = new CirGateV(const0G, 1);
+		aGroup->push_back(*const0);
+		aGroup->push_back(*const1);
+
+	}
 
 	group(aGroup, 0, maxSimNum);
 

@@ -95,20 +95,26 @@ void CirMgr::fraig(){
 
 		if(tmpFlag[(*((*it)->begin())).gate()->getId()]==false){
 
-			vector<CirGateV> v = *(*it);
+			vector<CirGateV>* v = (*it);
 			for(size_t i=0; i<(*it)->size()-1; i++){
 			
-				if(v[i].isUndef()) continue;
+				if((*v)[i].isUndef()) continue;
 				for(size_t j=i+1; j<(*it)->size(); j++){
 
-					if(v[j].isUndef()) continue;
+					if((*v)[j].isUndef()) continue;
+	
+					if((*v)[j].gate()->getId()==0){
+
+						(*v)[j].gate()->setVar(0);
+
+					}
 
 					CirAigGate xorGate;
 					Var var = solver.newVar();
 					xorGate.setVar(var);
 
-					solver.addXorCNF(xorGate.getVar(), v[i].gate()->getVar(), v[i].isInv(),
-							v[j].gate()->getVar(), v[j].isInv());
+					solver.addXorCNF(xorGate.getVar(), (*v)[i].gate()->getVar(), (*v)[i].isInv(),
+							(*v)[j].gate()->getVar(), (*v)[j].isInv());
 
 					solver.assumeRelease();  // Clear assumptions
 					solver.assumeProperty(xorGate.getVar(), true);
@@ -116,13 +122,13 @@ void CirMgr::fraig(){
 					if(result==0){
 						
 						needToUpdate=true;
-						merge(v[j], v[i]);
-						v[j].setUndef();
+						merge((*v)[j], (*v)[i], (*v)[j].isInv()^(*v)[i].isInv());
+						(*v)[j].setUndef();
 
 					}
 
-					tmpFlag[v[i].gate()->getId()]=true;
-					tmpFlag[v[j].gate()->getId()]=true;
+					tmpFlag[(*v)[i].gate()->getId()]=true;
+					tmpFlag[(*v)[j].gate()->getId()]=true;
 
 				}	
 			}
@@ -155,6 +161,10 @@ void CirMgr::genProofModel(SatSolver& s){
 		}
 	}
 
+	Var v = s.newVar();
+	CirAigGate* dummy = new CirAigGate;
+	dummy->setVar(v);
+
 	// Hard code the model construction here...
 	for(vector<CirGateV*>::iterator it=totalList.begin();
 			it!=totalList.end(); it++){
@@ -162,11 +172,15 @@ void CirMgr::genProofModel(SatSolver& s){
 		if(dynamic_cast<CirAigGate*>((*it)->gate())){
 		
 			CirGate* lhs = (*it)->gate();
-			CirGateV* rhs0 = (*it)->gate()->_faninList[0];
-			CirGateV* rhs1 = (*it)->gate()->_faninList[1];
-			s.addAigCNF(lhs->getVar(), rhs0->gate()->getVar(), rhs0->isInv(),
-				rhs1->gate()->getVar(), rhs1->isInv());
 
+			if(lhs->getId()!=0){
+
+				CirGateV* rhs0 = (*it)->gate()->_faninList[0];
+				CirGateV* rhs1 = (*it)->gate()->_faninList[1];
+				if(!(rhs0->isUndef() || rhs1->isUndef()))
+					s.addAigCNF(lhs->getVar(), rhs0->gate()->getVar(), rhs0->isInv(),
+							rhs1->gate()->getVar(), rhs1->isInv());
+			}
 		}
 	}
 }
