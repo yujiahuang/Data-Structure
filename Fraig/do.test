@@ -1,0 +1,13 @@
+cirr sim06.aag
+usage
+cirsw
+cirp
+usage
+cirsim -r
+cirp -fec
+usage
+cirfr
+usage
+cirp
+usage
+q -f
